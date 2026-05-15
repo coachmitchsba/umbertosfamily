@@ -8,6 +8,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
 import { MapPin, Phone, Clock, Star, ArrowRight, Tag, Truck, Users, Award, ChevronRight } from "lucide-react";
+import GoogleReviews from "@/components/GoogleReviews";
 
 const LOCATION = {
   name: "Massapequa Park",
@@ -267,7 +268,7 @@ export default function Massapequa() {
               </ul>
               <div className="flex flex-wrap gap-3">
                 <Link href="/private-events" className="btn-red text-sm">Explore Events <ArrowRight size={14} /></Link>
-                <a href={`tel:${LOCATION.phoneRaw}`} className="btn-outline-red text-sm"><Phone size={14} /> Inquire Now</a>
+                <span className="btn-outline-red text-sm" onClick={() => window.location.href=`tel:${LOCATION.phoneRaw}`} role="button"><Phone size={14} /> Inquire Now</span>
               </div>
             </div>
             <div className="reveal" style={{ transitionDelay: "150ms" }}>
@@ -282,36 +283,24 @@ export default function Massapequa() {
         </div>
       </section>
 
-      {/* ===== REVIEWS ===== */}
+      {/* ===== LIVE GOOGLE REVIEWS ===== */}
       <section className="py-14 bg-white" aria-labelledby="reviews-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="reveal text-center mb-10">
-            <span className="section-label">Google Reviews</span>
+            <span className="section-label">Live Google Reviews</span>
             <span className="red-line mx-auto" />
             <h2 id="reviews-heading" className="font-display text-[clamp(2rem,4vw,3rem)] text-[oklch(0.20_0.025_60)]">
               WHAT MASSAPEQUA IS SAYING
             </h2>
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <div className="flex">{[1,2,3,4,5].map(i => <Star key={i} size={14} className="text-[oklch(0.68_0.13_75)] fill-[oklch(0.68_0.13_75)]" />)}</div>
-              <span className="font-body text-sm text-[oklch(0.48_0.03_60)]">4.8 · 400+ Google Reviews</span>
-            </div>
+            <p className="font-body text-sm text-[oklch(0.55_0.03_60)] mt-2">Live reviews pulled directly from Google</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {reviews.map((r, i) => (
-              <article key={r.name} className="reveal bg-[oklch(0.97_0.015_80)] border border-[oklch(0.88_0.015_80)] p-5 hover:border-[oklch(0.46_0.22_25)]/40 transition-all" style={{ transitionDelay: `${i * 60}ms` }}>
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <p className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-sm">{r.name}</p>
-                    <p className="font-body text-xs text-[oklch(0.55_0.03_60)]">{r.date}</p>
-                  </div>
-                  <div className="flex">{[1,2,3,4,5].map(j => <Star key={j} size={11} className="text-[oklch(0.68_0.13_75)] fill-[oklch(0.68_0.13_75)]" />)}</div>
-                </div>
-                <p className="font-body text-xs text-[oklch(0.38_0.03_60)] leading-relaxed line-clamp-4">"{r.text}"</p>
-              </article>
-            ))}
-          </div>
-          <div className="reveal text-center mt-6">
-            <a href={LOCATION.googleReviews} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-[oklch(0.46_0.22_25)] hover:underline">Read all Massapequa reviews on Google →</a>
+          <div className="reveal">
+            <GoogleReviews
+              placeId="ChIJN1t_tDeuEmsRUsoyG83frY4"
+              locationName="Umberto's Massapequa Park"
+              locationAddress="4897 Merrick Rd, Massapequa Park, NY"
+              googleMapsUrl="https://maps.google.com/?q=4897+Merrick+Rd+Massapequa+Park+NY+11762"
+            />
           </div>
         </div>
       </section>

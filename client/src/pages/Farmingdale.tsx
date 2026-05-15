@@ -7,7 +7,8 @@ import { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
-import { MapPin, Phone, Clock, Star, ArrowRight, Tag, Truck, Users, ChevronRight } from "lucide-react";
+import { MapPin, Phone, Clock, Star, ArrowRight, Tag, Truck, Users, ChevronRight, Calendar } from "lucide-react";
+import GoogleReviews from "@/components/GoogleReviews";
 
 const LOCATION = {
   name: "Farmingdale",
@@ -259,7 +260,7 @@ export default function Farmingdale() {
               </ul>
               <div className="flex flex-wrap gap-3">
                 <Link href="/catering" className="btn-red text-sm">Catering Menu <ArrowRight size={14} /></Link>
-                <a href={`tel:${LOCATION.phoneRaw}`} className="btn-outline-red text-sm"><Phone size={14} /> Call to Order</a>
+                <span className="btn-outline-red text-sm" onClick={() => window.location.href=`tel:${LOCATION.phoneRaw}`} role="button"><Phone size={14} /> Call to Order</span>
               </div>
             </div>
             <div className="reveal grid grid-cols-2 gap-3" style={{ transitionDelay: "150ms" }}>
@@ -276,34 +277,42 @@ export default function Farmingdale() {
         </div>
       </section>
 
-      {/* ===== REVIEWS ===== */}
+      {/* ===== OPENTABLE RESERVATION ===== */}
+      <section className="py-8 bg-[oklch(0.97_0.015_80)] border-t border-[oklch(0.88_0.015_80)]">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div>
+              <p className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-lg">DINING IN? MAKE A RESERVATION</p>
+              <p className="font-body text-sm text-[oklch(0.55_0.03_60)]">Reserve your table at Umberto's Farmingdale via OpenTable</p>
+            </div>
+            <a
+              href="https://www.opentable.com/restref/client/?rid=1489408&restref=1489408&lang=en-US"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[oklch(0.35_0.18_145)] text-white font-display text-sm tracking-[0.1em] uppercase px-6 py-3.5 hover:bg-[oklch(0.42_0.18_145)] transition-colors flex-shrink-0"
+            >
+              <Calendar size={14} /> Reserve on OpenTable
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== LIVE GOOGLE REVIEWS ===== */}
       <section className="py-14 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="reveal text-center mb-10">
-            <span className="section-label">Google Reviews</span>
+            <span className="section-label">Live Google Reviews</span>
             <span className="red-line mx-auto" />
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] text-[oklch(0.20_0.025_60)]">WHAT FARMINGDALE IS SAYING</h2>
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <div className="flex">{[1,2,3,4,5].map(i => <Star key={i} size={14} className="text-[oklch(0.68_0.13_75)] fill-[oklch(0.68_0.13_75)]" />)}</div>
-              <span className="font-body text-sm text-[oklch(0.48_0.03_60)]">4.8 · 380+ Google Reviews</span>
-            </div>
+            <p className="font-body text-sm text-[oklch(0.55_0.03_60)] mt-2">Live reviews pulled directly from Google</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {reviews.map((r, i) => (
-              <article key={r.name} className="reveal bg-[oklch(0.97_0.015_80)] border border-[oklch(0.88_0.015_80)] p-5 hover:border-[oklch(0.46_0.22_25)]/40 transition-all" style={{ transitionDelay: `${i * 60}ms` }}>
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <p className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-sm">{r.name}</p>
-                    <p className="font-body text-xs text-[oklch(0.55_0.03_60)]">{r.date}</p>
-                  </div>
-                  <div className="flex">{[1,2,3,4,5].map(j => <Star key={j} size={11} className="text-[oklch(0.68_0.13_75)] fill-[oklch(0.68_0.13_75)]" />)}</div>
-                </div>
-                <p className="font-body text-xs text-[oklch(0.38_0.03_60)] leading-relaxed line-clamp-4">"{r.text}"</p>
-              </article>
-            ))}
-          </div>
-          <div className="reveal text-center mt-6">
-            <a href={LOCATION.googleReviews} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-[oklch(0.46_0.22_25)] hover:underline">Read all Farmingdale reviews on Google →</a>
+          <div className="reveal">
+            <GoogleReviews
+              placeId="ChIJrTLr-GyuEmsRBfy61i59si0"
+              locationName="Umberto's Farmingdale"
+              locationAddress="967 Broadhollow Rd, Farmingdale, NY"
+              googleMapsUrl="https://maps.google.com/?q=967+Broadhollow+Rd+Farmingdale+NY+11735"
+            />
           </div>
         </div>
       </section>

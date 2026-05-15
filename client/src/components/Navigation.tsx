@@ -8,10 +8,13 @@ import { Menu, X, Phone, MapPin, Gamepad2 } from "lucide-react";
 
 const navLinks = [
   { href: "/menu", label: "Menu" },
+  { href: "/order", label: "Order Online" },
   { href: "/catering", label: "Catering" },
   { href: "/private-events", label: "Private Events" },
-  { href: "/shipping", label: "Ship Nationwide" },
   { href: "/locations", label: "Locations" },
+  { href: "/gift-cards", label: "Gift Cards" },
+  { href: "/rewards", label: "Rewards" },
+  { href: "/shipping", label: "Ship Nationwide" },
   { href: "/about", label: "Our Story" },
   { href: "/faq", label: "FAQ" },
   { href: "/arcade", label: "🎮 Arcade" },

@@ -45,7 +45,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-new-hyde-park/",
     ubereats: "https://www.ubereats.com/store/umbertos-new-hyde-park/",
     doordash: "https://www.doordash.com/store/umbertos-new-hyde-park/",
-    appsuite: "https://umbertos.appsuitecrm.com",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/910",
     mapUrl: "https://maps.google.com/?q=633+Jericho+Tpke+New+Hyde+Park+NY+11040",
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/292661U1A6384.jpg?w=400&fit=crop&auto=compress,format",
     flagship: true,
@@ -66,7 +66,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-manhasset/",
     ubereats: "https://www.ubereats.com/store/umbertos-manhasset/",
     doordash: "https://www.doordash.com/store/umbertos-manhasset/",
-    appsuite: "https://umbertos.appsuitecrm.com",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/795",
     mapUrl: "https://maps.google.com/?q=1430+Northern+Blvd+Manhasset+NY+11030",
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/7096Umbertos-Pepperoni-4.jpg?w=400&fit=crop&auto=compress,format",
   },
@@ -86,7 +86,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-massapequa-park/",
     ubereats: "https://www.ubereats.com/store/umbertos-massapequa-park/",
     doordash: "https://www.doordash.com/store/umbertos-massapequa-park/",
-    appsuite: "https://umbertos.appsuitecrm.com",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/1008",
     mapUrl: "https://maps.google.com/?q=4897+Merrick+Rd+Massapequa+Park+NY+11762",
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/83464parm-chicken.jpg?w=400&fit=crop&auto=compress,format",
     slug: "massapequa",
@@ -107,7 +107,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-bellmore/",
     ubereats: "https://www.ubereats.com/store/umbertos-bellmore/",
     doordash: "https://www.doordash.com/store/umbertos-bellmore/",
-    appsuite: "https://umbertos.appsuitecrm.com",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/928",
     mapUrl: "https://maps.google.com/?q=2803+Merrick+Rd+Bellmore+NY+11710",
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/326236A4A5195.jpg?w=400&fit=crop&auto=compress,format",
   },
@@ -127,7 +127,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-lake-grove/",
     ubereats: "https://www.ubereats.com/store/umbertos-lake-grove/",
     doordash: "https://www.doordash.com/store/umbertos-lake-grove/",
-    appsuite: "https://umbertos.appsuitecrm.com",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/2353",
     mapUrl: "https://maps.google.com/?q=2847+Middle+Country+Rd+Lake+Grove+NY+11755",
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/36275067_6A4A2737.jpg?w=400&fit=crop&auto=compress,format",
   },
@@ -147,7 +147,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-farmingdale/",
     ubereats: "https://www.ubereats.com/store/umbertos-farmingdale/",
     doordash: "https://www.doordash.com/store/umbertos-farmingdale/",
-    appsuite: "https://umbertos.appsuitecrm.com",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/3928",
     mapUrl: "https://maps.google.com/?q=967+Broadhollow+Rd+Farmingdale+NY+11735",
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/12732Umbertos-Pepperoni-3.jpg?w=400&fit=crop&auto=compress,format",
     slug: "farmingdale",
@@ -348,14 +348,14 @@ export default function Order() {
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </a>
 
-                    {/* AppSuite */}
+                    {/* AppSuite — direct to this location's menu */}
                     <a href={selectedLocation.appsuite} target="_blank" rel="noopener noreferrer"
                       className="flex items-center justify-between gap-3 bg-[oklch(0.20_0.025_60)] text-white p-4 hover:bg-[oklch(0.30_0.025_60)] transition-colors group">
                       <div className="flex items-center gap-3">
                         <ExternalLink size={18} />
                         <div>
-                          <p className="font-display text-sm tracking-[0.08em] uppercase">Order Online (AppSuite)</p>
-                          <p className="font-body text-xs text-white/75">Pickup &amp; delivery — earn rewards points</p>
+                          <p className="font-display text-sm tracking-[0.08em] uppercase">Order Online — {selectedLocation.name}</p>
+                          <p className="font-body text-xs text-white/75">Select date &amp; time, then browse menu &amp; checkout</p>
                         </div>
                       </div>
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

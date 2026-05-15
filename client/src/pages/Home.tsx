@@ -313,7 +313,7 @@ export default function Home() {
           )}
           {zipResult === "notfound" && (
             <div className="mt-5 p-4 bg-[oklch(0.95_0.018_80)] border border-[oklch(0.88_0.015_80)] max-w-sm mx-auto">
-              <p className="font-body text-sm text-[oklch(0.48_0.03_60)]">We don't have a location near that zip code yet. <Link href="/locations" className="text-[oklch(0.46_0.22_25)] underline">View all locations</Link> or <a href="tel:5164377698" className="text-[oklch(0.46_0.22_25)] underline">call us</a>.</p>
+              <p className="font-body text-sm text-[oklch(0.48_0.03_60)]">We don't have a location near that zip code yet. <Link href="/locations" className="text-[oklch(0.46_0.22_25)] underline">View all locations</Link> or call us at <a href="tel:5164377698" className="text-[oklch(0.46_0.22_25)] underline">(516) 437-7698</a>.</p>
             </div>
           )}
         </div>
@@ -495,7 +495,7 @@ export default function Home() {
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link href="/catering" className="btn-red text-sm">Catering Menu <ArrowRight size={15} /></Link>
-                <a href="tel:5164377698" className="btn-outline-red text-sm"><Phone size={15} /> Call to Order</a>
+                <span className="btn-outline-red text-sm" onClick={() => window.location.href='tel:5164377698'} role="button"><Phone size={15} /> Call to Order</span>
               </div>
             </div>
 
@@ -549,7 +549,7 @@ export default function Home() {
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link href="/private-events" className="btn-red text-sm">Explore Event Spaces <ArrowRight size={15} /></Link>
-                <a href="tel:5164377698" className="btn-white text-sm"><Phone size={15} /> Inquire Now</a>
+                <span className="btn-white text-sm" onClick={() => window.location.href='tel:5164377698'} role="button"><Phone size={15} /> Inquire Now</span>
               </div>
             </div>
           </div>
@@ -617,7 +617,7 @@ export default function Home() {
                 <p className="font-display text-[oklch(0.20_0.025_60)] text-sm tracking-wider leading-tight">{loc.name}</p>
                 {loc.flagship && <span className="text-[0.6rem] text-[oklch(0.46_0.22_25)] tracking-wider">FLAGSHIP</span>}
                 {loc.special && <span className="block text-[0.6rem] text-[oklch(0.68_0.13_75)] tracking-wider font-display mt-0.5">★ EXCLUSIVE DEALS</span>}
-                <a href={`tel:${loc.phone.replace(/\D/g, "")}`} className="block font-body text-xs text-[oklch(0.55_0.03_60)] hover:text-[oklch(0.46_0.22_25)] transition-colors mt-1" onClick={(e) => e.stopPropagation()}>{loc.phone}</a>
+                <span className="block font-body text-xs text-[oklch(0.55_0.03_60)] mt-1">{loc.phone}</span>
               </Link>
             ))}
           </div>

@@ -7,7 +7,8 @@ import { useState, useEffect, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
-import { MapPin, Phone, Clock, ArrowRight, ChevronDown, ChevronUp, Star, Navigation2, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Clock, ArrowRight, ChevronDown, ChevronUp, Star, Navigation2, ExternalLink, Calendar, ShoppingCart } from "lucide-react";
+import { MapView } from "@/components/Map";
 
 interface Location {
   id: string;
@@ -21,6 +22,8 @@ interface Location {
   grubhub: string;
   ubereats: string;
   doordash: string;
+  appsuite: string;
+  openTableId?: number;
   mapUrl: string;
   lat: number;
   lng: number;
@@ -45,11 +48,13 @@ const LOCATIONS: Location[] = [
       { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
       { days: "Sunday", hours: "11:00am – 9:00pm" },
     ],
-    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-new-hyde-park/",
-    ubereats: "https://www.ubereats.com/store/umbertos-new-hyde-park/",
-    doordash: "https://www.doordash.com/store/umbertos-new-hyde-park/",
-    mapUrl: "https://maps.google.com/?q=633+Jericho+Tpke+New+Hyde+Park+NY+11040",
-    lat: 40.7282, lng: -73.6887,
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-633-jericho-turnpike-new-hyde-park/2685021",
+    ubereats: "https://www.ubereats.com/store/umbertos-of-new-hyde-park/6iyn30RuQpe8ByaF1hz_1Q",
+    doordash: "https://www.doordash.com/store/umberto-s-pizzeria-restaurant-new-hyde-park-133840/",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/910",
+    openTableId: 1033645,
+    mapUrl: "https://maps.google.com/?cid=4728182709475837324",
+    lat: 40.7321, lng: -73.6873,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/292661U1A6384.jpg?w=600&fit=crop&auto=compress,format",
     capacity: "Up to 250 guests",
     features: ["Flagship Location", "Private Events (250 guests)", "Full Bar", "Catering", "Dine-In & Takeout", "Delivery"],
@@ -71,6 +76,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-manhasset/",
     ubereats: "https://www.ubereats.com/store/umbertos-manhasset/",
     doordash: "https://www.doordash.com/store/umbertos-manhasset/",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/795",
     mapUrl: "https://maps.google.com/?q=1430+Northern+Blvd+Manhasset+NY+11030",
     lat: 40.7900, lng: -73.6970,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/7096Umbertos-Pepperoni-4.jpg?w=600&fit=crop&auto=compress,format",
@@ -93,6 +99,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-massapequa-park/",
     ubereats: "https://www.ubereats.com/store/umbertos-massapequa-park/",
     doordash: "https://www.doordash.com/store/umbertos-massapequa-park/",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/1008",
     mapUrl: "https://maps.google.com/?q=4897+Merrick+Rd+Massapequa+Park+NY+11762",
     lat: 40.6795, lng: -73.4580,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/83464parm-chicken.jpg?w=600&fit=crop&auto=compress,format",
@@ -116,6 +123,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-bellmore/",
     ubereats: "https://www.ubereats.com/store/umbertos-bellmore/",
     doordash: "https://www.doordash.com/store/umbertos-bellmore/",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/928",
     mapUrl: "https://maps.google.com/?q=2803+Merrick+Rd+Bellmore+NY+11710",
     lat: 40.6660, lng: -73.5300,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/326236A4A5195.jpg?w=600&fit=crop&auto=compress,format",
@@ -138,6 +146,7 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-lake-grove/",
     ubereats: "https://www.ubereats.com/store/umbertos-lake-grove/",
     doordash: "https://www.doordash.com/store/umbertos-lake-grove/",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/2353",
     mapUrl: "https://maps.google.com/?q=2847+Middle+Country+Rd+Lake+Grove+NY+11755",
     lat: 40.8600, lng: -73.1200,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/36275067_6A4A2737.jpg?w=600&fit=crop&auto=compress,format",
@@ -160,6 +169,8 @@ const LOCATIONS: Location[] = [
     grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-farmingdale/",
     ubereats: "https://www.ubereats.com/store/umbertos-farmingdale/",
     doordash: "https://www.doordash.com/store/umbertos-farmingdale/",
+    appsuite: "https://umbertos.appsuitecrm.com/menu/3928",
+    openTableId: 1489408,
     mapUrl: "https://maps.google.com/?q=967+Broadhollow+Rd+Farmingdale+NY+11735",
     lat: 40.7282, lng: -73.4448,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/12732Umbertos-Pepperoni-3.jpg?w=600&fit=crop&auto=compress,format",
@@ -197,6 +208,43 @@ export default function Locations() {
   const [zipResult, setZipResult] = useState<{ location: Location; found: boolean } | null>(null);
   const [zipError, setZipError] = useState("");
   const zipInputRef = useRef<HTMLInputElement>(null);
+  const mapRef = useRef<any>(null);
+  const markersRef = useRef<any[]>([]);
+
+  const handleMapReady = (map: any) => {
+    mapRef.current = map;
+    LOCATIONS.forEach((loc) => {
+      const marker = new (window as any).google.maps.Marker({
+        position: { lat: loc.lat, lng: loc.lng },
+        map,
+        title: `Umberto's ${loc.name}`,
+        icon: {
+          path: (window as any).google.maps.SymbolPath.CIRCLE,
+          scale: loc.flagship ? 12 : 9,
+          fillColor: loc.slug ? "#C4973B" : "#C0392B",
+          fillOpacity: 1,
+          strokeColor: "#fff",
+          strokeWeight: 2,
+        },
+      });
+      const infoWindow = new (window as any).google.maps.InfoWindow({
+        content: `<div style="font-family:sans-serif;padding:6px;max-width:180px"><strong style="font-size:13px">${loc.name}</strong><br/><span style="font-size:11px;color:#666">${loc.address}, ${loc.city}</span><br/><a href="tel:${loc.phoneRaw}" style="font-size:11px;color:#C0392B">${loc.phone}</a></div>`,
+      });
+      marker.addListener("click", () => {
+        infoWindow.open(map, marker);
+        setExpandedId(loc.id);
+        map.panTo({ lat: loc.lat, lng: loc.lng });
+        map.setZoom(14);
+        setTimeout(() => {
+          document.getElementById(`location-${loc.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 200);
+      });
+      markersRef.current.push(marker);
+    });
+    const bounds = new (window as any).google.maps.LatLngBounds();
+    LOCATIONS.forEach((loc) => bounds.extend({ lat: loc.lat, lng: loc.lng }));
+    map.fitBounds(bounds);
+  };
 
   useEffect(() => {
     document.title = "Umberto's Locations | 6 Long Island Pizzerias | New Hyde Park, Manhasset & More";
@@ -214,7 +262,7 @@ export default function Locations() {
   const handleZipSearch = () => {
     const zip = zipInput.trim();
     if (zip.length !== 5 || !/^\d{5}$/.test(zip)) {
-      setZipError("Please enter a valid 5-digit zip code.");
+      setZipError("Please enter a valid 5-digit NY zip code.");
       setZipResult(null);
       return;
     }
@@ -224,6 +272,11 @@ export default function Locations() {
       const location = LOCATIONS.find((l) => l.id === locationId)!;
       setZipResult({ location, found: true });
       setExpandedId(locationId);
+      // Pan map to location
+      if (mapRef.current) {
+        mapRef.current.panTo({ lat: location.lat, lng: location.lng });
+        mapRef.current.setZoom(14);
+      }
       setTimeout(() => {
         document.getElementById(`location-${locationId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 300);
@@ -235,6 +288,16 @@ export default function Locations() {
   return (
     <div className="min-h-screen bg-[oklch(0.97_0.015_80)]">
       <Navigation />
+
+      {/* Google Map — full width, above the fold */}
+      <div className="h-[340px] w-full border-b border-[oklch(0.88_0.015_80)]">
+        <MapView
+          onMapReady={handleMapReady}
+          defaultCenter={{ lat: 40.75, lng: -73.55 }}
+          defaultZoom={10}
+          mapStyle="default"
+        />
+      </div>
 
       {/* Schema.org */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -403,10 +466,20 @@ export default function Locations() {
                       <div>
                         <h3 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-xs mb-3">ORDER NOW</h3>
                         <div className="space-y-2">
-                          <a href={`tel:${loc.phoneRaw}`} className="flex items-center gap-2 bg-[oklch(0.46_0.22_25)] text-white font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.55_0.22_25)] transition-colors w-full">
+                          {/* Primary: AppSuite online ordering */}
+                          <a href={loc.appsuite} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[oklch(0.46_0.22_25)] text-white font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.55_0.22_25)] transition-colors w-full">
+                            <ShoppingCart size={12} /> Order Online — {loc.name}
+                          </a>
+                          <a href={`tel:${loc.phoneRaw}`} className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
                             <Phone size={12} /> Call {loc.phone}
                           </a>
-                          <a href={loc.grubhub} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[oklch(0.20_0.025_60)] text-white font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.30_0.025_60)] transition-colors w-full">
+                          {/* OpenTable reservation */}
+                          {loc.openTableId && (
+                            <a href={`https://www.opentable.com/restref/client/?rid=${loc.openTableId}&restref=${loc.openTableId}&lang=en-US`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.55_0.20_145)] text-[oklch(0.35_0.15_145)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.55_0.20_145)]/5 transition-colors w-full">
+                              <Calendar size={12} /> Reserve on OpenTable
+                            </a>
+                          )}
+                          <a href={loc.grubhub} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
                             <ArrowRight size={12} /> Order on Grubhub
                           </a>
                           <a href={loc.ubereats} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
@@ -414,6 +487,10 @@ export default function Locations() {
                           </a>
                           <a href={loc.doordash} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
                             <ArrowRight size={12} /> Order on DoorDash
+                          </a>
+                          {/* Directions */}
+                          <a href={loc.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
+                            <Navigation2 size={12} /> Get Directions
                           </a>
                           {loc.slug && (
                             <Link href={`/${loc.slug}`} className="flex items-center gap-2 bg-[oklch(0.68_0.13_75)] text-white font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.75_0.13_75)] transition-colors w-full">
