@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.umbertosfamily.com/sitemap.xml
+
+# Umberto's Family Pizzeria — Original Grandma Slice Since 1965
+# 6 Long Island Locations: New Hyde Park, Manhasset, Bellmore, Massapequa Park, Lake Grove, Farmingdale
