@@ -1,324 +1,444 @@
 /*
  * Locations Page — Umberto's Family Pizzeria
- * Design: Dark, clean, location-card layout with map integration
- * SEO: Local SEO for each location, schema markup, Google Maps
+ * Interactive expandable location cards, zip code finder, per-location ordering
+ * Design: Warm cream/white, Italian trattoria, bold red accents
  */
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { MapPin, Phone, Clock, ExternalLink, Navigation2 } from "lucide-react";
-import MapView from "@/components/Map";
+import { Link } from "wouter";
+import { MapPin, Phone, Clock, ArrowRight, ChevronDown, ChevronUp, Star, Navigation2, ExternalLink } from "lucide-react";
 
-const locations = [
+interface Location {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  zip: string;
+  phone: string;
+  phoneRaw: string;
+  hours: { days: string; hours: string }[];
+  grubhub: string;
+  ubereats: string;
+  doordash: string;
+  mapUrl: string;
+  lat: number;
+  lng: number;
+  img: string;
+  capacity: string;
+  features: string[];
+  slug?: string;
+  flagship?: boolean;
+}
+
+const LOCATIONS: Location[] = [
   {
     id: "new-hyde-park",
     name: "New Hyde Park",
-    subtitle: "Flagship Location",
-    address: "633 Jericho Turnpike",
-    city: "New Hyde Park, NY 11040",
+    address: "633 Jericho Tpke",
+    city: "New Hyde Park, NY",
+    zip: "11040",
     phone: "(516) 437-7698",
-    lat: 40.7324,
-    lng: -73.6874,
-    hours: {
-      "Mon–Thu": "10:30am – 9:30pm",
-      "Fri–Sat": "10:30am – 10:00pm",
-      "Sunday": "11:00am – 9:00pm",
-    },
-    features: ["Dine-In", "Takeout", "Delivery", "Catering", "Private Events (250 guests)", "Full Bar", "Café"],
-    mapsUrl: "https://www.google.com/maps/place/Umberto's+Pizzeria/@40.7324,-73.6874,17z",
+    phoneRaw: "5164377698",
+    hours: [
+      { days: "Mon – Thu", hours: "10:30am – 9:30pm" },
+      { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
+      { days: "Sunday", hours: "11:00am – 9:00pm" },
+    ],
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-new-hyde-park/",
+    ubereats: "https://www.ubereats.com/store/umbertos-new-hyde-park/",
+    doordash: "https://www.doordash.com/store/umbertos-new-hyde-park/",
+    mapUrl: "https://maps.google.com/?q=633+Jericho+Tpke+New+Hyde+Park+NY+11040",
+    lat: 40.7282, lng: -73.6887,
+    img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/292661U1A6384.jpg?w=600&fit=crop&auto=compress,format",
+    capacity: "Up to 250 guests",
+    features: ["Flagship Location", "Private Events (250 guests)", "Full Bar", "Catering", "Dine-In & Takeout", "Delivery"],
     flagship: true,
   },
   {
     id: "manhasset",
     name: "Manhasset",
-    address: "429 Plandome Road",
-    city: "Manhasset, NY 11030",
-    phone: "(516) 472-7801",
-    lat: 40.7895,
-    lng: -73.6971,
-    hours: {
-      "Mon–Thu": "10:30am – 9:30pm",
-      "Fri–Sat": "10:30am – 10:00pm",
-      "Sunday": "11:00am – 9:00pm",
-    },
-    features: ["Dine-In", "Takeout", "Delivery", "Catering", "Private Events (25 guests)"],
-    mapsUrl: "https://www.google.com/maps/search/Umberto's+Pizzeria+Manhasset+NY",
-  },
-  {
-    id: "bellmore",
-    name: "Bellmore",
-    address: "208 Bedford Ave",
-    city: "Bellmore, NY 11710",
-    phone: "(516) 409-1400",
-    lat: 40.6681,
-    lng: -73.5296,
-    hours: {
-      "Mon–Thu": "10:30am – 9:30pm",
-      "Fri–Sat": "10:30am – 10:00pm",
-      "Sunday": "11:00am – 9:00pm",
-    },
-    features: ["Dine-In", "Takeout", "Delivery", "Catering", "Private Events (50 guests)"],
-    mapsUrl: "https://www.google.com/maps/search/Umberto's+Pizzeria+Bellmore+NY",
+    address: "1430 Northern Blvd",
+    city: "Manhasset, NY",
+    zip: "11030",
+    phone: "(516) 627-7272",
+    phoneRaw: "5166277272",
+    hours: [
+      { days: "Mon – Thu", hours: "10:30am – 9:30pm" },
+      { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
+      { days: "Sunday", hours: "11:00am – 9:00pm" },
+    ],
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-manhasset/",
+    ubereats: "https://www.ubereats.com/store/umbertos-manhasset/",
+    doordash: "https://www.doordash.com/store/umbertos-manhasset/",
+    mapUrl: "https://maps.google.com/?q=1430+Northern+Blvd+Manhasset+NY+11030",
+    lat: 40.7900, lng: -73.6970,
+    img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/7096Umbertos-Pepperoni-4.jpg?w=600&fit=crop&auto=compress,format",
+    capacity: "Up to 80 guests",
+    features: ["Private Events (80 guests)", "Catering", "Dine-In & Takeout", "Delivery"],
   },
   {
     id: "massapequa-park",
     name: "Massapequa Park",
-    address: "1011 Park Blvd",
-    city: "Massapequa Park, NY 11762",
+    address: "4897 Merrick Rd",
+    city: "Massapequa Park, NY",
+    zip: "11762",
     phone: "(516) 541-3030",
-    lat: 40.6765,
-    lng: -73.4593,
-    hours: {
-      "Mon–Thu": "10:30am – 9:30pm",
-      "Fri–Sat": "10:30am – 10:00pm",
-      "Sunday": "11:00am – 9:00pm",
-    },
-    features: ["Dine-In", "Takeout", "Delivery", "Catering", "Private Events (50 guests)"],
-    mapsUrl: "https://www.google.com/maps/search/Umberto's+Pizzeria+Massapequa+Park+NY",
+    phoneRaw: "5165413030",
+    hours: [
+      { days: "Mon – Thu", hours: "10:30am – 9:30pm" },
+      { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
+      { days: "Sunday", hours: "11:00am – 9:00pm" },
+    ],
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-massapequa-park/",
+    ubereats: "https://www.ubereats.com/store/umbertos-massapequa-park/",
+    doordash: "https://www.doordash.com/store/umbertos-massapequa-park/",
+    mapUrl: "https://maps.google.com/?q=4897+Merrick+Rd+Massapequa+Park+NY+11762",
+    lat: 40.6795, lng: -73.4580,
+    img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/83464parm-chicken.jpg?w=600&fit=crop&auto=compress,format",
+    capacity: "Up to 50 guests",
+    features: ["Private Events (50 guests)", "Catering", "Dine-In & Takeout", "Delivery", "Exclusive Offers"],
+    slug: "massapequa",
+  },
+  {
+    id: "bellmore",
+    name: "Bellmore",
+    address: "2803 Merrick Rd",
+    city: "Bellmore, NY",
+    zip: "11710",
+    phone: "(516) 783-7600",
+    phoneRaw: "5167837600",
+    hours: [
+      { days: "Mon – Thu", hours: "10:30am – 9:30pm" },
+      { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
+      { days: "Sunday", hours: "11:00am – 9:00pm" },
+    ],
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-bellmore/",
+    ubereats: "https://www.ubereats.com/store/umbertos-bellmore/",
+    doordash: "https://www.doordash.com/store/umbertos-bellmore/",
+    mapUrl: "https://maps.google.com/?q=2803+Merrick+Rd+Bellmore+NY+11710",
+    lat: 40.6660, lng: -73.5300,
+    img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/326236A4A5195.jpg?w=600&fit=crop&auto=compress,format",
+    capacity: "Up to 60 guests",
+    features: ["Private Events (60 guests)", "Catering", "Dine-In & Takeout", "Delivery"],
   },
   {
     id: "lake-grove",
     name: "Lake Grove",
-    address: "111 Alexander Ave",
-    city: "Lake Grove, NY 11755",
-    phone: "(631) 862-6777",
-    lat: 40.8562,
-    lng: -73.1143,
-    hours: {
-      "Mon–Thu": "10:30am – 9:30pm",
-      "Fri–Sat": "10:30am – 10:00pm",
-      "Sunday": "11:00am – 9:00pm",
-    },
-    features: ["Dine-In", "Takeout", "Delivery", "Catering", "Private Events (50 guests)"],
-    mapsUrl: "https://www.google.com/maps/search/Umberto's+Pizzeria+Lake+Grove+NY",
+    address: "2847 Middle Country Rd",
+    city: "Lake Grove, NY",
+    zip: "11755",
+    phone: "(631) 737-5600",
+    phoneRaw: "6317375600",
+    hours: [
+      { days: "Mon – Thu", hours: "10:30am – 9:30pm" },
+      { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
+      { days: "Sunday", hours: "11:00am – 9:00pm" },
+    ],
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-lake-grove/",
+    ubereats: "https://www.ubereats.com/store/umbertos-lake-grove/",
+    doordash: "https://www.doordash.com/store/umbertos-lake-grove/",
+    mapUrl: "https://maps.google.com/?q=2847+Middle+Country+Rd+Lake+Grove+NY+11755",
+    lat: 40.8600, lng: -73.1200,
+    img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/36275067_6A4A2737.jpg?w=600&fit=crop&auto=compress,format",
+    capacity: "Up to 70 guests",
+    features: ["Private Events (70 guests)", "Catering", "Dine-In & Takeout", "Delivery"],
   },
   {
     id: "farmingdale",
     name: "Farmingdale",
-    address: "211 Airport Plaza Blvd",
-    city: "Farmingdale, NY 11735",
+    address: "967 Broadhollow Rd",
+    city: "Farmingdale, NY",
+    zip: "11735",
     phone: "(631) 454-6440",
-    lat: 40.7282,
-    lng: -73.4341,
-    hours: {
-      "Mon–Thu": "10:30am – 9:30pm",
-      "Fri–Sat": "10:30am – 10:00pm",
-      "Sunday": "11:00am – 9:00pm",
-    },
-    features: ["Dine-In", "Takeout", "Delivery", "Catering"],
-    mapsUrl: "https://www.google.com/maps/search/Umberto's+Pizzeria+Farmingdale+NY",
+    phoneRaw: "6314546440",
+    hours: [
+      { days: "Mon – Thu", hours: "10:30am – 9:30pm" },
+      { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
+      { days: "Sunday", hours: "11:00am – 9:00pm" },
+    ],
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-farmingdale/",
+    ubereats: "https://www.ubereats.com/store/umbertos-farmingdale/",
+    doordash: "https://www.doordash.com/store/umbertos-farmingdale/",
+    mapUrl: "https://maps.google.com/?q=967+Broadhollow+Rd+Farmingdale+NY+11735",
+    lat: 40.7282, lng: -73.4448,
+    img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/12732Umbertos-Pepperoni-3.jpg?w=600&fit=crop&auto=compress,format",
+    capacity: "Up to 50 guests",
+    features: ["Private Events (50 guests)", "Catering", "Dine-In & Takeout", "Delivery", "Exclusive Offers"],
+    slug: "farmingdale",
   },
 ];
 
+// Zip → location mapping
+const ZIP_MAP: Record<string, string> = {
+  "11040": "new-hyde-park", "11042": "new-hyde-park", "11001": "new-hyde-park",
+  "11010": "new-hyde-park", "11020": "new-hyde-park", "11021": "new-hyde-park",
+  "11030": "manhasset", "11050": "manhasset", "11023": "manhasset",
+  "11024": "manhasset", "11548": "manhasset", "11576": "manhasset",
+  "11762": "massapequa-park", "11758": "massapequa-park", "11701": "massapequa-park",
+  "11702": "massapequa-park", "11703": "massapequa-park", "11704": "massapequa-park",
+  "11710": "bellmore", "11793": "bellmore", "11557": "bellmore",
+  "11554": "bellmore", "11563": "bellmore", "11580": "bellmore",
+  "11755": "lake-grove", "11779": "lake-grove", "11727": "lake-grove",
+  "11763": "lake-grove", "11764": "lake-grove", "11784": "lake-grove",
+  "11790": "lake-grove", "11791": "lake-grove", "11792": "lake-grove",
+  "11735": "farmingdale", "11714": "farmingdale", "11716": "farmingdale",
+  "11717": "farmingdale", "11718": "farmingdale", "11729": "farmingdale",
+  "11730": "farmingdale", "11731": "farmingdale", "11732": "farmingdale",
+  "11733": "farmingdale", "11738": "farmingdale", "11741": "farmingdale",
+  "11742": "farmingdale", "11743": "farmingdale", "11746": "farmingdale",
+  "11747": "farmingdale", "11751": "farmingdale", "11752": "farmingdale",
+  "11753": "farmingdale", "11756": "farmingdale", "11757": "farmingdale",
+};
+
 export default function Locations() {
-  const [selectedLocation, setSelectedLocation] = useState(0);
-  const [mapReady, setMapReady] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [map, setMap] = useState<any>(null);
+  const [expandedId, setExpandedId] = useState<string | null>("new-hyde-park");
+  const [zipInput, setZipInput] = useState("");
+  const [zipResult, setZipResult] = useState<{ location: Location; found: boolean } | null>(null);
+  const [zipError, setZipError] = useState("");
+  const zipInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    document.title = "Umberto's Locations | 6 Long Island Pizzerias | New Hyde Park, Manhasset & More";
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", "Find your nearest Umberto's Family Pizzeria. 6 Long Island locations: New Hyde Park, Manhasset, Massapequa Park, Bellmore, Lake Grove, and Farmingdale.");
+
     const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
-      { threshold: 0.1 }
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
     );
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  // Pan map to selected location
-  useEffect(() => {
-    if (map && mapReady) {
-      const loc = locations[selectedLocation];
-      map.panTo({ lat: loc.lat, lng: loc.lng });
-      map.setZoom(15);
+  const handleZipSearch = () => {
+    const zip = zipInput.trim();
+    if (zip.length !== 5 || !/^\d{5}$/.test(zip)) {
+      setZipError("Please enter a valid 5-digit zip code.");
+      setZipResult(null);
+      return;
     }
-  }, [selectedLocation, map, mapReady]);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMapReady = (googleMap: any) => {
-    setMap(googleMap);
-    setMapReady(true);
-
-    // Add markers for all locations
-    locations.forEach((loc, i) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const g = (window as any).google;
-      if (!g) return;
-      const marker = new g.maps.Marker({
-        position: { lat: loc.lat, lng: loc.lng },
-        map: googleMap,
-        title: `Umberto's ${loc.name}`,
-        icon: {
-          path: g.maps.SymbolPath.CIRCLE,
-          scale: 10,
-          fillColor: "#D4271B",
-          fillOpacity: 1,
-          strokeColor: "#F2E8D5",
-          strokeWeight: 2,
-        },
-      });
-
-      marker.addListener("click", () => {
-        setSelectedLocation(i);
-      });
-    });
-
-    // Center on Long Island
-    googleMap.setCenter({ lat: 40.75, lng: -73.5 });
-    googleMap.setZoom(10);
+    setZipError("");
+    const locationId = ZIP_MAP[zip];
+    if (locationId) {
+      const location = LOCATIONS.find((l) => l.id === locationId)!;
+      setZipResult({ location, found: true });
+      setExpandedId(locationId);
+      setTimeout(() => {
+        document.getElementById(`location-${locationId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
+    } else {
+      setZipResult({ location: LOCATIONS[0], found: false });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[oklch(0.10_0.015_60)]">
+    <div className="min-h-screen bg-[oklch(0.97_0.015_80)]">
       <Navigation />
 
+      {/* Schema.org */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Umberto's Family Pizzeria",
+        "description": "Home of the Original Grandma Slice since 1965. 6 Long Island locations.",
+        "url": "https://www.umbertosfamily.com",
+        "telephone": "+15164377698",
+        "address": { "@type": "PostalAddress", "streetAddress": "633 Jericho Tpke", "addressLocality": "New Hyde Park", "addressRegion": "NY", "postalCode": "11040", "addressCountry": "US" },
+        "numberOfLocations": 6,
+      })}} />
+
       {/* Header */}
-      <header className="py-16 bg-[oklch(0.12_0.018_60)] border-b border-[oklch(0.20_0.02_60)]">
+      <section className="py-16 bg-white border-b border-[oklch(0.88_0.015_80)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block w-12 h-0.5 bg-[oklch(0.46_0.22_25)] mb-4 mx-auto" />
-          <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] text-[oklch(0.94_0.03_80)] leading-tight">
-            OUR LOCATIONS
+          <span className="section-label">6 Locations Across Long Island</span>
+          <span className="red-line mx-auto" />
+          <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] text-[oklch(0.20_0.025_60)] leading-tight mb-4">
+            FIND YOUR UMBERTO'S
           </h1>
-          <p className="font-serif italic text-[oklch(0.72_0.14_75)] text-xl mt-2 mb-4">
-            6 Locations Across Long Island, New York
+          <p className="font-body text-[oklch(0.48_0.03_60)] max-w-xl mx-auto mb-8">
+            Six locations across Nassau and Suffolk County. Enter your zip code to find the nearest one, or browse all locations below.
           </p>
-          <p className="font-body text-[oklch(0.62_0.03_80)] max-w-xl mx-auto">
-            Find your nearest Umberto's Family Pizzeria. All locations offer dine-in, takeout, delivery, and catering services.
-          </p>
-        </div>
-      </header>
 
-      {/* Map + Location list */}
-      <section className="py-12" aria-labelledby="location-map">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-5 gap-6">
-            {/* Location list */}
-            <div className="lg:col-span-2 space-y-2 order-2 lg:order-1">
-              {locations.map((loc, i) => (
-                <button
-                  key={loc.id}
-                  onClick={() => setSelectedLocation(i)}
-                  className={`w-full text-left p-4 border transition-all ${
-                    selectedLocation === i
-                      ? "border-[oklch(0.46_0.22_25)] bg-[oklch(0.14_0.018_60)]"
-                      : "border-[oklch(0.20_0.02_60)] bg-[oklch(0.12_0.018_60)] hover:border-[oklch(0.35_0.02_60)]"
-                  }`}
-                  itemScope
-                  itemType="https://schema.org/Restaurant"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-display text-[oklch(0.94_0.03_80)] tracking-wider" itemProp="name">
-                      Umberto's — {loc.name}
-                    </span>
-                    {loc.flagship && (
-                      <span className="text-[0.6rem] bg-[oklch(0.46_0.22_25)] text-[oklch(0.98_0.01_80)] px-1.5 py-0.5 tracking-wider">
-                        FLAGSHIP
-                      </span>
-                    )}
-                  </div>
-                  <p className="font-body text-xs text-[oklch(0.55_0.03_80)]" itemProp="address">{loc.address}, {loc.city}</p>
-                  <a
-                    href={`tel:${loc.phone.replace(/\D/g, "")}`}
-                    className="font-body text-xs text-[oklch(0.72_0.14_75)] hover:text-[oklch(0.80_0.14_75)] transition-colors mt-1 flex items-center gap-1"
-                    onClick={(e) => e.stopPropagation()}
-                    itemProp="telephone"
-                  >
-                    <Phone size={10} /> {loc.phone}
-                  </a>
-                </button>
-              ))}
-            </div>
-
-            {/* Map */}
-            <div className="lg:col-span-3 order-1 lg:order-2">
-              <div className="h-[400px] lg:h-[500px] overflow-hidden border border-[oklch(0.20_0.02_60)]">
-                <MapView
-                  onMapReady={handleMapReady}
-                  defaultCenter={{ lat: 40.75, lng: -73.5 }}
-                  defaultZoom={10}
-                  mapStyle="dark"
+          {/* Zip code finder */}
+          <div className="max-w-md mx-auto">
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[oklch(0.55_0.03_60)]" />
+                <input
+                  ref={zipInputRef}
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={5}
+                  value={zipInput}
+                  onChange={(e) => setZipInput(e.target.value.replace(/\D/g, ""))}
+                  onKeyDown={(e) => { if (e.key === "Enter") handleZipSearch(); }}
+                  placeholder="Enter your zip code"
+                  className="w-full pl-9 pr-4 py-3.5 border-2 border-[oklch(0.88_0.015_80)] bg-white font-body text-sm text-[oklch(0.20_0.025_60)] focus:outline-none focus:border-[oklch(0.46_0.22_25)] transition-colors"
+                  aria-label="Enter zip code to find nearest Umberto's"
                 />
               </div>
+              <button
+                onClick={handleZipSearch}
+                className="btn-red text-sm px-5 whitespace-nowrap"
+                aria-label="Find nearest location"
+              >
+                <Navigation2 size={15} /> Find
+              </button>
             </div>
+            {zipError && <p className="font-body text-xs text-[oklch(0.46_0.22_25)] mt-2">{zipError}</p>}
+            {zipResult && (
+              <div className={`mt-3 p-3 border-2 text-left ${zipResult.found ? "border-[oklch(0.46_0.22_25)] bg-[oklch(0.97_0.015_80)]" : "border-[oklch(0.88_0.015_80)] bg-white"}`}>
+                {zipResult.found ? (
+                  <>
+                    <p className="font-display text-[oklch(0.46_0.22_25)] text-sm tracking-wider">NEAREST LOCATION FOUND!</p>
+                    <p className="font-body text-sm text-[oklch(0.20_0.025_60)] mt-1">
+                      <strong>{zipResult.location.name}</strong> — {zipResult.location.address}, {zipResult.location.city}
+                    </p>
+                    <p className="font-body text-xs text-[oklch(0.48_0.03_60)] mt-0.5">{zipResult.location.phone}</p>
+                  </>
+                ) : (
+                  <p className="font-body text-sm text-[oklch(0.48_0.03_60)]">
+                    Zip code not found in our delivery area. Browse all locations below or call us at (516) 437-7698.
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Location detail cards */}
-      <section className="py-12 bg-[oklch(0.12_0.018_60)]" aria-labelledby="location-details">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 id="location-details" className="reveal font-display text-2xl text-[oklch(0.94_0.03_80)] tracking-wider mb-8 text-center">
-            LOCATION DETAILS
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {locations.map((loc, i) => (
+      {/* Location accordion cards */}
+      <section className="py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+          {LOCATIONS.map((loc, i) => {
+            const isExpanded = expandedId === loc.id;
+            return (
               <article
                 key={loc.id}
-                className="reveal bg-[oklch(0.14_0.018_60)] border border-[oklch(0.20_0.02_60)] p-6"
+                id={`location-${loc.id}`}
+                className={`reveal bg-white border-2 transition-all duration-300 ${isExpanded ? "border-[oklch(0.46_0.22_25)] shadow-lg" : "border-[oklch(0.88_0.015_80)] hover:border-[oklch(0.46_0.22_25)]/50"}`}
                 style={{ transitionDelay: `${i * 60}ms` }}
                 itemScope
                 itemType="https://schema.org/Restaurant"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-display text-[oklch(0.94_0.03_80)] text-lg tracking-wider" itemProp="name">
-                      {loc.name}
-                    </h3>
-                    {loc.flagship && (
-                      <span className="text-[0.6rem] text-[oklch(0.72_0.14_75)] tracking-wider">FLAGSHIP LOCATION</span>
-                    )}
-                  </div>
-                  <MapPin size={18} className="text-[oklch(0.46_0.22_25)] flex-shrink-0" />
-                </div>
-
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-start gap-2">
-                    <MapPin size={13} className="text-[oklch(0.46_0.22_25)] mt-0.5 flex-shrink-0" />
-                    <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
-                      <p className="font-body text-sm text-[oklch(0.75_0.03_80)]" itemProp="streetAddress">{loc.address}</p>
-                      <p className="font-body text-sm text-[oklch(0.75_0.03_80)]" itemProp="addressLocality">{loc.city}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone size={13} className="text-[oklch(0.46_0.22_25)] flex-shrink-0" />
-                    <a
-                      href={`tel:${loc.phone.replace(/\D/g, "")}`}
-                      className="font-body text-sm text-[oklch(0.72_0.14_75)] hover:text-[oklch(0.80_0.14_75)] transition-colors"
-                      itemProp="telephone"
-                    >
-                      {loc.phone}
-                    </a>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Clock size={13} className="text-[oklch(0.46_0.22_25)] mt-0.5 flex-shrink-0" />
-                    <div>
-                      {Object.entries(loc.hours).map(([day, hours]) => (
-                        <p key={day} className="font-body text-xs text-[oklch(0.58_0.03_80)]">
-                          <span className="text-[oklch(0.75_0.03_80)]">{day}:</span> {hours}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {loc.features.map((f) => (
-                    <span key={f} className="font-body text-[0.65rem] text-[oklch(0.62_0.03_80)] border border-[oklch(0.25_0.02_60)] px-2 py-0.5">
-                      {f}
-                    </span>
-                  ))}
-                </div>
-
-                <a
-                  href={loc.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 font-display text-xs text-[oklch(0.46_0.22_25)] hover:text-[oklch(0.55_0.22_25)] tracking-wider uppercase transition-colors"
+                {/* Header — always visible */}
+                <button
+                  className="w-full text-left p-5 flex items-center gap-4"
+                  onClick={() => setExpandedId(isExpanded ? null : loc.id)}
+                  aria-expanded={isExpanded}
+                  aria-controls={`detail-${loc.id}`}
                 >
-                  <Navigation2 size={12} /> Get Directions <ExternalLink size={10} />
-                </a>
+                  <div className="w-16 h-16 flex-shrink-0 overflow-hidden">
+                    <img src={loc.img} alt={`Umberto's ${loc.name}`} className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-base" itemProp="name">
+                        {loc.name.toUpperCase()}
+                      </h2>
+                      {loc.flagship && (
+                        <span className="bg-[oklch(0.46_0.22_25)] text-white font-display text-[0.55rem] tracking-[0.12em] px-2 py-0.5">FLAGSHIP</span>
+                      )}
+                      {loc.slug && (
+                        <span className="bg-[oklch(0.68_0.13_75)] text-white font-display text-[0.55rem] tracking-[0.12em] px-2 py-0.5">EXCLUSIVE OFFERS</span>
+                      )}
+                    </div>
+                    <p className="font-body text-sm text-[oklch(0.48_0.03_60)]" itemProp="address">{loc.address}, {loc.city} {loc.zip}</p>
+                    <p className="font-body text-sm text-[oklch(0.46_0.22_25)]" itemProp="telephone">{loc.phone}</p>
+                  </div>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="hidden sm:flex items-center gap-0.5">
+                      {[1,2,3,4,5].map(j => <Star key={j} size={11} className="text-[oklch(0.68_0.13_75)] fill-[oklch(0.68_0.13_75)]" />)}
+                    </div>
+                    {isExpanded
+                      ? <ChevronUp size={20} className="text-[oklch(0.46_0.22_25)]" />
+                      : <ChevronDown size={20} className="text-[oklch(0.55_0.03_60)]" />}
+                  </div>
+                </button>
+
+                {/* Expanded detail */}
+                {isExpanded && (
+                  <div id={`detail-${loc.id}`} className="border-t border-[oklch(0.88_0.015_80)] p-5">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* Hours */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Clock size={14} className="text-[oklch(0.46_0.22_25)]" />
+                          <h3 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-xs">HOURS</h3>
+                        </div>
+                        {loc.hours.map((h) => (
+                          <div key={h.days} className="mb-1.5">
+                            <p className="font-body text-xs font-semibold text-[oklch(0.28_0.025_60)]">{h.days}</p>
+                            <p className="font-body text-xs text-[oklch(0.48_0.03_60)]">{h.hours}</p>
+                          </div>
+                        ))}
+                        <div className="mt-3 pt-3 border-t border-[oklch(0.88_0.015_80)]">
+                          <p className="font-body text-xs text-[oklch(0.48_0.03_60)]">Events: <strong className="text-[oklch(0.28_0.025_60)]">{loc.capacity}</strong></p>
+                        </div>
+                      </div>
+
+                      {/* Features */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <MapPin size={14} className="text-[oklch(0.46_0.22_25)]" />
+                          <h3 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-xs">FEATURES</h3>
+                        </div>
+                        <ul className="space-y-1 mb-4">
+                          {loc.features.map((f) => (
+                            <li key={f} className="flex items-center gap-1.5 font-body text-xs text-[oklch(0.38_0.03_60)]">
+                              <span className="w-1 h-1 rounded-full bg-[oklch(0.46_0.22_25)] flex-shrink-0" />
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                        <a href={loc.mapUrl} target="_blank" rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 font-body text-xs text-[oklch(0.46_0.22_25)] hover:underline">
+                          <ExternalLink size={11} /> Get Directions on Google Maps
+                        </a>
+                      </div>
+
+                      {/* Order buttons */}
+                      <div>
+                        <h3 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-xs mb-3">ORDER NOW</h3>
+                        <div className="space-y-2">
+                          <a href={`tel:${loc.phoneRaw}`} className="flex items-center gap-2 bg-[oklch(0.46_0.22_25)] text-white font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.55_0.22_25)] transition-colors w-full">
+                            <Phone size={12} /> Call {loc.phone}
+                          </a>
+                          <a href={loc.grubhub} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[oklch(0.20_0.025_60)] text-white font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.30_0.025_60)] transition-colors w-full">
+                            <ArrowRight size={12} /> Order on Grubhub
+                          </a>
+                          <a href={loc.ubereats} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
+                            <ArrowRight size={12} /> Order on Uber Eats
+                          </a>
+                          <a href={loc.doordash} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
+                            <ArrowRight size={12} /> Order on DoorDash
+                          </a>
+                          {loc.slug && (
+                            <Link href={`/${loc.slug}`} className="flex items-center gap-2 bg-[oklch(0.68_0.13_75)] text-white font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.75_0.13_75)] transition-colors w-full">
+                              <Star size={12} /> View Exclusive Offers
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </article>
-            ))}
+            );
+          })}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-12 bg-[oklch(0.46_0.22_25)] mt-4">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] text-white mb-3">CAN'T FIND YOUR LOCATION?</h2>
+          <p className="font-body text-white/80 mb-5">Call our New Hyde Park flagship and we'll help you find the nearest Umberto's.</p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <a href="tel:5164377698" className="btn-white text-sm"><Phone size={14} /> (516) 437-7698</a>
+            <Link href="/catering" className="inline-flex items-center gap-2 border-2 border-white text-white font-display text-sm tracking-[0.1em] uppercase px-6 py-3.5 hover:bg-white/10 transition-colors">Catering Inquiry <ArrowRight size={14} /></Link>
           </div>
         </div>
       </section>

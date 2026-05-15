@@ -5,13 +5,15 @@
 import { useEffect, useRef, useState } from "react";
 
 interface MapViewProps {
-  onMapReady?: (map: google.maps.Map) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onMapReady?: (map: any) => void;
   defaultCenter?: { lat: number; lng: number };
   defaultZoom?: number;
   mapStyle?: "dark" | "default";
 }
 
-const DARK_MAP_STYLES: google.maps.MapTypeStyle[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DARK_MAP_STYLES: any[] = [
   { elementType: "geometry", stylers: [{ color: "#1a1208" }] },
   { elementType: "labels.text.stroke", stylers: [{ color: "#1a1208" }] },
   { elementType: "labels.text.fill", stylers: [{ color: "#a08060" }] },
@@ -42,7 +44,7 @@ declare global {
 
 function loadGoogleMaps(): Promise<void> {
   return new Promise((resolve) => {
-    if (window.google?.maps) {
+    if ((window as any).google?.maps) {
       resolve();
       return;
     }
@@ -69,7 +71,8 @@ function loadGoogleMaps(): Promise<void> {
 
 export function MapView({ onMapReady, defaultCenter = { lat: 40.75, lng: -73.5 }, defaultZoom = 10, mapStyle = "dark" }: MapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<google.maps.Map | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mapInstanceRef = useRef<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -79,7 +82,10 @@ export function MapView({ onMapReady, defaultCenter = { lat: 40.75, lng: -73.5 }
     loadGoogleMaps()
       .then(() => {
         if (cancelled || !mapRef.current) return;
-        const map = new google.maps.Map(mapRef.current, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const gm = (window as any).google;
+        if (!gm) return;
+        const map = new gm.maps.Map(mapRef.current, {
           center: defaultCenter,
           zoom: defaultZoom,
           styles: mapStyle === "dark" ? DARK_MAP_STYLES : [],
