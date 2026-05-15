@@ -536,7 +536,7 @@ export default function Locations() {
                 {/* Header — always visible */}
                 <button
                   className="w-full text-left p-5 flex items-center gap-4"
-                  onClick={() => setExpandedId(loc.id)}
+                  onClick={() => { if (expandedId !== loc.id) setExpandedId(loc.id); }}
                   aria-expanded={isExpanded}
                   aria-controls={`detail-${loc.id}`}
                 >
