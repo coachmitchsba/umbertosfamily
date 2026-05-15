@@ -528,8 +528,7 @@ export default function Locations() {
               <article
                 key={loc.id}
                 id={`location-${loc.id}`}
-                className={`reveal bg-white border-2 transition-all duration-300 ${isExpanded ? "border-[oklch(0.46_0.22_25)] shadow-lg" : "border-[oklch(0.88_0.015_80)] hover:border-[oklch(0.46_0.22_25)]/50"}`}
-                style={{ transitionDelay: `${i * 60}ms` }}
+                className={`bg-white border-2 transition-all duration-300 ${isExpanded ? "border-[oklch(0.46_0.22_25)] shadow-lg" : "border-[oklch(0.88_0.015_80)] hover:border-[oklch(0.46_0.22_25)]/50"}`}
                 itemScope
                 itemType="https://schema.org/Restaurant"
               >
@@ -568,9 +567,12 @@ export default function Locations() {
                   </div>
                 </button>
 
-                {/* Expanded detail */}
-                {isExpanded && (
-                  <div id={`detail-${loc.id}`} className="border-t border-[oklch(0.88_0.015_80)] p-5">
+                {/* Expanded detail — always in DOM, shown/hidden via CSS */}
+                <div
+                  id={`detail-${loc.id}`}
+                  style={{ display: isExpanded ? "block" : "none" }}
+                  className="border-t border-[oklch(0.88_0.015_80)] p-5"
+                >
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {/* Hours */}
                       <div>
@@ -647,8 +649,7 @@ export default function Locations() {
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                </div>
               </article>
             );
           })}
