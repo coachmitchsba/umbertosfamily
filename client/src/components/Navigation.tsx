@@ -1,29 +1,21 @@
 /*
- * Navigation — Umberto's Family Pizzeria v2
- * Light warm theme: cream background, dark text, red CTA
+ * Navigation — Umberto's Family Pizzeria v3
+ * Streamlined: 4 primary links + Menu dropdown + More dropdown + red ORDER ONLINE button
+ * No duplicate "Order Online" text link — the red button handles it
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Phone, MapPin, Gamepad2 } from "lucide-react";
-
-const navLinks = [
-  { href: "/menu", label: "Menu" },
-  { href: "/order", label: "Order Online" },
-  { href: "/catering", label: "Catering" },
-  { href: "/private-events", label: "Private Events" },
-  { href: "/locations", label: "Locations" },
-  { href: "/gift-cards", label: "Gift Cards" },
-  { href: "/rewards", label: "Rewards" },
-  { href: "/shipping", label: "Ship Nationwide" },
-  { href: "/about", label: "Our Story" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/arcade", label: "🎮 Arcade" },
-];
+import { Menu, X, Phone, MapPin, ChevronDown } from "lucide-react";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
+
+  const menuRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -31,16 +23,42 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => { setIsOpen(false); }, [location]);
+  useEffect(() => {
+    setIsOpen(false);
+    setMenuOpen(false);
+    setMoreOpen(false);
+  }, [location]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const isActive = (href: string) => location === href;
+
+  const linkClass = (href: string) =>
+    `px-3 py-2 font-display text-sm tracking-[0.07em] uppercase transition-colors duration-150 whitespace-nowrap ${
+      isActive(href)
+        ? "text-[oklch(0.46_0.22_25)]"
+        : "text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)]"
+    }`;
+
+  const dropdownItemClass =
+    "block w-full text-left px-4 py-2.5 font-display text-sm tracking-[0.07em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] hover:bg-[oklch(0.96_0.02_60)] transition-colors whitespace-nowrap";
+
   return (
     <>
-      {/* Top bar — red */}
+      {/* Top bar */}
       <div className="bg-[oklch(0.46_0.22_25)] text-white py-1.5 text-center text-xs font-body tracking-wider">
         <span className="flex items-center justify-center gap-4 flex-wrap px-4">
           <span className="flex items-center gap-1.5">
@@ -78,6 +96,7 @@ export default function Navigation() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
+
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center gap-3">
               <img
@@ -90,41 +109,90 @@ export default function Navigation() {
 
             {/* Desktop nav */}
             <div className="hidden lg:flex items-center gap-0.5">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3 py-2 font-display text-sm tracking-[0.07em] uppercase transition-colors duration-150 ${
-                    location === link.href
+
+              {/* Menu dropdown */}
+              <div className="relative" ref={menuRef}>
+                <button
+                  onClick={() => { setMenuOpen(!menuOpen); setMoreOpen(false); }}
+                  className={`flex items-center gap-1 px-3 py-2 font-display text-sm tracking-[0.07em] uppercase transition-colors duration-150 ${
+                    ["/menu", "/order"].includes(location)
                       ? "text-[oklch(0.46_0.22_25)]"
                       : "text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)]"
                   }`}
+                  aria-expanded={menuOpen}
                 >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/rewards"
-                className="ml-1 px-3 py-2 font-display text-sm tracking-[0.07em] uppercase text-[oklch(0.68_0.13_75)] hover:text-[oklch(0.55_0.13_75)] transition-colors"
-              >
-                Rewards
-              </Link>
-              <Link
-                href="/order"
-                className="ml-3 px-5 py-2.5 bg-[oklch(0.46_0.22_25)] text-white font-display text-sm tracking-[0.1em] uppercase hover:bg-[oklch(0.55_0.22_25)] transition-colors duration-150 active:scale-[0.97]"
+                  Menu
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${menuOpen ? "rotate-180" : ""}`} />
+                </button>
+                {menuOpen && (
+                  <div className="absolute top-full left-0 mt-1 bg-white border border-[oklch(0.88_0.015_80)] shadow-lg min-w-[200px] py-1 z-50">
+                    <Link href="/menu" className={dropdownItemClass}>View Full Menu</Link>
+                    <div className="border-t border-[oklch(0.93_0.02_80)] my-1" />
+                    <div className="px-4 py-1.5 text-[oklch(0.55_0.03_60)] font-body text-xs tracking-wider uppercase">Order by Location</div>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>New Hyde Park</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Manhasset</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Bellmore</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Massapequa Park</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Lake Grove</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Farmingdale</a>
+                  </div>
+                )}
+              </div>
+
+              {/* Primary links */}
+              <Link href="/catering" className={linkClass("/catering")}>Catering</Link>
+              <Link href="/private-events" className={linkClass("/private-events")}>Private Events</Link>
+              <Link href="/locations" className={linkClass("/locations")}>Locations</Link>
+
+              {/* More dropdown */}
+              <div className="relative" ref={moreRef}>
+                <button
+                  onClick={() => { setMoreOpen(!moreOpen); setMenuOpen(false); }}
+                  className={`flex items-center gap-1 px-3 py-2 font-display text-sm tracking-[0.07em] uppercase transition-colors duration-150 ${
+                    ["/about", "/faq", "/gift-cards", "/rewards", "/shipping", "/arcade"].includes(location)
+                      ? "text-[oklch(0.46_0.22_25)]"
+                      : "text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)]"
+                  }`}
+                  aria-expanded={moreOpen}
+                >
+                  More
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${moreOpen ? "rotate-180" : ""}`} />
+                </button>
+                {moreOpen && (
+                  <div className="absolute top-full right-0 mt-1 bg-white border border-[oklch(0.88_0.015_80)] shadow-lg min-w-[180px] py-1 z-50">
+                    <Link href="/about" className={dropdownItemClass}>Our Story</Link>
+                    <Link href="/faq" className={dropdownItemClass}>FAQ</Link>
+                    <div className="border-t border-[oklch(0.93_0.02_80)] my-1" />
+                    <Link href="/gift-cards" className={dropdownItemClass}>🎁 Gift Cards</Link>
+                    <Link href="/rewards" className={dropdownItemClass}>⭐ Rewards</Link>
+                    <Link href="/shipping" className={dropdownItemClass}>🚚 Ship Nationwide</Link>
+                    <div className="border-t border-[oklch(0.93_0.02_80)] my-1" />
+                    <Link href="/arcade" className={dropdownItemClass}>🎮 Pizza Arcade</Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Red CTA */}
+              <a
+                href="https://umbertos.appsuitecrm.com/locations"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-3 px-5 py-2.5 bg-[oklch(0.46_0.22_25)] text-white font-display text-sm tracking-[0.1em] uppercase hover:bg-[oklch(0.40_0.22_25)] transition-colors duration-150 active:scale-[0.97]"
               >
                 Order Online
-              </Link>
+              </a>
             </div>
 
             {/* Mobile: Order + Hamburger */}
             <div className="lg:hidden flex items-center gap-2">
-              <Link
-                href="/order"
+              <a
+                href="https://umbertos.appsuitecrm.com/locations"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-3 py-2 bg-[oklch(0.46_0.22_25)] text-white font-display text-xs tracking-[0.08em] uppercase"
               >
                 Order
-              </Link>
+              </a>
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-2 text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] transition-colors"
@@ -140,36 +208,23 @@ export default function Navigation() {
         {/* Mobile menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ${
-            isOpen ? "max-h-[700px] opacity-100" : "max-h-0 opacity-0"
+            isOpen ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
           }`}
           style={{ transitionTimingFunction: "cubic-bezier(0.23, 1, 0.32, 1)" }}
         >
           <div className="bg-white border-t border-[oklch(0.88_0.015_80)] px-4 py-4 space-y-0.5">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase transition-colors border-b border-[oklch(0.93_0.02_80)] ${
-                  location === link.href
-                    ? "text-[oklch(0.46_0.22_25)]"
-                    : "text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)]"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/rewards"
-              className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.68_0.13_75)] border-b border-[oklch(0.93_0.02_80)]"
-            >
-              ★ Rewards
-            </Link>
-            <Link
-              href="/shipping"
-              className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)]"
-            >
-              🚚 Ship Nationwide
-            </Link>
+            {/* Primary */}
+            <Link href="/menu" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">Menu</Link>
+            <Link href="/catering" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">Catering</Link>
+            <Link href="/private-events" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">Private Events</Link>
+            <Link href="/locations" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">Locations</Link>
+            {/* Secondary */}
+            <Link href="/about" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">Our Story</Link>
+            <Link href="/faq" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">FAQ</Link>
+            <Link href="/gift-cards" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">🎁 Gift Cards</Link>
+            <Link href="/rewards" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.68_0.13_75)] border-b border-[oklch(0.93_0.02_80)]">⭐ Rewards</Link>
+            <Link href="/shipping" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)]">🚚 Ship Nationwide</Link>
+            <Link href="/arcade" className="block px-4 py-3 font-display text-sm tracking-[0.08em] uppercase text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)] border-b border-[oklch(0.93_0.02_80)] transition-colors">🎮 Pizza Arcade</Link>
             <div className="pt-3">
               <a href="tel:5164377698" className="flex items-center gap-2 px-4 py-2 text-[oklch(0.48_0.03_60)] font-body text-sm">
                 <Phone size={14} className="text-[oklch(0.46_0.22_25)]" />
