@@ -19,6 +19,9 @@ import { ExternalLink, ChevronRight } from "lucide-react";
 const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-menu-hero-spread-UJmfmtCW4TpAYDbUSCRAmR.webp";
 const PIZZA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pizza-closeup-menu-axyEg4HqHLwCzwte7ZZKdq.webp";
 const PASTA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pasta-closeup-menu-cnsgS7DoLEcWcniw5S4tKZ.webp";
+const ANTIPASTI_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-antipasti-spread-EMtQi9tsqRxQpZxvMgAbki.webp";
+const ENTREES_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-entrees-chicken-parm-RqtZy99cadP9w43WC7k9so.webp";
+const SEAFOOD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-seafood-branzino-hoR4ScaJsAXoY4fgAeVpyr.webp";
 
 const LOCATIONS = [
   { id: "new-hyde-park", name: "New Hyde Park", short: "New Hyde Park", address: "633 Jericho Tpke", phone: "(516) 437-7698", phoneRaw: "5164377698", orderUrl: "https://umbertos.appsuitecrm.com/menu/910", flagship: true },
@@ -436,6 +439,113 @@ export default function Menu() {
               </a>
             </div>
 
+            {/* ── CHEF'S RECOMMENDATIONS ──────────────────────────────────── */}
+            <section className="mb-16 pb-16" style={{ borderBottom: "1px solid oklch(0.88 0.015 80)" }}>
+              <div
+                className="relative overflow-hidden px-8 py-12"
+                style={{ background: "oklch(0.20 0.025 60)" }}
+              >
+                {/* Subtle texture overlay */}
+                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px)" }} />
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-2">
+                    <div style={{ width: 32, height: 1, background: "oklch(0.68 0.13 75)" }} />
+                    <p className="font-body text-xs tracking-[0.25em] uppercase" style={{ color: "oklch(0.68 0.13 75)" }}>Chef's Recommendations</p>
+                    <div style={{ width: 32, height: 1, background: "oklch(0.68 0.13 75)" }} />
+                  </div>
+                  <h2
+                    className="mb-10"
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
+                      fontWeight: 700,
+                      color: "white",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    Signature Dishes
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                    {[
+                      {
+                        name: "Grandma Slice",
+                        desc: "The original. Invented here in 1965 — square, thick-crust, plum marinara, fresh mozzarella. There is no substitute.",
+                        price: "$36.20",
+                        label: "The Original",
+                        img: PIZZA_IMG,
+                        orderUrl: currentLocation.orderUrl,
+                      },
+                      {
+                        name: "Penne Alla Vodka",
+                        desc: "Made with onions & Prosciutto di Parma DOP. Our most ordered pasta — rich, silky, and deeply satisfying.",
+                        price: "$21.50",
+                        label: "Bestseller",
+                        img: PASTA_IMG,
+                        orderUrl: currentLocation.orderUrl,
+                      },
+                      {
+                        name: "Rigatoni Umberto",
+                        desc: "Calamari, shrimp, clams, fresh plum tomatoes & cherry peppers in garlic and oil. Named for our founder.",
+                        price: "$26.95",
+                        label: "Signature",
+                        img: ANTIPASTI_IMG,
+                        orderUrl: currentLocation.orderUrl,
+                      },
+                    ].map((dish) => (
+                      <a
+                        key={dish.name}
+                        href={dish.orderUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group block transition-opacity hover:opacity-90"
+                        style={{ borderRight: "1px solid rgba(255,255,255,0.08)" }}
+                      >
+                        <div className="overflow-hidden" style={{ height: 180 }}>
+                          <img
+                            src={dish.img}
+                            alt={dish.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="px-6 py-5">
+                          <span
+                            className="block font-body text-[0.6rem] tracking-[0.2em] uppercase mb-2"
+                            style={{ color: "oklch(0.68 0.13 75)" }}
+                          >
+                            {dish.label}
+                          </span>
+                          <div className="flex items-baseline justify-between gap-2">
+                            <h3
+                              style={{
+                                fontFamily: "'Playfair Display', Georgia, serif",
+                                fontSize: "1.15rem",
+                                fontWeight: 600,
+                                color: "white",
+                              }}
+                            >
+                              {dish.name}
+                            </h3>
+                            <span
+                              style={{
+                                fontFamily: "'Playfair Display', Georgia, serif",
+                                fontSize: "1rem",
+                                color: "rgba(255,255,255,0.7)",
+                              }}
+                            >
+                              {dish.price}
+                            </span>
+                          </div>
+                          <p className="font-body text-xs mt-2 leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+                            {dish.desc}
+                          </p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
             {/* Menu sections */}
             {MENU.map((cat, catIdx) => (
               <section
@@ -488,11 +598,39 @@ export default function Menu() {
                     />
                   </div>
                 )}
+                {cat.id === "appetizers" && (
+                  <div className="mb-8 overflow-hidden" style={{ height: 220 }}>
+                    <img
+                      src={ANTIPASTI_IMG}
+                      alt="Umberto's antipasto — prosciutto, burrata, olives, roasted peppers"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                )}
                 {cat.id === "pasta" && (
                   <div className="mb-8 overflow-hidden" style={{ height: 220 }}>
                     <img
                       src={PASTA_IMG}
                       alt="Umberto's spaghetti pescatore — mussels, clams, marinara"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                )}
+                {cat.id === "entrees" && (
+                  <div className="mb-8 overflow-hidden" style={{ height: 220 }}>
+                    <img
+                      src={ENTREES_IMG}
+                      alt="Umberto's Chicken Parmigiana — breaded cutlet, mozzarella, marinara"
+                      className="w-full h-full object-cover object-center"
+                      style={{ objectPosition: "center 30%" }}
+                    />
+                  </div>
+                )}
+                {cat.id === "seafood" && (
+                  <div className="mb-8 overflow-hidden" style={{ height: 220 }}>
+                    <img
+                      src={SEAFOOD_IMG}
+                      alt="Umberto's branzino — whole roasted fish, lemon, capers, cherry tomatoes"
                       className="w-full h-full object-cover object-center"
                     />
                   </div>
