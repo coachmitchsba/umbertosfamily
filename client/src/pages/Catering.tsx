@@ -19,6 +19,7 @@ const ENTREES_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jm
 const PASTA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pasta-closeup-menu-cnsgS7DoLEcWcniw5S4tKZ.webp";
 const PIZZA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pizza-closeup-menu-axyEg4HqHLwCzwte7ZZKdq.webp";
 const ANTIPASTI_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-antipasti-spread-EMtQi9tsqRxQpZxvMgAbki.webp";
+const PASTA_TRAY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pasta-tray-catering-68roBbYaBaCC46foADL79B.webp";
 
 type TrayItem = { name: string; half?: string; full?: string; note?: string };
 type TrayCategory = { id: string; label: string; subtitle: string; items: TrayItem[]; photo?: string };
@@ -26,7 +27,7 @@ type TrayCategory = { id: string; label: string; subtitle: string; items: TrayIt
 const TRAY_MENU: TrayCategory[] = [
   {
     id: "pizza",
-    label: "Pizza Trays",
+    label: "Pizza Pies",
     subtitle: "Our legendary pies — baked fresh and cut for easy serving",
     photo: PIZZA_IMG,
     items: [
@@ -42,7 +43,7 @@ const TRAY_MENU: TrayCategory[] = [
     id: "pasta",
     label: "Pasta Trays",
     subtitle: "Classic Italian pasta — feeds 8–10 (half) or 16–20 (full)",
-    photo: PASTA_IMG,
+    photo: PASTA_TRAY_IMG,
     items: [
       { name: "Baked Ziti", half: "$35.00", full: "$65.00", note: "Ricotta, mozzarella & tomato sauce" },
       { name: "Baked Ziti with Meat", half: "$40.00", full: "$75.00" },
