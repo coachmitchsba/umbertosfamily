@@ -18,25 +18,27 @@ const CATERING_TRAYS = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217
 const ENTREES_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-entrees-chicken-parm-RqtZy99cadP9w43WC7k9so.webp";
 const PASTA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pasta-closeup-menu-cnsgS7DoLEcWcniw5S4tKZ.webp";
 const PIZZA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pizza-closeup-menu-axyEg4HqHLwCzwte7ZZKdq.webp";
+const APPETIZER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-appetizer-tray-catering-YzCCMSCzdmf4EovTLc3EVp.webp";
+const SALAD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-salad-tray-catering-N3XnFgysrxU5TKKkhSTFUS.webp";
 const ANTIPASTI_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-antipasti-spread-EMtQi9tsqRxQpZxvMgAbki.webp";
 const PASTA_TRAY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pasta-tray-catering-68roBbYaBaCC46foADL79B.webp";
 
-type TrayItem = { name: string; half?: string; full?: string; note?: string };
+type TrayItem = { name: string; half?: string; full?: string; price?: string; note?: string; isPie?: boolean };
 type TrayCategory = { id: string; label: string; subtitle: string; items: TrayItem[]; photo?: string };
 
 const TRAY_MENU: TrayCategory[] = [
   {
     id: "pizza",
     label: "Pizza Pies",
-    subtitle: "Our legendary pies — baked fresh and cut for easy serving",
+    subtitle: "Our legendary pies — sold by the pie, baked fresh and cut for easy serving",
     photo: PIZZA_IMG,
     items: [
-      { name: "Grandma / Sicilian", half: "$36.20", full: "$36.20", note: "16\" square, 12 slices" },
-      { name: "Neapolitan", half: "$26.80", full: "$26.80", note: "18\" round, 8 slices" },
-      { name: "Pazzo Deep Dish", half: "$33.40", full: "$33.40", note: "Sausage, olives, roasted peppers" },
-      { name: "Vegetable", half: "$34.10", full: "$34.10", note: "Broccoli, spinach, mushrooms" },
-      { name: "Buffalo Chicken", half: "$32.35", full: "$32.35" },
-      { name: "Vodka", half: "$32.35", full: "$32.35" },
+      { name: "Grandma / Sicilian", price: "$36.20", note: "16\" square, 12 slices", isPie: true },
+      { name: "Neapolitan", price: "$26.80", note: "18\" round, 8 slices", isPie: true },
+      { name: "Pazzo Deep Dish", price: "$33.40", note: "Sausage, olives, roasted peppers", isPie: true },
+      { name: "Vegetable", price: "$34.10", note: "Broccoli, spinach, mushrooms", isPie: true },
+      { name: "Buffalo Chicken", price: "$32.35", isPie: true },
+      { name: "Vodka", price: "$32.35", isPie: true },
     ],
   },
   {
@@ -73,7 +75,7 @@ const TRAY_MENU: TrayCategory[] = [
     id: "appetizers",
     label: "Appetizer Trays",
     subtitle: "Perfect for cocktail hours and pre-event spreads",
-    photo: ANTIPASTI_IMG,
+    photo: APPETIZER_IMG,
     items: [
       { name: "Cold Antipasto", half: "Market", full: "Market", note: "Prosciutto, soppressata, fresh mozzarella, olives" },
       { name: "Homemade Meatballs", half: "$35.00", full: "$65.00" },
@@ -87,6 +89,7 @@ const TRAY_MENU: TrayCategory[] = [
     id: "salads",
     label: "Salad & Sides",
     subtitle: "Fresh and seasonal — perfect alongside any entrée",
+    photo: SALAD_IMG,
     items: [
       { name: "Caesar Salad", half: "$25.00", full: "$45.00" },
       { name: "House Salad", half: "$22.00", full: "$40.00" },
@@ -99,12 +102,12 @@ const TRAY_MENU: TrayCategory[] = [
 ];
 
 const CLIENT_TYPES = [
-  { icon: "🏢", label: "Corporate Offices", desc: "Lunch meetings, team celebrations, client events, holiday parties" },
-  { icon: "🏫", label: "Schools & Universities", desc: "Staff lunches, graduation celebrations, faculty events, fundraisers" },
-  { icon: "🏛️", label: "Government & Municipal", desc: "Department lunches, award ceremonies, community events, town halls" },
-  { icon: "🎉", label: "Private Events", desc: "Birthday parties, anniversaries, baby showers, communions, graduations" },
-  { icon: "⛪", label: "Religious Organizations", desc: "Church events, synagogue gatherings, holiday celebrations, fundraisers" },
-  { icon: "🏥", label: "Healthcare & Medical", desc: "Staff appreciation, department meetings, patient family events" },
+  { label: "Corporate Offices", desc: "Lunch meetings, team celebrations, client events, holiday parties" },
+  { label: "Schools & Universities", desc: "Staff lunches, graduation celebrations, faculty events, fundraisers" },
+  { label: "Government & Municipal", desc: "Department lunches, award ceremonies, community events, town halls" },
+  { label: "Private Events", desc: "Birthday parties, anniversaries, baby showers, communions, graduations" },
+  { label: "Religious Organizations", desc: "Church events, synagogue gatherings, holiday celebrations, fundraisers" },
+  { label: "Healthcare & Medical", desc: "Staff appreciation, department meetings, patient family events" },
 ];
 
 const LOCATIONS = [
@@ -238,9 +241,8 @@ export default function Catering() {
             {CLIENT_TYPES.map((ct) => (
               <div
                 key={ct.label}
-                style={{ padding: "1.5rem", border: `1px solid ${border}`, background: "white" }}
+                style={{ padding: "1.75rem 1.5rem", border: `1px solid ${border}`, background: "white", borderTop: `3px solid ${red}` }}
               >
-                <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>{ct.icon}</div>
                 <h3 style={{ fontFamily: playfair, fontSize: "1.1rem", fontWeight: 600, color: dark, marginBottom: "0.5rem" }}>
                   {ct.label}
                 </h3>
@@ -324,20 +326,36 @@ export default function Catering() {
                         />
                       </div>
                     )}
-                    {/* Column headers */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "0.75rem 1.5rem",
-                        borderBottom: `1px solid oklch(0.91 0.012 80)`,
-                        background: "oklch(0.97 0.008 80)",
-                      }}
-                    >
-                      <span style={{ flex: 1, fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Item</span>
-                      <span style={{ width: "6rem", textAlign: "right", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Half Tray</span>
-                      <span style={{ width: "6rem", textAlign: "right", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Full Tray</span>
-                    </div>
+                    {/* Column headers — pizza pies show single price, others show half/full */}
+                    {!cat.items[0]?.isPie && (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "0.75rem 1.5rem",
+                          borderBottom: `1px solid oklch(0.91 0.012 80)`,
+                          background: "oklch(0.97 0.008 80)",
+                        }}
+                      >
+                        <span style={{ flex: 1, fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Item</span>
+                        <span style={{ width: "6rem", textAlign: "right", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Half Tray</span>
+                        <span style={{ width: "6rem", textAlign: "right", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Full Tray</span>
+                      </div>
+                    )}
+                    {cat.items[0]?.isPie && (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "0.75rem 1.5rem",
+                          borderBottom: `1px solid oklch(0.91 0.012 80)`,
+                          background: "oklch(0.97 0.008 80)",
+                        }}
+                      >
+                        <span style={{ flex: 1, fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Pie</span>
+                        <span style={{ width: "6rem", textAlign: "right", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: muted }}>Price / Pie</span>
+                      </div>
+                    )}
                     {/* Items */}
                     {cat.items.map((item, iIdx) => (
                       <div
@@ -359,12 +377,20 @@ export default function Catering() {
                             </span>
                           )}
                         </div>
-                        <span style={{ width: "6rem", textAlign: "right", fontSize: "0.875rem", color: "oklch(0.40 0.025 60)" }}>
-                          {item.half || "—"}
-                        </span>
-                        <span style={{ width: "6rem", textAlign: "right", fontSize: "0.875rem", fontWeight: 600, color: "oklch(0.40 0.025 60)" }}>
-                          {item.full || "—"}
-                        </span>
+                        {item.isPie ? (
+                          <span style={{ width: "6rem", textAlign: "right", fontSize: "0.875rem", fontWeight: 600, color: "oklch(0.40 0.025 60)" }}>
+                            {item.price || "—"}
+                          </span>
+                        ) : (
+                          <>
+                            <span style={{ width: "6rem", textAlign: "right", fontSize: "0.875rem", color: "oklch(0.40 0.025 60)" }}>
+                              {item.half || "—"}
+                            </span>
+                            <span style={{ width: "6rem", textAlign: "right", fontSize: "0.875rem", fontWeight: 600, color: "oklch(0.40 0.025 60)" }}>
+                              {item.full || "—"}
+                            </span>
+                          </>
+                        )}
                       </div>
                     ))}
                     {/* Call CTA at bottom of each category */}
