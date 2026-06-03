@@ -12,7 +12,7 @@ import { Phone, Users, ArrowRight, Star, ChevronDown, ChevronUp, Check } from "l
 
 const VENUE_HALL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-private-events-hall-CT2UxGWbYcE2HxhppWH8at.webp";
 const GRADUATION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-graduation-party-fvDpfDzRAL2Wdivw2TVnFU.webp";
-const CORPORATE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-corporate-event-PBaDUaLVgppPaLYQTy2WuL.webp";
+const CORPORATE_IMG = "/manus-storage/umbertos-farmingdale-storefront_a7bf3e41.jpg";
 const SWEET16_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-sweet-16-party-i53moEJ68Lne5iY9FRFV8t.webp";
 const BARMITZVAH_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-bar-mitzvah-event-Yp5LjgKwypiS9qqiYtZMCS.webp";
 
@@ -31,7 +31,7 @@ const EVENT_SHOWCASE = [
   { label: "Graduation Parties", img: GRADUATION_IMG, desc: "Celebrate the big milestone with family and friends over legendary Italian food." },
   { label: "Bar & Bat Mitzvahs", img: BARMITZVAH_IMG, desc: "A meaningful celebration deserves an unforgettable venue. We honor every tradition." },
   { label: "Sweet 16s", img: SWEET16_IMG, desc: "Make her day magical with a private dining experience she'll never forget." },
-  { label: "Corporate Events", img: CORPORATE_IMG, desc: "Impress clients and reward your team with a premium Italian dining experience." },
+  { label: "Corporate Events", img: BARMITZVAH_IMG, desc: "Impress clients and reward your team with a premium Italian dining experience." },
 ];
 
 const VENUES = [
@@ -69,7 +69,7 @@ const VENUES = [
     capacity: 100,
     phone: "(516) 752-0009",
     phoneRaw: "5167520009",
-    address: "1044 Broadhollow Rd, Farmingdale, NY 11735",
+    address: "211 Airport Plaza Blvd, Farmingdale, NY 11735",
     desc: "Umberto's Farmingdale is a stunning South Shore destination for private events. With a spacious private dining room and full bar, it's perfect for corporate dinners, graduation parties, sweet 16s, and milestone celebrations.",
     features: [
       "Up to 100 guests",
@@ -77,7 +77,7 @@ const VENUES = [
       "Full bar service",
       "Full Italian menu",
       "Ample parking",
-      "Broadhollow Road location",
+      "Airport Plaza location",
     ],
     imgs: [
       CORPORATE_IMG,
