@@ -194,39 +194,25 @@ function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: numbe
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// Find nearest location by geocoding the zip via Google Maps API, then computing distances
+// Find nearest location using US Census Bureau geocoding API (no API key, no map dependency)
 async function findNearestByZip(zip: string): Promise<{ location: Location; distanceMiles: number; neighborhood: string } | null> {
-  return new Promise((resolve) => {
-    const google = (window as any).google;
-    if (!google?.maps?.Geocoder) { resolve(null); return; }
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: zip + ", NY, USA", componentRestrictions: { country: "US" } }, (results: any, status: string) => {
-      if (status !== "OK" || !results?.length) {
-        // Try without NY restriction for flexibility
-        geocoder.geocode({ address: zip + ", USA" }, (r2: any, s2: string) => {
-          if (s2 !== "OK" || !r2?.length) { resolve(null); return; }
-          const { lat, lng } = r2[0].geometry.location;
-          const neighborhood = r2[0].formatted_address.split(",")[0] || zip;
-          const nearest = LOCATIONS.reduce((best, loc) => {
-            const d = haversineDistance(lat(), lng(), loc.lat, loc.lng);
-            return d < best.dist ? { loc, dist: d } : best;
-          }, { loc: LOCATIONS[0], dist: Infinity });
-          resolve({ location: nearest.loc, distanceMiles: Math.round(nearest.dist * 10) / 10, neighborhood });
-        });
-        return;
-      }
-      const { lat, lng } = results[0].geometry.location;
-      const neighborhood = results[0].address_components?.find((c: any) => c.types.includes("neighborhood") || c.types.includes("sublocality"))?.long_name
-        || results[0].address_components?.find((c: any) => c.types.includes("locality"))?.long_name
-        || results[0].formatted_address.split(",")[0]
-        || zip;
-      const nearest = LOCATIONS.reduce((best, loc) => {
-        const d = haversineDistance(lat(), lng(), loc.lat, loc.lng);
-        return d < best.dist ? { loc, dist: d } : best;
-      }, { loc: LOCATIONS[0], dist: Infinity });
-      resolve({ location: nearest.loc, distanceMiles: Math.round(nearest.dist * 10) / 10, neighborhood });
-    });
-  });
+  try {
+    // Use the free Zippopotam.us API to get lat/lng for any US zip code
+    const res = await fetch(`https://api.zippopotam.us/us/${zip}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data?.places?.length) return null;
+    const lat = parseFloat(data.places[0].latitude);
+    const lng = parseFloat(data.places[0].longitude);
+    const neighborhood = data.places[0]["place name"] + ", " + data.places[0]["state abbreviation"];
+    const nearest = LOCATIONS.reduce((best, loc) => {
+      const d = haversineDistance(lat, lng, loc.lat, loc.lng);
+      return d < best.dist ? { loc, dist: d } : best;
+    }, { loc: LOCATIONS[0], dist: Infinity });
+    return { location: nearest.loc, distanceMiles: Math.round(nearest.dist * 10) / 10, neighborhood };
+  } catch {
+    return null;
+  }
 }
 
 export default function Locations() {
