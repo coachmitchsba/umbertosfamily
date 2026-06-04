@@ -180,180 +180,61 @@ const LOCATIONS: Location[] = [
   },
 ];
 
-// Zip → location mapping — full Nassau & Suffolk County coverage
-// Each zip maps to the closest Umberto's location
-const ZIP_MAP: Record<string, string> = {
-  // ── NEW HYDE PARK (Nassau, NW) ──────────────────────────────────────────
-  "11040": "new-hyde-park", // New Hyde Park
-  "11042": "new-hyde-park", // New Hyde Park (PO)
-  "11001": "new-hyde-park", // Floral Park
-  "11010": "new-hyde-park", // Franklin Square
-  "11003": "new-hyde-park", // Elmont
-  "11004": "new-hyde-park", // Glen Oaks
-  "11005": "new-hyde-park", // Floral Park (Queens border)
-  "11096": "new-hyde-park", // Inwood
-  "11411": "new-hyde-park", // Cambria Heights (Queens)
-  "11412": "new-hyde-park", // St. Albans (Queens)
-  "11413": "new-hyde-park", // Springfield Gardens (Queens)
-  "11422": "new-hyde-park", // Rosedale (Queens)
-  "11423": "new-hyde-park", // Hollis (Queens)
-  "11427": "new-hyde-park", // Queens Village
-  "11428": "new-hyde-park", // Queens Village
-  "11429": "new-hyde-park", // Queens Village
-  "11432": "new-hyde-park", // Jamaica (Queens)
-  "11433": "new-hyde-park", // Jamaica (Queens)
-  "11434": "new-hyde-park", // Jamaica (Queens)
-  "11435": "new-hyde-park", // Jamaica (Queens)
-  "11436": "new-hyde-park", // Jamaica (Queens)
-  // ── MANHASSET (Nassau, North Shore) ────────────────────────────────────
-  "11030": "manhasset",     // Manhasset
-  "11050": "manhasset",     // Port Washington
-  "11023": "manhasset",     // Great Neck
-  "11024": "manhasset",     // Great Neck
-  "11020": "manhasset",     // Great Neck (Kings Point area)
-  "11021": "manhasset",     // Great Neck
-  "11022": "manhasset",     // Great Neck
-  "11548": "manhasset",     // Glen Head
-  "11576": "manhasset",     // Roslyn
-  "11577": "manhasset",     // Roslyn Heights
-  "11545": "manhasset",     // Glen Cove
-  "11542": "manhasset",     // Glen Cove
-  "11560": "manhasset",     // Locust Valley
-  "11568": "manhasset",     // Old Westbury
-  "11596": "manhasset",     // Williston Park
-  "11597": "manhasset",     // Westbury
-  "11598": "manhasset",     // Woodmere
-  "11710": "bellmore",      // Bellmore
-  "11793": "bellmore",      // Wantagh
-  "11557": "bellmore",      // Hewlett
-  "11554": "bellmore",      // East Meadow
-  "11520": "bellmore",      // Freeport
-  "11530": "bellmore",      // Garden City
-  "11531": "bellmore",      // Garden City
-  "11532": "bellmore",      // Garden City
-  "11533": "bellmore",      // Garden City
-  "11535": "bellmore",      // Garden City
-  "11536": "bellmore",      // Garden City
-  "11549": "bellmore",      // Hempstead
-  "11550": "bellmore",      // Hempstead
-  "11551": "bellmore",      // Hempstead
-  "11552": "bellmore",      // West Hempstead
-  "11553": "bellmore",      // Uniondale
-  "11555": "bellmore",      // East Meadow
-  "11556": "bellmore",      // Uniondale
-  "11558": "bellmore",      // Island Park
-  "11559": "bellmore",      // Lawrence
-  "11561": "bellmore",      // Long Beach
-  "11563": "bellmore",      // Lynbrook
-  "11565": "bellmore",      // Malverne
-  "11566": "bellmore",      // Merrick
-  "11569": "bellmore",      // Point Lookout
-  "11570": "bellmore",      // Rockville Centre
-  "11571": "bellmore",      // Rockville Centre
-  "11572": "bellmore",      // Oceanside
-  "11575": "bellmore",      // Roosevelt
-  "11580": "bellmore",      // Valley Stream
-  "11581": "bellmore",      // Valley Stream
-  "11582": "bellmore",      // Valley Stream
-  // ── MASSAPEQUA PARK (Nassau, South Shore) ──────────────────────────────
-  "11762": "massapequa-park", // Massapequa Park
-  "11758": "massapequa-park", // Massapequa
-  "11701": "massapequa-park", // Amityville
-  "11702": "massapequa-park", // Babylon
-  "11703": "massapequa-park", // North Babylon
-  "11704": "massapequa-park", // West Babylon
-  "11705": "massapequa-park", // Bayport
-  "11706": "massapequa-park", // Bay Shore
-  "11709": "massapequa-park", // Bayville
-  "11714": "massapequa-park", // Bethpage
-  "11716": "massapequa-park", // Bohemia
-  "11757": "massapequa-park", // Lindenhurst
-  "11795": "massapequa-park", // West Islip
-  "11796": "massapequa-park", // West Sayville
-  // ── LAKE GROVE (Suffolk, Central) ──────────────────────────────────────
-  "11755": "lake-grove",    // Lake Grove
-  "11779": "lake-grove",    // Ronkonkoma
-  "11727": "lake-grove",    // Coram
-  "11763": "lake-grove",    // Medford
-  "11764": "lake-grove",    // Miller Place
-  "11784": "lake-grove",    // Selden
-  "11790": "lake-grove",    // Stony Brook
-  "11791": "lake-grove",    // Syosset
-  "11792": "lake-grove",    // Wading River
-  "11720": "lake-grove",    // Centereach
-  "11721": "lake-grove",    // Centerport
-  "11722": "lake-grove",    // Central Islip
-  "11724": "lake-grove",    // Cold Spring Harbor
-  "11725": "lake-grove",    // Commack
-  "11726": "lake-grove",    // Copiague
-  "11733": "lake-grove",    // East Setauket
-  "11740": "lake-grove",    // Greenlawn
-  "11743": "lake-grove",    // Huntington
-  "11746": "lake-grove",    // Huntington Station
-  "11747": "lake-grove",    // Melville
-  "11749": "lake-grove",    // Islandia
-  "11751": "lake-grove",    // Islip
-  "11752": "lake-grove",    // Islip Terrace
-  "11760": "lake-grove",    // Melville (alt)
-  "11766": "lake-grove",    // Mount Sinai
-  "11767": "lake-grove",    // Nesconset
-  "11768": "lake-grove",    // Northport
-  "11769": "lake-grove",    // Oakdale
-  "11770": "lake-grove",    // Ocean Beach
-  "11772": "lake-grove",    // Patchogue
-  "11776": "lake-grove",    // Port Jefferson Station
-  "11777": "lake-grove",    // Port Jefferson
-  "11778": "lake-grove",    // Rocky Point
-  "11780": "lake-grove",    // Saint James
-  "11782": "lake-grove",    // Sayville
-  "11783": "lake-grove",    // Seaford
-  "11786": "lake-grove",    // Shoreham
-  "11787": "lake-grove",    // Smithtown
-  "11788": "lake-grove",    // Hauppauge
-  "11789": "lake-grove",    // Sound Beach
-  "11794": "lake-grove",    // Stony Brook (SBU)
-  "11798": "lake-grove",    // Wyandanch
-  // ── FARMINGDALE (Nassau/Suffolk border) ────────────────────────────────
-  "11735": "farmingdale",   // Farmingdale
-  "11729": "farmingdale",   // Deer Park
-  "11730": "farmingdale",   // East Islip
-  "11731": "farmingdale",   // East Northport
-  "11732": "farmingdale",   // East Norwich
-  "11738": "farmingdale",   // Farmingville
-  "11741": "farmingdale",   // Holbrook
-  "11742": "farmingdale",   // Holtsville
-  "11753": "farmingdale",   // Jericho
-  "11756": "farmingdale",   // Levittown
-  "11797": "farmingdale",   // Woodbury
-  "11801": "farmingdale",   // Hicksville
-  "11802": "farmingdale",   // Hicksville
-  "11803": "farmingdale",   // Plainview
-  "11804": "farmingdale",   // Old Bethpage
-  "11815": "farmingdale",   // Hicksville
-  "11819": "farmingdale",   // Brentwood
-  "11717": "farmingdale",   // Brentwood
-  "11718": "farmingdale",   // Brightwaters
-  "11719": "farmingdale",   // Brookhaven
-  "11736": "farmingdale",   // Farmingdale (alt)
-  "11737": "farmingdale",   // Farmingdale (alt)
-  "11739": "farmingdale",   // Great River
-  "11744": "farmingdale",   // Huntington (south)
-  "11745": "farmingdale",   // Huntington (south)
-  "11748": "farmingdale",   // Melville (south)
-  "11750": "farmingdale",   // Islandia (alt)
-  "11754": "farmingdale",   // Kings Park
-  "11771": "farmingdale",   // Oyster Bay
-  "11773": "farmingdale",   // Plainedge
-  "11774": "farmingdale",   // Plainview (alt)
-  "11775": "farmingdale",   // Melville (alt)
-  "11785": "farmingdale",   // Setauket
-};
+// Haversine distance in miles between two lat/lng points
+function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 3958.8; // Earth radius in miles
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// Find nearest location by geocoding the zip via Google Maps API, then computing distances
+async function findNearestByZip(zip: string): Promise<{ location: Location; distanceMiles: number; neighborhood: string } | null> {
+  return new Promise((resolve) => {
+    const google = (window as any).google;
+    if (!google?.maps?.Geocoder) { resolve(null); return; }
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: zip + ", NY, USA", componentRestrictions: { country: "US" } }, (results: any, status: string) => {
+      if (status !== "OK" || !results?.length) {
+        // Try without NY restriction for flexibility
+        geocoder.geocode({ address: zip + ", USA" }, (r2: any, s2: string) => {
+          if (s2 !== "OK" || !r2?.length) { resolve(null); return; }
+          const { lat, lng } = r2[0].geometry.location;
+          const neighborhood = r2[0].formatted_address.split(",")[0] || zip;
+          const nearest = LOCATIONS.reduce((best, loc) => {
+            const d = haversineDistance(lat(), lng(), loc.lat, loc.lng);
+            return d < best.dist ? { loc, dist: d } : best;
+          }, { loc: LOCATIONS[0], dist: Infinity });
+          resolve({ location: nearest.loc, distanceMiles: Math.round(nearest.dist * 10) / 10, neighborhood });
+        });
+        return;
+      }
+      const { lat, lng } = results[0].geometry.location;
+      const neighborhood = results[0].address_components?.find((c: any) => c.types.includes("neighborhood") || c.types.includes("sublocality"))?.long_name
+        || results[0].address_components?.find((c: any) => c.types.includes("locality"))?.long_name
+        || results[0].formatted_address.split(",")[0]
+        || zip;
+      const nearest = LOCATIONS.reduce((best, loc) => {
+        const d = haversineDistance(lat(), lng(), loc.lat, loc.lng);
+        return d < best.dist ? { loc, dist: d } : best;
+      }, { loc: LOCATIONS[0], dist: Infinity });
+      resolve({ location: nearest.loc, distanceMiles: Math.round(nearest.dist * 10) / 10, neighborhood });
+    });
+  });
+}
 
 export default function Locations() {
   const [expandedId, setExpandedId] = useState<string | null>("new-hyde-park");
   const [zipInput, setZipInput] = useState("");
-  const [zipResult, setZipResult] = useState<{ location: Location; found: boolean } | null>(null);
+  const [zipResult, setZipResult] = useState<{ location: Location; found: boolean; distanceMiles?: number; neighborhood?: string } | null>(null);
   const [zipError, setZipError] = useState("");
+  const [zipLoading, setZipLoading] = useState(false);
   const zipInputRef = useRef<HTMLInputElement>(null);
   const mapRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
@@ -406,29 +287,36 @@ export default function Locations() {
     return () => observer.disconnect();
   }, []);
 
-  const handleZipSearch = () => {
+  const handleZipSearch = async () => {
     const zip = zipInput.trim();
     if (zip.length !== 5 || !/^\d{5}$/.test(zip)) {
-      setZipError("Please enter a valid 5-digit NY zip code.");
+      setZipError("Please enter a valid 5-digit zip code.");
       setZipResult(null);
       return;
     }
     setZipError("");
-    const locationId = ZIP_MAP[zip];
-    if (locationId) {
-      const location = LOCATIONS.find((l) => l.id === locationId)!;
-      setZipResult({ location, found: true });
-      setExpandedId(locationId);
-      // Pan map to location
-      if (mapRef.current) {
-        mapRef.current.panTo({ lat: location.lat, lng: location.lng });
-        mapRef.current.setZoom(14);
+    setZipLoading(true);
+    try {
+      const result = await findNearestByZip(zip);
+      setZipLoading(false);
+      if (result) {
+        const { location, distanceMiles, neighborhood } = result;
+        setZipResult({ location, found: true, distanceMiles, neighborhood });
+        setExpandedId(location.id);
+        if (mapRef.current) {
+          mapRef.current.panTo({ lat: location.lat, lng: location.lng });
+          mapRef.current.setZoom(14);
+        }
+        setTimeout(() => {
+          document.getElementById(`location-${location.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 300);
+      } else {
+        setZipError("Zip code not found. Try a nearby zip or browse all locations below.");
+        setZipResult(null);
       }
-      setTimeout(() => {
-        document.getElementById(`location-${locationId}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 300);
-    } else {
-      setZipResult({ location: LOCATIONS[0], found: false });
+    } catch {
+      setZipLoading(false);
+      setZipError("Could not look up that zip code. Please try again.");
     }
   };
 
@@ -491,10 +379,16 @@ export default function Locations() {
               </div>
               <button
                 onClick={handleZipSearch}
-                className="btn-red text-sm px-5 whitespace-nowrap"
+                disabled={zipLoading}
+                className="btn-red text-sm px-5 whitespace-nowrap disabled:opacity-60"
                 aria-label="Find nearest location"
               >
-                <Navigation2 size={15} /> Find
+                {zipLoading ? (
+                  <svg className="animate-spin" width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10" /></svg>
+                ) : (
+                  <Navigation2 size={15} />
+                )}
+                {zipLoading ? "Searching..." : "Find"}
               </button>
             </div>
             {zipError && <p className="font-body text-xs text-[oklch(0.46_0.22_25)] mt-2">{zipError}</p>}
@@ -506,11 +400,15 @@ export default function Locations() {
                     <p className="font-body text-sm text-[oklch(0.20_0.025_60)] mt-1">
                       <strong>{zipResult.location.name}</strong> — {zipResult.location.address}, {zipResult.location.city}
                     </p>
-                    <p className="font-body text-xs text-[oklch(0.48_0.03_60)] mt-0.5">{zipResult.location.phone}</p>
+                    {zipResult.distanceMiles !== undefined && (
+                      <p className="font-body text-xs text-[oklch(0.48_0.03_60)] mt-0.5">
+                        {zipResult.neighborhood && <>{zipResult.neighborhood} · </>}{zipResult.distanceMiles} miles away · {zipResult.location.phone}
+                      </p>
+                    )}
                   </>
                 ) : (
                   <p className="font-body text-sm text-[oklch(0.48_0.03_60)]">
-                    Zip code not found in our delivery area. Browse all locations below or call us at (516) 437-7698.
+                    Zip code not found. Browse all locations below or call us at (516) 437-7698.
                   </p>
                 )}
               </div>

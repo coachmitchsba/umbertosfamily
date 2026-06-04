@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { ArrowRight, Star, MapPin, Phone, ChevronDown, Award, Clock, Truck, Users, Search, ChevronLeft, ChevronRight, Gamepad2 } from "lucide-react";
+import { ArrowRight, Star, MapPin, Phone, ChevronDown, Award, Clock, Truck, Users, Search, Gamepad2 } from "lucide-react";
 
 // Hero slides — real Umberto's food photos
 const heroSlides = [
@@ -142,7 +142,7 @@ export default function Home() {
         setSlideIndex((prev) => (prev + 1) % heroSlides.length);
         setIsTransitioning(false);
       }, 400);
-    }, 5500);
+    }, 4000);
     return () => clearInterval(timer);
   }, []);
 
@@ -248,13 +248,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Slide controls */}
-        <button onClick={() => goSlide("prev")} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-colors backdrop-blur-sm" aria-label="Previous slide">
-          <ChevronLeft size={22} />
-        </button>
-        <button onClick={() => goSlide("next")} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-colors backdrop-blur-sm" aria-label="Next slide">
-          <ChevronRight size={22} />
-        </button>
 
         {/* Dots */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">

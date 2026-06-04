@@ -173,7 +173,8 @@ export default function Navigation() {
                     </div>
                     <Link href="/shipping" className={dropdownItemClass}>Ship Nationwide</Link>
                     <Link href="/rewards" className={dropdownItemClass}>Rewards Program</Link>
-                    <Link href="/gift-cards" className={dropdownItemClass}>Gift Cards</Link>
+                    <a href="https://umbertos.appsuitecrm.com/gift-cards/892" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Gift Cards</a>
+                    <a href="https://umbertos-family.creator-spring.com/" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Apparel</a>
                   </div>
                 )}
               </div>
@@ -252,7 +253,8 @@ export default function Navigation() {
             <div className="px-4 pt-3 pb-1 text-[oklch(0.46_0.22_25)] font-display text-xs tracking-[0.12em] uppercase font-semibold">Shop</div>
             <Link href="/shipping" className={mobileItemClass}>Ship Nationwide</Link>
             <Link href="/rewards" className={mobileItemClass}>Rewards Program</Link>
-            <Link href="/gift-cards" className={mobileItemClass}>Gift Cards</Link>
+            <a href="https://umbertos.appsuitecrm.com/gift-cards/892" target="_blank" rel="noopener noreferrer" className={mobileItemClass}>Gift Cards</a>
+            <a href="https://umbertos-family.creator-spring.com/" target="_blank" rel="noopener noreferrer" className={mobileItemClass}>Apparel</a>
             {/* More section */}
             <div className="px-4 pt-3 pb-1 text-[oklch(0.55_0.03_60)] font-display text-xs tracking-[0.12em] uppercase">More</div>
             <Link href="/about" className={mobileItemClass}>Our Story</Link>
