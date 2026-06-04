@@ -8,6 +8,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { MapPin, Clock, Phone, Sun, Star, ChevronRight, Utensils, Wind } from "lucide-react";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 // ─── Real Umberto's outdoor photos + curated Unsplash ───────────────────────
 const HERO_BG = "/manus-storage/outdoor-evening-patio_ffcb37ac.jpg";
@@ -152,6 +154,7 @@ export default function Outdoor() {
 
   return (
     <div className="min-h-screen bg-[oklch(0.98_0.01_80)] font-body">
+      <Navigation />
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section
@@ -521,8 +524,8 @@ export default function Outdoor() {
             </Link>
           </div>
         </div>
-      </section>
-
+            </section>
+      <Footer />
     </div>
   );
 }
