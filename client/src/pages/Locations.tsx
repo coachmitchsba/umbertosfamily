@@ -180,6 +180,95 @@ const LOCATIONS: Location[] = [
   },
 ];
 
+// ─── Open/Closed status ───────────────────────────────────────────────────
+// Each location shares the same hours schedule:
+//   Mon–Thu  10:30 – 21:30
+//   Fri–Sat  10:30 – 22:00
+//   Sun      11:00 – 21:00
+// All times are Eastern (America/New_York). We use the visitor's local clock
+// converted to ET via Intl.DateTimeFormat so it works in any timezone.
+
+interface OpenStatus {
+  isOpen: boolean;
+  label: string;   // e.g. "Open Now · Closes at 10:00 pm" or "Closed · Opens at 10:30 am"
+}
+
+function getOpenStatus(): OpenStatus {
+  // Get current time in Eastern timezone
+  const now = new Date();
+  const etParts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    hour: "numeric",
+    minute: "2-digit",
+    weekday: "short",
+    hour12: false,
+  }).formatToParts(now);
+
+  const get = (type: string) => etParts.find((p) => p.type === type)?.value ?? "";
+  const weekday = get("weekday"); // "Mon", "Tue", etc.
+  const hour = parseInt(get("hour"), 10);   // 0–23
+  const minute = parseInt(get("minute"), 10);
+  const totalMins = hour * 60 + minute; // minutes since midnight ET
+
+  // Schedule: [openMins, closeMins, closeLabel, openLabel]
+  type Slot = { open: number; close: number; closeLabel: string; openLabel: string };
+  const schedule: Record<string, Slot> = {
+    Mon: { open: 10 * 60 + 30, close: 21 * 60 + 30, closeLabel: "9:30 pm",  openLabel: "10:30 am" },
+    Tue: { open: 10 * 60 + 30, close: 21 * 60 + 30, closeLabel: "9:30 pm",  openLabel: "10:30 am" },
+    Wed: { open: 10 * 60 + 30, close: 21 * 60 + 30, closeLabel: "9:30 pm",  openLabel: "10:30 am" },
+    Thu: { open: 10 * 60 + 30, close: 21 * 60 + 30, closeLabel: "9:30 pm",  openLabel: "10:30 am" },
+    Fri: { open: 10 * 60 + 30, close: 22 * 60,       closeLabel: "10:00 pm", openLabel: "10:30 am" },
+    Sat: { open: 10 * 60 + 30, close: 22 * 60,       closeLabel: "10:00 pm", openLabel: "10:30 am" },
+    Sun: { open: 11 * 60,       close: 21 * 60,       closeLabel: "9:00 pm",  openLabel: "11:00 am" },
+  };
+
+  const slot = schedule[weekday];
+  if (!slot) return { isOpen: false, label: "See hours below" };
+
+  if (totalMins >= slot.open && totalMins < slot.close) {
+    return { isOpen: true, label: `Open Now · Closes at ${slot.closeLabel}` };
+  }
+
+  // Closed — figure out when it next opens
+  if (totalMins < slot.open) {
+    // Opens later today
+    return { isOpen: false, label: `Closed · Opens at ${slot.openLabel}` };
+  }
+  // Already closed for today — show tomorrow's open time
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const todayIdx = days.indexOf(weekday);
+  const tomorrowSlot = schedule[days[(todayIdx + 1) % 7]];
+  return { isOpen: false, label: `Closed · Opens ${tomorrowSlot.openLabel} tomorrow` };
+}
+
+function OpenStatusBadge() {
+  const [status, setStatus] = useState<OpenStatus>(() => getOpenStatus());
+
+  // Refresh every minute so the badge updates without a page reload
+  useEffect(() => {
+    const id = setInterval(() => setStatus(getOpenStatus()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 font-body text-[0.65rem] font-semibold tracking-wide px-2 py-0.5 rounded-full ${
+        status.isOpen
+          ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+          : "bg-[oklch(0.94_0.01_60)] text-[oklch(0.48_0.03_60)] border border-[oklch(0.85_0.015_80)]"
+      }`}
+      aria-label={status.label}
+    >
+      <span
+        className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+          status.isOpen ? "bg-emerald-500 animate-pulse" : "bg-[oklch(0.65_0.03_60)]"
+        }`}
+      />
+      {status.label}
+    </span>
+  );
+}
+
 // Haversine distance in miles between two lat/lng points
 function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 3958.8; // Earth radius in miles
@@ -437,6 +526,7 @@ export default function Locations() {
                       {loc.slug && (
                         <span className="bg-[oklch(0.68_0.13_75)] text-white font-display text-[0.55rem] tracking-[0.12em] px-2 py-0.5">EXCLUSIVE OFFERS</span>
                       )}
+                      <OpenStatusBadge />
                     </div>
                     <p className="font-body text-sm text-[oklch(0.48_0.03_60)]" itemProp="address">{loc.address}, {loc.city} {loc.zip}</p>
                     <p className="font-body text-sm text-[oklch(0.46_0.22_25)]" itemProp="telephone">{loc.phone}</p>

@@ -136,12 +136,12 @@ export default function Navigation() {
                     <Link href="/menu" className={dropdownItemClass}>View Full Menu</Link>
                     <div className="border-t border-[oklch(0.93_0.02_80)] my-1" />
                     <div className="px-4 py-1.5 text-[oklch(0.55_0.03_60)] font-body text-xs tracking-wider uppercase">Order by Location</div>
-                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>New Hyde Park</a>
-                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Manhasset</a>
                     <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Bellmore</a>
-                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Massapequa Park</a>
-                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Lake Grove</a>
                     <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Farmingdale</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Lake Grove</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Manhasset</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>Massapequa Park</a>
+                    <a href="https://umbertos.appsuitecrm.com/locations" target="_blank" rel="noopener noreferrer" className={dropdownItemClass}>New Hyde Park</a>
                   </div>
                 )}
               </div>
