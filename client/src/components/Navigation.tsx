@@ -179,29 +179,10 @@ export default function Navigation() {
                 )}
               </div>
 
-              {/* More dropdown */}
-              <div className="relative" ref={moreRef}>
-                <button
-                  onClick={() => { setMoreOpen(!moreOpen); setMenuOpen(false); setShopOpen(false); }}
-                  className={`flex items-center gap-1 px-3 py-2 font-display text-sm tracking-[0.07em] uppercase transition-colors duration-150 ${
-                    ["/about", "/faq", "/arcade"].includes(location)
-                      ? "text-[oklch(0.46_0.22_25)]"
-                      : "text-[oklch(0.28_0.03_60)] hover:text-[oklch(0.46_0.22_25)]"
-                  }`}
-                  aria-expanded={moreOpen}
-                >
-                  More
-                  <ChevronDown size={13} className={`transition-transform duration-200 ${moreOpen ? "rotate-180" : ""}`} />
-                </button>
-                {moreOpen && (
-                  <div className="absolute top-full right-0 mt-1 bg-white border border-[oklch(0.88_0.015_80)] shadow-lg min-w-[180px] py-1 z-50">
-                    <Link href="/about" className={dropdownItemClass}>Our Story</Link>
-                    <Link href="/faq" className={dropdownItemClass}>FAQ</Link>
-                    <div className="border-t border-[oklch(0.93_0.02_80)] my-1" />
-                    <Link href="/arcade" className={dropdownItemClass}>Pizza Arcade</Link>
-                  </div>
-                )}
-              </div>
+              {/* Direct links */}
+              <Link href="/about" className={linkClass("/about")}>Our Story</Link>
+              <Link href="/faq" className={linkClass("/faq")}>FAQ</Link>
+              <Link href="/arcade" className={linkClass("/arcade")}>Pizza Arcade</Link>
 
               {/* Red CTA */}
               <a
@@ -255,8 +236,8 @@ export default function Navigation() {
             <Link href="/rewards" className={mobileItemClass}>Rewards Program</Link>
             <a href="https://umbertos.appsuitecrm.com/gift-cards/892" target="_blank" rel="noopener noreferrer" className={mobileItemClass}>Gift Cards</a>
             <a href="https://umbertos-family.creator-spring.com/" target="_blank" rel="noopener noreferrer" className={mobileItemClass}>Apparel</a>
-            {/* More section */}
-            <div className="px-4 pt-3 pb-1 text-[oklch(0.55_0.03_60)] font-display text-xs tracking-[0.12em] uppercase">More</div>
+            {/* Discover section */}
+            <div className="px-4 pt-3 pb-1 text-[oklch(0.55_0.03_60)] font-display text-xs tracking-[0.12em] uppercase">Discover</div>
             <Link href="/about" className={mobileItemClass}>Our Story</Link>
             <Link href="/faq" className={mobileItemClass}>FAQ</Link>
             <Link href="/arcade" className={mobileItemClass}>Pizza Arcade</Link>
