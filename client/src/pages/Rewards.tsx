@@ -99,7 +99,7 @@ export default function Rewards() {
                 border: "oklch(0.88_0.015_80)",
                 points: "0 – 499 pts",
                 perks: ["1 point per $1 spent", "Birthday free slice", "Early access to specials", "Email-only deals"],
-                icon: "🍕",
+                icon: "I",
               },
               {
                 tier: "Connoisseur",
@@ -108,7 +108,7 @@ export default function Rewards() {
                 border: "oklch(0.46_0.22_25)",
                 points: "500 – 1,499 pts",
                 perks: ["1.5 points per $1 spent", "Free appetizer reward", "Priority catering service", "Exclusive monthly offers", "Free delivery upgrade"],
-                icon: "⭐",
+                icon: "II",
                 featured: true,
               },
               {
@@ -118,7 +118,7 @@ export default function Rewards() {
                 border: "oklch(0.88_0.015_80)",
                 points: "1,500+ pts",
                 perks: ["2 points per $1 spent", "Free pizza reward", "VIP event invites", "Dedicated catering rep", "Holiday exclusive gifts", "First access to new menu"],
-                icon: "👑",
+                icon: "III",
               },
             ].map((tier, i) => (
               <div key={tier.tier} className={`reveal border-2 p-6 ${tier.featured ? "shadow-xl scale-105" : ""}`}
@@ -126,7 +126,7 @@ export default function Rewards() {
                 {tier.featured && (
                   <div className="bg-[oklch(0.46_0.22_25)] text-white font-display text-xs tracking-[0.12em] text-center py-1 -mx-6 -mt-6 mb-5">MOST POPULAR</div>
                 )}
-                <div className="text-3xl mb-2">{tier.icon}</div>
+                <div className="font-display text-2xl tracking-widest mb-2" style={{ color: tier.color }}>{tier.icon}</div>
                 <h3 className="font-display tracking-wider text-lg mb-1" style={{ color: tier.color }}>{tier.tier.toUpperCase()}</h3>
                 <p className="font-body text-xs text-[oklch(0.55_0.03_60)] mb-4">{tier.points}</p>
                 <ul className="space-y-2">

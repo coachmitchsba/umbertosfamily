@@ -177,18 +177,12 @@ export default function GiftCards() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { emoji: "🎂", label: "Birthdays" },
-              { emoji: "🎓", label: "Graduations" },
-              { emoji: "🎄", label: "Holiday Gifts" },
-              { emoji: "💼", label: "Corporate Gifts" },
-              { emoji: "👶", label: "Baby Showers" },
-              { emoji: "💍", label: "Anniversaries" },
-              { emoji: "🏫", label: "Teacher Gifts" },
-              { emoji: "🎁", label: "Just Because" },
-            ].map((item) => (
-              <div key={item.label} className="text-center p-4 border border-[oklch(0.88_0.015_80)] bg-[oklch(0.97_0.015_80)] hover:border-[oklch(0.46_0.22_25)] transition-colors">
-                <div className="text-3xl mb-2">{item.emoji}</div>
-                <p className="font-display text-[oklch(0.20_0.025_60)] text-xs tracking-wider">{item.label}</p>
+              "Birthdays", "Graduations", "Holiday Gifts", "Corporate Gifts",
+              "Baby Showers", "Anniversaries", "Teacher Gifts", "Just Because",
+            ].map((label) => (
+              <div key={label} className="text-center p-5 border border-[oklch(0.88_0.015_80)] bg-[oklch(0.97_0.015_80)] hover:border-[oklch(0.46_0.22_25)] hover:bg-white transition-colors">
+                <div className="w-6 h-px bg-[oklch(0.46_0.22_25)] mx-auto mb-3" />
+                <p className="font-display text-[oklch(0.20_0.025_60)] text-xs tracking-[0.1em] uppercase">{label}</p>
               </div>
             ))}
           </div>
