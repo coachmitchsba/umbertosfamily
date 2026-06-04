@@ -15,6 +15,8 @@ const GRADUATION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217
 const CORPORATE_IMG = "/manus-storage/umbertos-farmingdale-storefront_a7bf3e41.jpg";
 const SWEET16_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-sweet-16-party-i53moEJ68Lne5iY9FRFV8t.webp";
 const BARMITZVAH_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-bar-mitzvah-event-Yp5LjgKwypiS9qqiYtZMCS.webp";
+const BRIDAL_SHOWER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-bridal-shower-6sZESb25PxXYoRm6U2GPf4.webp";
+const CORPORATE_DINNER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-corporate-dinner-Lqwe78AwcCPvnzeyW2LoiB.webp";
 
 const EVENT_TYPES = [
   "Graduation Parties", "Birthday Parties", "Sweet 16s", "Bar & Bat Mitzvahs",
@@ -29,9 +31,9 @@ const EVENT_TYPES = [
 
 const EVENT_SHOWCASE = [
   { label: "Graduation Parties", img: GRADUATION_IMG, desc: "Celebrate the big milestone with family and friends over legendary Italian food." },
-  { label: "Bar & Bat Mitzvahs", img: BARMITZVAH_IMG, desc: "A meaningful celebration deserves an unforgettable venue. We honor every tradition." },
+  { label: "Bridal Showers", img: BRIDAL_SHOWER_IMG, desc: "Celebrate the bride-to-be with an elegant Italian dining experience she'll always remember." },
   { label: "Sweet 16s", img: SWEET16_IMG, desc: "Make her day magical with a private dining experience she'll never forget." },
-  { label: "Corporate Events", img: BARMITZVAH_IMG, desc: "Impress clients and reward your team with a premium Italian dining experience." },
+  { label: "Corporate Events", img: CORPORATE_DINNER_IMG, desc: "Impress clients and reward your team with a premium Italian dining experience." },
 ];
 
 const VENUES = [
