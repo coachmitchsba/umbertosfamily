@@ -150,6 +150,7 @@ export default function Navigation() {
               <Link href="/catering" className={linkClass("/catering")}>Catering</Link>
               <Link href="/private-events" className={linkClass("/private-events")}>Private Events</Link>
               <Link href="/locations" className={linkClass("/locations")}>Locations</Link>
+              <Link href="/outdoor" className={linkClass("/outdoor")}>Outdoor Dining</Link>
 
               {/* Shop dropdown — non-clickable header */}
               <div className="relative" ref={shopRef}>
@@ -230,6 +231,7 @@ export default function Navigation() {
             <Link href="/catering" className={mobileItemClass}>Catering</Link>
             <Link href="/private-events" className={mobileItemClass}>Private Events</Link>
             <Link href="/locations" className={mobileItemClass}>Locations</Link>
+            <Link href="/outdoor" className={mobileItemClass}>Outdoor Dining</Link>
             {/* Shop section */}
             <div className="px-4 pt-3 pb-1 text-[oklch(0.46_0.22_25)] font-display text-xs tracking-[0.12em] uppercase font-semibold">Shop</div>
             <Link href="/shipping" className={mobileItemClass}>Ship Nationwide</Link>

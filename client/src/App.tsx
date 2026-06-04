@@ -18,6 +18,7 @@ import Farmingdale from "./pages/Farmingdale";
 import Shipping from "./pages/Shipping";
 import Rewards from "./pages/Rewards";
 import GiftCards from "./pages/GiftCards";
+import Outdoor from "./pages/Outdoor";
 
 function Router() {
   return (
@@ -36,6 +37,7 @@ function Router() {
       <Route path="/shipping" component={Shipping} />
       <Route path="/rewards" component={Rewards} />
       <Route path="/gift-cards" component={GiftCards} />
+      <Route path="/outdoor" component={Outdoor} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
