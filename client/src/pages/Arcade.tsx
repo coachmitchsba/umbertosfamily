@@ -1,14 +1,30 @@
 /**
  * Pizza Catcher Arcade — Umberto's Family Pizzeria
- * v2: Realistic pizza art, 10 levels, obstacles, Umberto's logo bonus,
- *     cursor always visible, shareable score card, viral social sharing,
- *     photo upload for bonus points, no discount code
+ * v3: PHOTOREALISTIC sprites, WOW-level glow effects, kitchen background,
+ *     image-based pizza box catcher, particle explosions
  */
 import { useEffect, useRef, useState, useCallback } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
 import { Trophy, Share2, Camera, Instagram, Twitter, Copy, X, ArrowRight } from "lucide-react";
+
+// ─── Sprite image URLs ────────────────────────────────────────────────────────
+const SPRITE_URLS: Record<string, string> = {
+  grandma: "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/arcade-grandma-slice-UAKSpsVUBiGuCDwXRe9eNX.webp",
+  round:   "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/arcade-round-pizza-ED5gWdbJoTYQH9ErD3beUx.webp",
+  slice:   "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/arcade-pizza-slice-e2hs3iwCtn3rRdUEiENJRc.webp",
+  pepperoni: "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/arcade-pepperoni-topping-6ofkYj4vd5bsWjstfiiKHQ.webp",
+  box:     "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/arcade-pizza-box-4iTDpmnPfkPzATgNwCNtiD.webp",
+};
+
+// Preload all sprites
+const SPRITES: Record<string, HTMLImageElement> = {};
+Object.entries(SPRITE_URLS).forEach(([key, url]) => {
+  const img = new Image();
+  img.src = url;
+  SPRITES[key] = img;
+});
 
 // ─── Canvas dimensions ────────────────────────────────────────────────────────
 const CW = 480;
@@ -37,9 +53,31 @@ const ITEM_POINTS: Record<ItemType, number> = {
   grandma: 50, round: 20, slice: 30, pepperoni: 15, logo: 100, bomb: 0,
 };
 
+// ─── Sprite drawing helper ───────────────────────────────────────────────────
+function drawSprite(ctx: CanvasRenderingContext2D, key: string, r: number, glowColor?: string) {
+  const img = SPRITES[key];
+  if (!img || !img.complete || img.naturalWidth === 0) {
+    ctx.fillStyle = glowColor || "#cc3311";
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+    return;
+  }
+  const size = r * 2.4;
+  if (glowColor) {
+    ctx.shadowColor = glowColor;
+    ctx.shadowBlur = 22;
+  }
+  ctx.drawImage(img, -size / 2, -size / 2, size, size);
+  ctx.shadowBlur = 0;
+  ctx.shadowColor = "transparent";
+}
+
 // ─── Drawing helpers ──────────────────────────────────────────────────────────
 function drawGrandmaSlice(ctx: CanvasRenderingContext2D, r: number) {
-  // Realistic square grandma slice
+  drawSprite(ctx, "grandma", r, "rgba(255,160,30,0.9)");
+}
+function _drawGrandmaSliceLegacy(ctx: CanvasRenderingContext2D, r: number) {
   const s = r * 1.2;
   // Crust (golden brown)
   ctx.fillStyle = "#c8860a";
@@ -91,7 +129,9 @@ function drawGrandmaSlice(ctx: CanvasRenderingContext2D, r: number) {
 }
 
 function drawRoundPizza(ctx: CanvasRenderingContext2D, r: number) {
-  // Realistic round pizza
+  drawSprite(ctx, "round", r, "rgba(255,120,20,0.8)");
+}
+function _drawRoundPizzaLegacy(ctx: CanvasRenderingContext2D, r: number) {
   // Crust
   ctx.fillStyle = "#c8860a";
   ctx.beginPath();
@@ -141,6 +181,9 @@ function drawRoundPizza(ctx: CanvasRenderingContext2D, r: number) {
 }
 
 function drawSlice(ctx: CanvasRenderingContext2D, r: number) {
+  drawSprite(ctx, "slice", r, "rgba(255,100,20,0.8)");
+}
+function _drawSliceLegacy(ctx: CanvasRenderingContext2D, r: number) {
   // Realistic triangle slice
   const tip = -r * 1.1;
   const base = r * 0.7;
@@ -205,6 +248,9 @@ function drawSlice(ctx: CanvasRenderingContext2D, r: number) {
 }
 
 function drawPepperoniSlice(ctx: CanvasRenderingContext2D, r: number) {
+  drawSprite(ctx, "pepperoni", r, "rgba(200,40,10,0.8)");
+}
+function _drawPepperoniSliceLegacy(ctx: CanvasRenderingContext2D, r: number) {
   // Just a big pepperoni disc
   ctx.fillStyle = "#8b1a0a";
   ctx.beginPath();
@@ -319,55 +365,38 @@ function drawItem(ctx: CanvasRenderingContext2D, item: Item) {
 }
 
 function drawBox(ctx: CanvasRenderingContext2D, x: number, level: number) {
-  // Pizza box — gets fancier at higher levels
-  const colors = [
-    ["#cc3311", "#a82200"], // L1
-    ["#cc3311", "#a82200"], // L2
-    ["#cc5500", "#aa3300"], // L3
-    ["#cc3311", "#a82200"], // L4
-    ["#aa0088", "#880066"], // L5 purple
-    ["#cc3311", "#a82200"], // L6
-    ["#0055cc", "#003399"], // L7 blue
-    ["#cc3311", "#a82200"], // L8
-    ["#cc8800", "#aa6600"], // L9 gold
-    ["#cc3311", "#a82200"], // L10
-  ];
-  const [main, dark] = colors[Math.min(level - 1, 9)];
-  // Shadow
-  ctx.fillStyle = "rgba(0,0,0,0.18)";
-  ctx.fillRect(x + 3, BOX_Y + 3, BOX_W, BOX_H);
-  // Box body
-  ctx.fillStyle = main;
-  ctx.beginPath();
-  ctx.roundRect(x, BOX_Y, BOX_W, BOX_H, 4);
-  ctx.fill();
-  // Top stripe
-  ctx.fillStyle = dark;
-  ctx.beginPath();
-  ctx.roundRect(x, BOX_Y, BOX_W, 6, [4, 4, 0, 0]);
-  ctx.fill();
-  // Text
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 8px 'Bebas Neue', sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText("UMBERTO'S", x + BOX_W / 2, BOX_Y + 14);
-  // Border
-  ctx.strokeStyle = dark;
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.roundRect(x, BOX_Y, BOX_W, BOX_H, 4);
-  ctx.stroke();
+  const img = SPRITES["box"];
+  // Drop shadow for depth
+  ctx.fillStyle = "rgba(0,0,0,0.25)";
+  ctx.fillRect(x + 5, BOX_Y + 6, BOX_W, BOX_H + 4);
+  if (img && img.complete && img.naturalWidth > 0) {
+    const glowColors = ["#ff6622","#ff6622","#ff8800","#ff6622","#cc00ff","#ff6622","#2266ff","#ff6622","#ffcc00","#ff4400"];
+    ctx.shadowColor = glowColors[Math.min(level - 1, 9)];
+    ctx.shadowBlur = 14 + level * 1.8;
+    ctx.drawImage(img, x, BOX_Y - 6, BOX_W, BOX_H + 10);
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "transparent";
+  } else {
+    ctx.fillStyle = "#cc3311";
+    ctx.beginPath();
+    ctx.roundRect(x, BOX_Y, BOX_W, BOX_H, 4);
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 8px 'Bebas Neue', sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("UMBERTO'S", x + BOX_W / 2, BOX_Y + 11);
+  }
 }
 
 function createParticles(x: number, y: number, color: string, count = 12): Particle[] {
   return Array.from({ length: count }, () => ({
     x, y,
-    vx: (Math.random() - 0.5) * 9,
-    vy: (Math.random() - 0.5) * 9 - 3,
+    vx: (Math.random() - 0.5) * 12,
+    vy: (Math.random() - 0.5) * 12 - 4,
     life: 1,
     color,
-    size: Math.random() * 6 + 2,
+    size: Math.random() * 9 + 3,
     shape: Math.random() > 0.5 ? "circle" : "star" as "circle" | "star",
   }));
 }
@@ -593,32 +622,46 @@ export default function Arcade() {
     const ctx = canvas.getContext("2d")!;
 
     const drawBackground = (level: number) => {
-      // Different background per level tier
       const tier = Math.floor((level - 1) / 2);
-      const bgs = [
-        ["#fff8f0", "#fff2e4"],   // L1-2: warm cream
-        ["#fff0e8", "#ffe8d8"],   // L3-4: deeper cream
-        ["#f8ece0", "#f0dfc8"],   // L5-6: amber
-        ["#f0e4d4", "#e8d4c0"],   // L7-8: darker
-        ["#1a0a04", "#2a1008"],   // L9-10: dark dramatic
-      ];
-      const [c1, c2] = bgs[Math.min(tier, 4)];
+      // Rich gradient backgrounds per tier
+      const topColors = ["#fff8f0","#fff0e4","#f8e8d4","#f0d8c0","#1a0a04"];
+      const botColors = ["#f5d0a0","#f0c080","#e8b870","#c89040","#3a1810"];
+      const top = topColors[Math.min(tier, 4)];
+      const bot = botColors[Math.min(tier, 4)];
+      const grad = ctx.createLinearGradient(0, 0, 0, CH);
+      grad.addColorStop(0, top);
+      grad.addColorStop(1, bot);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, CW, CH);
+      // Subtle checkerboard overlay for texture
       const tileSize = 40;
+      ctx.globalAlpha = tier >= 4 ? 0.04 : 0.06;
+      ctx.fillStyle = tier >= 4 ? "#ffffff" : "#8b4400";
       for (let row = 0; row < CH / tileSize; row++) {
         for (let col = 0; col < CW / tileSize; col++) {
-          ctx.fillStyle = (row + col) % 2 === 0 ? c1 : c2;
-          ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
+          if ((row + col) % 2 === 0) ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
         }
       }
-      // Ground line
-      ctx.strokeStyle = "#cc3311";
-      ctx.lineWidth = 2;
-      ctx.setLineDash([6, 4]);
+      ctx.globalAlpha = 1;
+      // Decorative side strips
+      if (tier < 4) {
+        ctx.fillStyle = "rgba(204,51,17,0.08)";
+        ctx.fillRect(0, 0, 8, CH);
+        ctx.fillRect(CW - 8, 0, 8, CH);
+      }
+      // Ground line — glowing red dashes
+      ctx.shadowColor = "#cc3311";
+      ctx.shadowBlur = 6;
+      ctx.strokeStyle = tier >= 4 ? "#ff4400" : "#cc3311";
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([8, 5]);
       ctx.beginPath();
-      ctx.moveTo(0, BOX_Y - 8);
-      ctx.lineTo(CW, BOX_Y - 8);
+      ctx.moveTo(0, BOX_Y - 10);
+      ctx.lineTo(CW, BOX_Y - 10);
       ctx.stroke();
       ctx.setLineDash([]);
+      ctx.shadowBlur = 0;
+      ctx.shadowColor = "transparent";
     };
 
     const loop = () => {

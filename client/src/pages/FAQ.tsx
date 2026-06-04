@@ -172,17 +172,17 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
   return (
     <div
-      className="border border-[oklch(0.20_0.02_60)] overflow-hidden"
+      className="border border-[oklch(0.88_0.015_80)] overflow-hidden"
       itemScope
       itemProp="mainEntity"
       itemType="https://schema.org/Question"
     >
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-[oklch(0.14_0.018_60)] transition-colors"
+        className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-[oklch(0.97_0.015_80)] transition-colors"
         aria-expanded={open}
       >
-        <span className="font-display text-[oklch(0.94_0.03_80)] text-base tracking-wider leading-snug" itemProp="name">
+        <span className="font-display text-[oklch(0.20_0.025_60)] text-base tracking-wider leading-snug" itemProp="name">
           {q}
         </span>
         <ChevronDown
@@ -197,8 +197,8 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         itemProp="acceptedAnswer"
         itemType="https://schema.org/Answer"
       >
-        <div className="px-5 pb-5 border-t border-[oklch(0.20_0.02_60)]">
-          <p className="font-body text-sm text-[oklch(0.68_0.03_80)] leading-relaxed pt-4" itemProp="text">
+        <div className="px-5 pb-5 border-t border-[oklch(0.88_0.015_80)]">
+          <p className="font-body text-sm text-[oklch(0.42_0.025_60)] leading-relaxed pt-4" itemProp="text">
             {a}
           </p>
         </div>
@@ -234,7 +234,7 @@ export default function FAQ() {
   };
 
   return (
-    <div className="min-h-screen bg-[oklch(0.10_0.015_60)]">
+    <div className="min-h-screen bg-[oklch(0.97_0.015_80)]">
       <Navigation />
 
       {/* Inject FAQ schema */}
@@ -244,13 +244,13 @@ export default function FAQ() {
       />
 
       {/* Header */}
-      <header className="py-16 bg-[oklch(0.12_0.018_60)] border-b border-[oklch(0.20_0.02_60)]">
+      <header className="py-16 bg-white border-b border-[oklch(0.88_0.015_80)]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="inline-block w-12 h-0.5 bg-[oklch(0.46_0.22_25)] mb-4 mx-auto" />
-          <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] text-[oklch(0.94_0.03_80)] leading-tight">
+          <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] text-[oklch(0.20_0.025_60)] leading-tight">
             FREQUENTLY ASKED QUESTIONS
           </h1>
-          <p className="font-body text-[oklch(0.62_0.03_80)] mt-4 max-w-xl mx-auto">
+          <p className="font-body text-[oklch(0.48_0.025_60)] mt-4 max-w-xl mx-auto">
             Everything you need to know about Umberto's Family Pizzeria — the Original Grandma Slice, catering, private events, locations, and more.
           </p>
         </div>
@@ -265,7 +265,7 @@ export default function FAQ() {
                 <div className="reveal mb-6">
                   <h2
                     id={`faq-cat-${ci}`}
-                    className="font-display text-xl text-[oklch(0.46_0.22_25)] tracking-wider border-b border-[oklch(0.20_0.02_60)] pb-3"
+                    className="font-display text-xl text-[oklch(0.46_0.22_25)] tracking-wider border-b border-[oklch(0.85_0.015_80)] pb-3"
                   >
                     {cat.category}
                   </h2>
@@ -274,7 +274,7 @@ export default function FAQ() {
                   {cat.faqs.map((faq, fi) => (
                     <div
                       key={fi}
-                      className="reveal bg-[oklch(0.12_0.018_60)]"
+                      className="reveal bg-white"
                       style={{ transitionDelay: `${fi * 40}ms` }}
                     >
                       <FAQItem q={faq.q} a={faq.a} />
@@ -288,12 +288,12 @@ export default function FAQ() {
       </main>
 
       {/* Still have questions */}
-      <section className="py-16 bg-[oklch(0.12_0.018_60)] border-t border-[oklch(0.20_0.02_60)]">
+      <section className="py-16 bg-white border-t border-[oklch(0.88_0.015_80)]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-2xl text-[oklch(0.94_0.03_80)] tracking-wider mb-3">
+          <h2 className="font-display text-2xl text-[oklch(0.20_0.025_60)] tracking-wider mb-3">
             STILL HAVE QUESTIONS?
           </h2>
-          <p className="font-body text-[oklch(0.62_0.03_80)] mb-6">
+          <p className="font-body text-[oklch(0.48_0.025_60)] mb-6">
             Call your nearest Umberto's location or visit us in person. We're always happy to help.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">

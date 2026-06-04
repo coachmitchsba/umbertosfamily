@@ -62,7 +62,8 @@ const VENUES = [
       SWEET16_IMG,
     ],
     flagship: true,
-    opentableId: "1033645",
+    opentableId: "138661",
+    opentableUrl: "https://www.opentable.com/umbertos-of-new-hyde-park-original",
   },
   {
     id: "farmingdale",
@@ -85,7 +86,7 @@ const VENUES = [
       CORPORATE_IMG,
       BARMITZVAH_IMG,
     ],
-    opentableId: "1489408",
+    opentableUrl: "https://www.opentable.com/r/umbertos-of-farmingdale",
   },
   {
     id: "manhasset",
@@ -107,6 +108,7 @@ const VENUES = [
       VENUE_HALL_IMG,
       GRADUATION_IMG,
     ],
+    opentableUrl: "https://www.opentable.com/r/umbertos-of-manhasset",
   },
   {
     id: "lake-grove",
@@ -170,6 +172,7 @@ const VENUES = [
       SWEET16_IMG,
       VENUE_HALL_IMG,
     ],
+    opentableUrl: "https://www.opentable.com/r/umbertos-of-massapequa-park-massapequa",
   },
 ];
 
@@ -436,9 +439,9 @@ export default function PrivateEvents() {
                           <a href={`tel:${venue.phoneRaw}`} className="btn-red text-xs px-4 py-2.5">
                             <Phone size={13} /> Call {venue.phone}
                           </a>
-                          {venue.opentableId && (
+                          {(venue.opentableUrl || venue.opentableId) && (
                             <a
-                              href={`https://www.opentable.com/restref/client/?rid=${venue.opentableId}&ref=9601`}
+                              href={venue.opentableUrl || `https://www.opentable.com/restref/client/?rid=${venue.opentableId}&ref=9601`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 border-2 border-[oklch(0.46_0.22_25)] text-[oklch(0.46_0.22_25)] font-display text-xs tracking-[0.08em] uppercase px-4 py-2.5 hover:bg-[oklch(0.46_0.22_25)] hover:text-white transition-colors"

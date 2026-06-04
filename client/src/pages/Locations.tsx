@@ -480,6 +480,30 @@ export default function Locations() {
                         {zipResult.neighborhood && <>{zipResult.neighborhood} · </>}{zipResult.distanceMiles} miles away · {zipResult.location.phone}
                       </p>
                     )}
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      <a
+                        href={zipResult.location.appsuite}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 bg-[oklch(0.46_0.22_25)] text-white font-display text-xs tracking-[0.1em] uppercase px-3 py-2 hover:bg-[oklch(0.38_0.22_25)] transition-colors"
+                      >
+                        <ShoppingCart size={12} /> Order Now
+                      </a>
+                      <a
+                        href={zipResult.location.mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 border border-[oklch(0.46_0.22_25)] text-[oklch(0.46_0.22_25)] font-display text-xs tracking-[0.1em] uppercase px-3 py-2 hover:bg-[oklch(0.97_0.015_80)] transition-colors"
+                      >
+                        <Navigation2 size={12} /> Get Directions
+                      </a>
+                      <a
+                        href={`tel:${zipResult.location.phoneRaw}`}
+                        className="inline-flex items-center gap-1.5 border border-[oklch(0.88_0.015_80)] text-[oklch(0.48_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-3 py-2 hover:bg-[oklch(0.97_0.015_80)] transition-colors"
+                      >
+                        <Phone size={12} /> Call Us
+                      </a>
+                    </div>
                   </>
                 ) : (
                   <p className="font-body text-sm text-[oklch(0.48_0.03_60)]">

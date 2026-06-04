@@ -93,11 +93,10 @@ export default function About() {
 
             <div className="reveal" style={{ transitionDelay: "150ms" }}>
               <img
-                src="/manus-storage/umberto-corteo-founder-sharp_5414158b.webp"
-                alt="Umberto Corteo, founder of Umberto's Family Pizzeria, standing in front of his New Hyde Park restaurant"
-                className="w-full h-[500px] object-cover object-top"
+                src="/manus-storage/umberto-corteo-kitchen_963ff3cd.jpg"
+                alt="Umberto Corteo, founder of Umberto's Family Pizzeria, in the kitchen holding a fresh pizza on a peel"
+                className="w-full h-[500px] object-cover object-center"
                 loading="lazy"
-                style={{ imageRendering: 'crisp-edges' }}
               />
               <div className="bg-[oklch(0.46_0.22_25)] p-4 text-center">
                 <p className="font-display text-white tracking-[0.1em] text-sm">UMBERTO CORTEO · FOUNDER · EST. 1965</p>
@@ -182,7 +181,7 @@ export default function About() {
             </div>
             <div>
               <img
-                src="https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/7096Umbertos-Pepperoni-4.jpg?w=700&fit=crop&auto=compress,format"
+                src="/manus-storage/grandma-slice-about_53917130.jpg"
                 alt="Umberto's Original Grandma Slice pizza"
                 className="w-full h-[420px] object-cover"
                 loading="lazy"
