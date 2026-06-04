@@ -1019,32 +1019,47 @@ export default function Arcade() {
 
         <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
           {/* Game canvas */}
-          <div className="flex flex-col items-center">
-            <canvas
-              ref={canvasRef}
-              width={CW}
-              height={CH}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onClick={() => { if (!stateRef.current.running) resetGame(); }}
-              className="border-2 border-[oklch(0.88_0.015_80)] shadow-xl max-w-full"
-              style={{ cursor: "default", touchAction: "none" }}
-            />
+          <div className="flex flex-col items-center w-full lg:w-auto">
+            {/* Responsive canvas wrapper — scales canvas to fit screen width on mobile */}
+            <div
+              className="relative w-full"
+              style={{ maxWidth: CW, aspectRatio: `${CW}/${CH}` }}
+            >
+              <canvas
+                ref={canvasRef}
+                width={CW}
+                height={CH}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onClick={() => { if (!stateRef.current.running) resetGame(); }}
+                className="border-2 border-[oklch(0.88_0.015_80)] shadow-xl"
+                style={{
+                  cursor: "default",
+                  touchAction: "none",
+                  width: "100%",
+                  height: "100%",
+                  display: "block",
+                }}
+              />
+            </div>
 
             {/* Mobile controls */}
-            <div className="flex gap-4 mt-4 lg:hidden">
-              <button
-                onPointerDown={() => { stateRef.current.keys.left = true; }}
-                onPointerUp={() => { stateRef.current.keys.left = false; }}
-                onPointerLeave={() => { stateRef.current.keys.left = false; }}
-                className="w-16 h-16 bg-[oklch(0.46_0.22_25)] text-white font-display text-2xl rounded-lg active:scale-95 select-none"
-              >←</button>
-              <button
-                onPointerDown={() => { stateRef.current.keys.right = true; }}
-                onPointerUp={() => { stateRef.current.keys.right = false; }}
-                onPointerLeave={() => { stateRef.current.keys.right = false; }}
-                className="w-16 h-16 bg-[oklch(0.46_0.22_25)] text-white font-display text-2xl rounded-lg active:scale-95 select-none"
-              >→</button>
+            <div className="flex flex-col items-center gap-3 mt-4 lg:hidden w-full">
+              <p className="font-body text-xs text-[oklch(0.55_0.03_60)] tracking-wide">SWIPE OR USE BUTTONS TO MOVE</p>
+              <div className="flex gap-6">
+                <button
+                  onPointerDown={() => { stateRef.current.keys.left = true; }}
+                  onPointerUp={() => { stateRef.current.keys.left = false; }}
+                  onPointerLeave={() => { stateRef.current.keys.left = false; }}
+                  className="w-20 h-20 bg-[oklch(0.46_0.22_25)] text-white font-display text-3xl rounded-xl active:scale-95 select-none shadow-lg"
+                >←</button>
+                <button
+                  onPointerDown={() => { stateRef.current.keys.right = true; }}
+                  onPointerUp={() => { stateRef.current.keys.right = false; }}
+                  onPointerLeave={() => { stateRef.current.keys.right = false; }}
+                  className="w-20 h-20 bg-[oklch(0.46_0.22_25)] text-white font-display text-3xl rounded-xl active:scale-95 select-none shadow-lg"
+                >→</button>
+              </div>
             </div>
           </div>
 
