@@ -399,14 +399,25 @@ export default function Locations() {
     <div className="min-h-screen bg-[oklch(0.97_0.015_80)]">
       <Navigation />
 
-      {/* Google Map — full width, above the fold */}
-      <div className="h-[340px] w-full border-b border-[oklch(0.88_0.015_80)]">
-        <MapView
-          onMapReady={handleMapReady}
-          defaultCenter={{ lat: 40.75, lng: -73.55 }}
-          defaultZoom={10}
-          mapStyle="default"
+      {/* Hero banner — full width, above the fold */}
+      <div className="relative h-[340px] w-full overflow-hidden border-b border-[oklch(0.88_0.015_80)]">
+        <img
+          src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&q=85&fit=crop"
+          alt="Umberto's Family Pizzeria — 6 Long Island Locations"
+          className="w-full h-full object-cover object-center"
+          loading="eager"
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
+        <div className="absolute inset-0 flex flex-col justify-center px-8 sm:px-16">
+          <p className="text-white/70 font-body text-sm tracking-[0.15em] uppercase mb-2">6 Long Island Locations</p>
+          <h1 className="text-white font-display text-4xl sm:text-5xl font-bold leading-tight mb-3">
+            Find Your
+            <span className="block text-[oklch(0.85_0.12_50)]">Nearest Umberto's</span>
+          </h1>
+          <p className="text-white/80 font-body text-base max-w-sm">
+            Bellmore · Farmingdale · Lake Grove · Manhasset · Massapequa Park · New Hyde Park
+          </p>
+        </div>
       </div>
 
       {/* Schema.org */}
