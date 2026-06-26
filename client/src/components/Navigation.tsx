@@ -183,6 +183,13 @@ export default function Navigation() {
               {/* Direct links */}
               <Link href="/about" className={linkClass("/about")}>Our Story</Link>
               <Link href="/faq" className={linkClass("/faq")}>FAQ</Link>
+              <Link
+                href="/promotions"
+                className="px-3 py-2 font-display text-sm tracking-[0.07em] uppercase transition-colors duration-150 whitespace-nowrap font-bold animate-pulse"
+                style={{ color: '#FF5910' }}
+              >
+                🎟 Mets Giveaway
+              </Link>
               <Link href="/arcade" className={linkClass("/arcade")}>Pizza Arcade</Link>
 
               {/* Red CTA */}
@@ -242,6 +249,7 @@ export default function Navigation() {
             <div className="px-4 pt-3 pb-1 text-[oklch(0.55_0.03_60)] font-display text-xs tracking-[0.12em] uppercase">Discover</div>
             <Link href="/about" className={mobileItemClass}>Our Story</Link>
             <Link href="/faq" className={mobileItemClass}>FAQ</Link>
+            <Link href="/promotions" className={mobileItemClass} style={{ color: '#FF5910', fontWeight: 700 }}>🎟 Mets Giveaway</Link>
             <Link href="/arcade" className={mobileItemClass}>Pizza Arcade</Link>
             <div className="pt-3">
               <a href="tel:5164377698" className="flex items-center gap-2 px-4 py-2 text-[oklch(0.48_0.03_60)] font-body text-sm">

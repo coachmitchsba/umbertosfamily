@@ -19,6 +19,7 @@ import Shipping from "./pages/Shipping";
 import Rewards from "./pages/Rewards";
 import GiftCards from "./pages/GiftCards";
 import Outdoor from "./pages/Outdoor";
+import Promotions from "./pages/Promotions";
 
 function Router() {
   return (
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/rewards" component={Rewards} />
       <Route path="/gift-cards" component={GiftCards} />
       <Route path="/outdoor" component={Outdoor} />
+      <Route path="/promotions" component={Promotions} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
