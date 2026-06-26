@@ -426,11 +426,11 @@ function drawParticle(ctx: CanvasRenderingContext2D, pt: Particle) {
 
 // Level config
 const LEVEL_CONFIG = [
-  { name: "Slice Starter",    spawnInterval: 95, bombChance: 0,    speedMult: 1.0, target: 100  },
-  { name: "Sauce Boss",       spawnInterval: 85, bombChance: 0,    speedMult: 1.1, target: 250  },
-  { name: "Pepperoni Rush",   spawnInterval: 75, bombChance: 0.05, speedMult: 1.2, target: 450  },
-  { name: "Grandma's Fury",   spawnInterval: 65, bombChance: 0.08, speedMult: 1.35, target: 700 },
-  { name: "Double Trouble",   spawnInterval: 58, bombChance: 0.10, speedMult: 1.5, target: 1000 },
+  { name: "Slice Starter",    spawnInterval: 115, bombChance: 0,    speedMult: 0.70, target: 100  },
+  { name: "Sauce Boss",       spawnInterval: 105, bombChance: 0,    speedMult: 0.82, target: 250  },
+  { name: "Pepperoni Rush",   spawnInterval: 92,  bombChance: 0.05, speedMult: 0.95, target: 450  },
+  { name: "Grandma's Fury",   spawnInterval: 78,  bombChance: 0.08, speedMult: 1.10, target: 700 },
+  { name: "Double Trouble",   spawnInterval: 66,  bombChance: 0.10, speedMult: 1.25, target: 1000 },
   { name: "Pizza Storm",      spawnInterval: 50, bombChance: 0.12, speedMult: 1.65, target: 1350 },
   { name: "Mozzarella Madness", spawnInterval: 44, bombChance: 0.14, speedMult: 1.8, target: 1750 },
   { name: "Sicilian Chaos",   spawnInterval: 38, bombChance: 0.16, speedMult: 2.0, target: 2200 },
@@ -549,8 +549,8 @@ export default function Arcade() {
       type = types[Math.floor(Math.random() * types.length)];
     }
     const radius = type === "grandma" ? 18 : type === "logo" ? 20 : type === "bomb" ? 15 : 16;
-    const baseSpeed = 2.5 + (s.level - 1) * 0.4;
-    const speed = (baseSpeed + Math.random() * 1.5) * cfg.speedMult;
+    const baseSpeed = 1.2 + (s.level - 1) * 0.28;
+    const speed = (baseSpeed + Math.random() * 0.8) * cfg.speedMult;
     s.items.push({
       x: radius + Math.random() * (CW - radius * 2),
       y: -radius - 10,
