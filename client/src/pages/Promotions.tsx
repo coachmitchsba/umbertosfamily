@@ -137,16 +137,10 @@ export default function Promotions() {
           ].map((item) => (
             <div
               key={item.step}
-              className="relative rounded-2xl p-8 text-center shadow-lg border"
+              className="rounded-2xl p-8 text-center shadow-lg border"
               style={{ backgroundColor: "#fff", borderColor: "#e8e0d8" }}
             >
-              <div
-                className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white"
-                style={{ backgroundColor: METS_BLUE }}
-              >
-                {item.step}
-              </div>
-              <div className="text-5xl mb-4 mt-2">{item.icon}</div>
+              <div className="text-5xl mb-4">{item.icon}</div>
               <h3
                 className="text-xl font-black mb-3"
                 style={{ color: METS_BLUE, fontFamily: "'Georgia', serif" }}
