@@ -529,10 +529,11 @@ export default function Home() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
                 {[
                   { location: "New Hyde Park", capacity: "Up to 250" },
-                  { location: "Lake Grove", capacity: "Up to 50" },
                   { location: "Bellmore", capacity: "Up to 50" },
-                  { location: "Massapequa Park", capacity: "Up to 50" },
+                  { location: "Farmingdale", capacity: "Up to 50" },
+                  { location: "Lake Grove", capacity: "Up to 50" },
                   { location: "Manhasset", capacity: "Up to 25" },
+                  { location: "Massapequa Park", capacity: "Up to 50" },
                 ].map((venue) => (
                   <div key={venue.location} className="bg-white/10 border border-white/20 p-3 backdrop-blur-sm">
                     <p className="font-display text-white text-sm tracking-wider">{venue.location}</p>
