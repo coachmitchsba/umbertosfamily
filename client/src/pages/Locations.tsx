@@ -24,6 +24,7 @@ interface Location {
   doordash: string;
   appsuite: string;
   openTableId?: number;
+  opentableUrl?: string;
   mapUrl: string;
   lat: number;
   lng: number;
@@ -48,11 +49,11 @@ const LOCATIONS: Location[] = [
       { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
       { days: "Sunday", hours: "11:00am – 9:00pm" },
     ],
-    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-633-jericho-turnpike-new-hyde-park/2685021",
+    grubhub: "",
     ubereats: "https://www.ubereats.com/store/umbertos-of-new-hyde-park/6iyn30RuQpe8ByaF1hz_1Q",
-    doordash: "https://www.doordash.com/store/umberto-s-pizzeria-restaurant-new-hyde-park-133840/",
+    doordash: "https://www.doordash.com/store/umberto%27s-pizzeria-&-restaurant-new-hyde-park-133840/181560",
     appsuite: "https://umbertos.appsuitecrm.com/menu/910",
-    openTableId: 1033645,
+    opentableUrl: "https://www.opentable.com/umbertos-of-new-hyde-park-original",
     mapUrl: "https://maps.google.com/?cid=4728182709475837324",
     lat: 40.7321, lng: -73.6873,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/292661U1A6384.jpg?w=600&fit=crop&auto=compress,format",
@@ -73,10 +74,11 @@ const LOCATIONS: Location[] = [
       { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
       { days: "Sunday", hours: "11:00am – 9:00pm" },
     ],
-    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-manhasset/",
-    ubereats: "https://www.ubereats.com/store/umbertos-manhasset/",
-    doordash: "https://www.doordash.com/store/umbertos-manhasset/",
+    grubhub: "",
+    ubereats: "https://www.ubereats.com/store/umbertos-of-manhasset/XZ_7UGvEQJCgzxTmIzIxHA",
+    doordash: "https://www.doordash.com/en-US/store/umberto%27s-pizzeria-&-restaurant-manhasset-193859/847058",
     appsuite: "https://umbertos.appsuitecrm.com/menu/795",
+    opentableUrl: "https://www.opentable.com/r/umbertos-of-manhasset",
     mapUrl: "https://maps.google.com/?q=1430+Northern+Blvd+Manhasset+NY+11030",
     lat: 40.7900, lng: -73.6970,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/7096Umbertos-Pepperoni-4.jpg?w=600&fit=crop&auto=compress,format",
@@ -96,10 +98,11 @@ const LOCATIONS: Location[] = [
       { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
       { days: "Sunday", hours: "11:00am – 9:00pm" },
     ],
-    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-massapequa-park/",
-    ubereats: "https://www.ubereats.com/store/umbertos-massapequa-park/",
-    doordash: "https://www.doordash.com/store/umbertos-massapequa-park/",
+    grubhub: "",
+    ubereats: "https://www.ubereats.com/store/umbertos-of-massapequa-park/SNS-EJqYSA6mshMRYcqheQ",
+    doordash: "https://www.doordash.com/store/umbertos-pizzeria-&-restaurant-massapequa-park-198928/",
     appsuite: "https://umbertos.appsuitecrm.com/menu/1008",
+    opentableUrl: "https://www.opentable.com/r/umbertos-of-massapequa-park-massapequa",
     mapUrl: "https://maps.google.com/?q=4897+Merrick+Rd+Massapequa+Park+NY+11762",
     lat: 40.6795, lng: -73.4580,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/83464parm-chicken.jpg?w=600&fit=crop&auto=compress,format",
@@ -120,9 +123,9 @@ const LOCATIONS: Location[] = [
       { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
       { days: "Sunday", hours: "11:00am – 9:00pm" },
     ],
-    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-bellmore/",
-    ubereats: "https://www.ubereats.com/store/umbertos-bellmore/",
-    doordash: "https://www.doordash.com/store/umbertos-bellmore/",
+    grubhub: "",
+    ubereats: "https://www.ubereats.com/store/umbertos-of-bellmore/tvph_SbCRPSQMzYsWniIsw",
+    doordash: "https://www.doordash.com/en-CA/store/umberto%27s-pizzeria-%26-restaurant-bellmore-836832/",
     appsuite: "https://umbertos.appsuitecrm.com/menu/928",
     mapUrl: "https://maps.google.com/?q=2803+Merrick+Rd+Bellmore+NY+11710",
     lat: 40.6660, lng: -73.5300,
@@ -143,9 +146,9 @@ const LOCATIONS: Location[] = [
       { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
       { days: "Sunday", hours: "11:00am – 9:00pm" },
     ],
-    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-lake-grove/",
-    ubereats: "https://www.ubereats.com/store/umbertos-lake-grove/",
-    doordash: "https://www.doordash.com/store/umbertos-lake-grove/",
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-111-alexander-ave-lake-grove/2683152",
+    ubereats: "https://www.ubereats.com/store/umbertos-of-lake-grove/-DsZzZTVRoamf097cYspeQ",
+    doordash: "https://www.doordash.com/en/business/umbertos-pizzeria-&-restaurant-65766/",
     appsuite: "https://umbertos.appsuitecrm.com/menu/2353",
     mapUrl: "https://maps.google.com/?q=2847+Middle+Country+Rd+Lake+Grove+NY+11755",
     lat: 40.8600, lng: -73.1200,
@@ -166,11 +169,11 @@ const LOCATIONS: Location[] = [
       { days: "Fri – Sat", hours: "10:30am – 10:00pm" },
       { days: "Sunday", hours: "11:00am – 9:00pm" },
     ],
-    grubhub: "https://www.grubhub.com/restaurant/umbertos-pizzeria-farmingdale/",
-    ubereats: "https://www.ubereats.com/store/umbertos-farmingdale/",
-    doordash: "https://www.doordash.com/store/umbertos-farmingdale/",
+    grubhub: "https://www.grubhub.com/restaurant/umbertos-of-farmingdale-211-airport-plaza-boulevard-farmingdale/14085304",
+    ubereats: "https://www.ubereats.com/store/umbertos-of-farmingdale-211-airport-plaza-boulevard/ddPLRbgDWxO1Ok9gDlYrKg",
+    doordash: "https://www.doordash.com/store/umbertos-pizzeria-&-restaurant-farmingdale-39524915/",
     appsuite: "https://umbertos.appsuitecrm.com/menu/3928",
-    openTableId: 1489408,
+    opentableUrl: "https://www.opentable.com/r/umbertos-of-farmingdale",
     mapUrl: "https://maps.google.com/?q=967+Broadhollow+Rd+Farmingdale+NY+11735",
     lat: 40.7282, lng: -73.4448,
     img: "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/12732Umbertos-Pepperoni-3.jpg?w=600&fit=crop&auto=compress,format",
@@ -632,14 +635,16 @@ export default function Locations() {
                             <Phone size={12} /> Call {loc.phone}
                           </a>
                           {/* OpenTable reservation */}
-                          {loc.openTableId && (
-                            <a href={`https://www.opentable.com/restref/client/?rid=${loc.openTableId}&restref=${loc.openTableId}&lang=en-US`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.55_0.20_145)] text-[oklch(0.35_0.15_145)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.55_0.20_145)]/5 transition-colors w-full">
+                          {loc.opentableUrl && (
+                            <a href={loc.opentableUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.55_0.20_145)] text-[oklch(0.35_0.15_145)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:bg-[oklch(0.55_0.20_145)]/5 transition-colors w-full">
                               <Calendar size={12} /> Reserve on OpenTable
                             </a>
                           )}
-                          <a href={loc.grubhub} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
-                            <ArrowRight size={12} /> Order on Grubhub
-                          </a>
+                          {loc.grubhub && (
+                            <a href={loc.grubhub} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
+                              <ArrowRight size={12} /> Order on Grubhub
+                            </a>
+                          )}
                           <a href={loc.ubereats} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 border border-[oklch(0.88_0.015_80)] text-[oklch(0.38_0.03_60)] font-display text-xs tracking-[0.1em] uppercase px-4 py-2.5 hover:border-[oklch(0.46_0.22_25)] hover:text-[oklch(0.46_0.22_25)] transition-colors w-full">
                             <ArrowRight size={12} /> Order on Uber Eats
                           </a>
