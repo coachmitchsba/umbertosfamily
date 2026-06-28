@@ -51,8 +51,8 @@ export default function Rewards() {
           backgroundPosition: "center 30%",
         }}
       >
-        {/* Deep overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/85" />
+        {/* Overlay — lightened so the restaurant photo shows through */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/55" />
 
         {/* Ambient glow behind phone */}
         <div
@@ -269,9 +269,9 @@ export default function Rewards() {
         style={{ background: "oklch(0.20 0.025 60)" }}
       >
         <div
-          className="absolute inset-0 opacity-5"
+          className="absolute inset-0 opacity-35"
           style={{
-            backgroundImage: `url(/images/locations/nhp-exterior-night.jpg)`,
+            backgroundImage: `url(/images/nhp-exterior-1965.jpg)`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
