@@ -161,7 +161,7 @@ const faqCategories = [
       },
       {
         q: "Does Umberto's have a loyalty rewards program?",
-        a: "Yes, Umberto's has a rewards program. Visit umbertos.appsuitecrm.com to sign up and earn rewards on your purchases.",
+        a: "Yes, Umberto's has a rewards program. Visit umbertos.appsuitecrm.com/signup to create your free account and start earning rewards on every order.",
       },
     ],
   },

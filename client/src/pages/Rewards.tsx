@@ -7,7 +7,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { ArrowRight, Star, Gift, Utensils, Users } from "lucide-react";
 
-const APPSUITE_URL = "https://umbertos.appsuitecrm.com";
+const APPSUITE_URL = "https://umbertos.appsuitecrm.com/signup";
 const LOGO_URL = "https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/26750UmbertoS-Logo.png";
 
 export default function Rewards() {
