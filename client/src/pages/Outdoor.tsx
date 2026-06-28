@@ -12,17 +12,17 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 // ─── Real Umberto's outdoor photos + curated Unsplash ───────────────────────
-const HERO_BG = "/images/outdoor-patio-evening.jpg";
-const PATIO_EXTERIOR = "/images/outdoor-patio-italian.jpg";
-const PATIO_NIGHT = "/images/outdoor-patio-night.jpg";
-const PATIO_MASSAPEQUA = "/images/outdoor-pizzeria-patio.jpg";
+const HERO_BG = "/images/locations/nhp-exterior-night.jpg";
+const PATIO_EXTERIOR = "/images/locations/nhp-outdoor-tables-1.jpg";
+const PATIO_NIGHT = "/images/locations/nhp-outdoor-tables-2.jpg";
+const PATIO_MASSAPEQUA = "/images/locations/farmingdale-seating.jpg";
 
 // Curated Unsplash for gallery variety
 const GALLERY_IMGS = [
   {
-    src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80",
-    alt: "Outdoor patio dining with string lights at dusk",
-    caption: "Evening ambiance",
+    src: "/images/locations/nhp-exterior-night.jpg",
+    alt: "Umberto's New Hyde Park exterior at night — neon sign lit since 1965",
+    caption: "New Hyde Park — Est. 1965",
   },
   {
     src: PATIO_EXTERIOR,
@@ -30,9 +30,9 @@ const GALLERY_IMGS = [
     caption: "New Hyde Park patio",
   },
   {
-    src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
-    alt: "Al fresco dining with candles and wine",
-    caption: "Romantic evenings",
+    src: "/images/locations/nhp-kitchen-dining.jpg",
+    alt: "Umberto's New Hyde Park kitchen and dining area",
+    caption: "Dining at NHP",
   },
   {
     src: PATIO_NIGHT,
@@ -40,9 +40,9 @@ const GALLERY_IMGS = [
     caption: "Family owned since 1965",
   },
   {
-    src: "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800&q=80",
-    alt: "Fresh pizza on outdoor table",
-    caption: "Fresh from the oven",
+    src: "/images/locations/umbertos-pizza-grandma.jpg",
+    alt: "Umberto's famous grandma pizza fresh from the oven",
+    caption: "The Original Grandma Slice",
   },
   {
     src: PATIO_MASSAPEQUA,
@@ -50,14 +50,14 @@ const GALLERY_IMGS = [
     caption: "Massapequa Park",
   },
   {
-    src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
-    alt: "Italian food spread on outdoor table",
-    caption: "Grandma slice al fresco",
+    src: "/images/locations/farmingdale-dine-in.jpg",
+    alt: "Umberto's Farmingdale dine-in seating",
+    caption: "Farmingdale Airport Plaza",
   },
   {
-    src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
-    alt: "Warm restaurant patio with plants",
-    caption: "Garden seating",
+    src: "/images/locations/farmingdale-interior.jpg",
+    alt: "Umberto's Farmingdale modern interior",
+    caption: "Farmingdale — Newest Location",
   },
 ];
 
@@ -97,7 +97,7 @@ const OUTDOOR_LOCATIONS = [
     outdoor: "Elegant outdoor terrace with evening string lights — perfect for date nights and family gatherings.",
     season: "Year-round (weather permitting)",
     features: ["String lights", "Evening ambiance", "Terrace seating", "Private party area"],
-    img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80",
+    img: "/images/locations/nhp-dining-room-1.jpg",
     orderUrl: "https://www.umbertosfamily.com/order",
     directionsUrl: "https://maps.google.com/?q=1430+Northern+Blvd+Manhasset+NY",
     flagship: false,
@@ -110,7 +110,7 @@ const OUTDOOR_LOCATIONS = [
     outdoor: "Modern outdoor seating area with fresh landscaping and comfortable all-weather furniture.",
     season: "Spring through Fall",
     features: ["Modern furniture", "Landscaped border", "Ample parking", "Spacious layout"],
-    img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
+    img: "/images/locations/farmingdale-takeout.jpg",
     orderUrl: "https://www.umbertosfamily.com/order",
     directionsUrl: "https://maps.google.com/?q=358+Conklin+St+Farmingdale+NY",
     flagship: false,
