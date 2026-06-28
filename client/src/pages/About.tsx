@@ -92,14 +92,22 @@ export default function About() {
             </div>
 
             <div className="reveal" style={{ transitionDelay: "150ms" }}>
-              <img
-                src="/images/umberto-corteo-founder-sharp.webp"
-                alt="Umberto Corteo, founder of Umberto's Family Pizzeria, in the kitchen holding a fresh pizza on a peel"
-                className="w-full h-[500px] object-cover object-center"
-                loading="lazy"
-              />
+              {/* Instagram Reel — iframe embed, video only, no comments */}
+              <div
+                className="relative w-full overflow-hidden bg-black"
+                style={{ paddingBottom: "177.78%" /* 9:16 aspect ratio for vertical reel */ }}
+              >
+                <iframe
+                  src="https://www.instagram.com/reel/DKfUhsvvAEL/embed/captioned/"
+                  className="absolute inset-0 w-full h-full border-0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  loading="lazy"
+                  title="Umberto's Family Pizzeria — Featured on Newsday"
+                />
+              </div>
               <div className="bg-[oklch(0.46_0.22_25)] p-4 text-center">
-                <p className="font-display text-white tracking-[0.1em] text-sm">UMBERTO CORTEO · FOUNDER · EST. 1965</p>
+                <p className="font-display text-white tracking-[0.1em] text-sm">UMBERTO'S FAMILY PIZZERIA · EST. 1965</p>
               </div>
             </div>
           </div>
