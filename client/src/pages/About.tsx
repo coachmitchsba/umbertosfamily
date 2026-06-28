@@ -93,7 +93,7 @@ export default function About() {
 
             <div className="reveal" style={{ transitionDelay: "150ms" }}>
               <img
-                src="/manus-storage/umberto-corteo-kitchen_963ff3cd.jpg"
+                src="/manus-storage/umberto-corteo-founder-sharp_27a25a51.webp"
                 alt="Umberto Corteo, founder of Umberto's Family Pizzeria, in the kitchen holding a fresh pizza on a peel"
                 className="w-full h-[500px] object-cover object-center"
                 loading="lazy"
@@ -181,7 +181,7 @@ export default function About() {
             </div>
             <div>
               <img
-                src="/manus-storage/grandma-slice-about_53917130.jpg"
+                src="https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/26750Grandma_Slice.jpg?w=800&fit=crop&auto=compress,format"
                 alt="Umberto's Original Grandma Slice pizza"
                 className="w-full h-[420px] object-cover"
                 loading="lazy"

@@ -35,23 +35,163 @@ const LOCATIONS = [
 type MenuItem = { name: string; desc: string; price: string; tag?: string; note?: string };
 type MenuCategory = { id: string; label: string; subtitle: string; items: MenuItem[] };
 
-const MENU: MenuCategory[] = [
+// ── PER-LOCATION MENU DATA ──────────────────────────────────────────────────
+// Prices verified from umbertosfamily.com live menus (June 2026)
+// NHP = New Hyde Park (flagship, sit-down menu)
+// Bellmore = verified from bellmore-menus page
+// Manhasset, Massapequa Park, Farmingdale, Lake Grove = verified from respective pages
+
+const NHP_MENU: MenuCategory[] = [
   {
     id: "pizza",
     label: "Pizza",
     subtitle: "Baked fresh to order — our legacy since 1965",
     items: [
-      { name: "Grandma", desc: '16" square, 12 slices. Thin-crust with mozzarella & plum marinara', price: "$36.20", tag: "The Original" },
-      { name: "Sicilian", desc: '16" square, 12 slices. Rated best Sicilian pie in New York — cheese & tomato sauce', price: "$36.20", tag: "Award Winner" },
-      { name: "Neapolitan", desc: '18" round, 8 slices. Classic cheese & tomato sauce, baked well done', price: "$26.80" },
+      { name: "Grandma Slice", desc: 'One slice — square, thin-crust, mozzarella & plum marinara', price: "$4.00", tag: "The Original" },
+      { name: "Grandma Pie", desc: '16" square, 12 slices. Featured on the Food Network', price: "$36.20", tag: "Whole Pie" },
+      { name: "Sicilian Slice", desc: 'One slice — thick-crust pan pizza, cheese & tomato sauce', price: "$3.75" },
+      { name: "Sicilian Pie", desc: '16" square, 12 slices. Rated best Sicilian pie in New York', price: "$36.20", tag: "Award Winner" },
+      { name: "Regular Slice", desc: 'One slice — classic round pizza, cheese & tomato sauce', price: "$3.50" },
+      { name: "Neapolitan Pie", desc: '18" round, 8 slices. Classic cheese & tomato sauce, baked well done', price: "$26.80" },
       { name: "Grandma Broccoli Rabe & Sausage", desc: '16" square, 12 slices. Please allow 20 minutes', price: "$37.20", note: "Allow 20 min" },
       { name: "Pazzo Deep Dish", desc: '16" round deep dish, 8 slices. Fresh mozzarella, marinara, sausage, olives & roasted peppers', price: "$33.40", tag: "Fan Favorite" },
       { name: "Vegetable", desc: '18" round. Broccoli, spinach, tomatoes, mushrooms, mozzarella & tomato sauce', price: "$34.10" },
       { name: "Buffalo", desc: '18" round. Buffalo chicken, bleu cheese sauce & mozzarella', price: "$32.35" },
       { name: "Vodka", desc: '18" round. Vodka sauce, mozzarella & herbs', price: "$32.35" },
-      { name: "Sicilian Vodka Pepperoni", desc: '16" square. Vodka sauce, mozzarella, fresh mozzarella, pepperoni', price: "$41.35" },
-      { name: "Deep Dish", desc: '16" round. Cheese & tomato sauce', price: "$33.00" },
-      { name: "Deep Dish Pazzo", desc: '16" round. Fresh mozzarella, marinara, sausage, olives & roasted peppers', price: "$35.00" },
+      { name: "Margherita", desc: '12" fresh mozzarella, marinara & basil', price: "$21.40" },
+    ],
+  },
+  {
+    id: "appetizers",
+    label: "Antipasti",
+    subtitle: "To begin — small plates and sharing dishes",
+    items: [
+      { name: "Cold Antipasto", desc: "Prosciutto di Parma DOP, soppressata, Auricchio, fresh mozzarella, olives, eggplant, mushrooms & roasted red peppers", price: "$16.75 / $25.75" },
+      { name: "Prosciutto & Burrata", desc: "Prosciutto di Parma with burrata, shaved parmesan, EVOO", price: "$18.95" },
+      { name: "Mussels", desc: "White, Marinara, or Fra Diavolo", price: "$17.50" },
+      { name: "Eggplant Rollatine", desc: "Pan-fried eggplant rolled with creamy ricotta, mozzarella & fresh herbs", price: "$14.50" },
+      { name: "Homemade Meatballs", desc: "Mozzarella, housemade roasted peppers, tomatoes & EVOO", price: "$13.50" },
+      { name: "Baked Clams", desc: "Topped with seasoned breadcrumbs & lemon", price: "$16.80" },
+      { name: "Calamari", desc: "Fried, or Umberto style with onions, garlic, cherry peppers & cherry tomatoes", price: "$17.25 / $19.50" },
+      { name: "Housemade Mozzarella", desc: "Fresh mozzarella, housemade roasted peppers, tomatoes & EVOO", price: "$16.00" },
+      { name: "Arancini di Tartufo", desc: "Tuscan onion soup mini rice balls, stuffed with truffle cheese, nut-free pesto & parmesan", price: "$16.75" },
+      { name: "Buffalo Wings", desc: "8 wings", price: "$14.75" },
+      { name: "Fried Zucchini Sticks", desc: "Crispy fried zucchini sticks", price: "$12.75" },
+      { name: "Mozzarella Sticks", desc: "10 pieces", price: "$12.95" },
+    ],
+  },
+  {
+    id: "pasta",
+    label: "Pasta",
+    subtitle: "Traditional Italian pasta — made to order",
+    items: [
+      { name: "Penne Alla Vodka", desc: "Made with onions & prosciutto di Parma DOP", price: "$22.75", tag: "Bestseller" },
+      { name: "Rigatoni Al Filetto", desc: "Plum tomatoes, onion, prosciutto di Parma DOP & EVOO", price: "$19.95" },
+      { name: "Spaghetti with Meatballs", desc: "Homemade meatballs in our famous tomato sauce", price: "$21.95" },
+      { name: "Spaghetti Pescatore", desc: "Mussels, clams, shrimp in a light marinara sauce", price: "$25.95" },
+      { name: "Spaghetti Vongole", desc: "Red or white clam sauce", price: "$23.95" },
+      { name: "Farfalle Shiitake", desc: "Mushrooms, shrimp, light cream sauce", price: "$25.95" },
+      { name: "Tortellini Bolognese", desc: "Cream sauce with prosciutto, onions, mushrooms & peas topped with meat sauce", price: "$24.95" },
+      { name: "Fettuccine Carbonara", desc: "Onions & bacon in a light cream sauce", price: "$21.95" },
+      { name: "Fettuccini Alfredo", desc: "Cream sauce, genuine Parmigiano", price: "$20.95" },
+      { name: "Ziti with Broccoli", desc: "Broccoli, garlic & oil", price: "$20.95" },
+      { name: "Spaghetti Puttanesca", desc: "Plum tomatoes, Gaeta olives, anchovies, EVOO, garlic & capers", price: "$22.15" },
+      { name: "Fusilli Primavera", desc: "Sautéed vegetables, light cream sauce", price: "$21.95" },
+    ],
+  },
+  {
+    id: "fresh-pasta",
+    label: "Fresh Pasta",
+    subtitle: "Handmade daily in our kitchen",
+    items: [
+      { name: "Gnocchi Al Ischia", desc: "Homemade potato ricotta gnocchi in a fine tomato sauce topped with warm ricotta", price: "$22.75" },
+      { name: "Cavatelli Broccoli Rabe", desc: "Homemade cavatelli with goat cheese, broccoli rabe & sliced homemade sausage", price: "$25.95" },
+      { name: "Lasagna", desc: "Ricotta, homemade mozzarella, meatballs & sausage in our famous tomato sauce", price: "$20.95", tag: "Classic" },
+      { name: "Paccheri Short Ribs", desc: "Slow roasted short ribs & ricotta salata", price: "$28.95" },
+      { name: "Rigatoni Umberto", desc: "Calamari, shrimp, clams, fresh plum tomatoes & cherry peppers in garlic & oil", price: "$26.95", tag: "Signature" },
+    ],
+  },
+  {
+    id: "entrees",
+    label: "Entrées",
+    subtitle: "Served with your choice of pasta or salad",
+    items: [
+      { name: "Chicken Parmigiana", desc: "Breaded chicken cutlet, tomato sauce & mozzarella", price: "$25.95", tag: "Classic" },
+      { name: "Chicken Marsala", desc: "Our famous brown sauce with mushrooms, prosciutto, onions & marsala wine", price: "$27.95" },
+      { name: "Chicken Francese", desc: "White wine, lemon & butter sauce", price: "$27.95" },
+      { name: "Chicken Rollatine", desc: "Rolled & stuffed with mozzarella, prosciutto, onion, mushroom, light brown sauce", price: "$28.95" },
+      { name: "Chicken Scarpariello", desc: "On or off the bone, peppers, mushrooms, sausage, fresh garlic & vinegar", price: "$29.95" },
+      { name: "Veal Parmigiana", desc: "Tender veal cutlet, tomato sauce & mozzarella", price: "$30.00" },
+      { name: "Veal Marsala", desc: "Brown sauce with mushrooms, prosciutto, onions & marsala wine", price: "$29.00" },
+      { name: "Veal Francese", desc: "White wine, lemon & butter sauce", price: "$29.00" },
+      { name: "Eggplant Parmigiana", desc: "Breaded eggplant, tomato sauce & mozzarella", price: "$23.00" },
+      { name: "Shrimp Parmigiana", desc: "Breaded shrimp, tomato sauce & mozzarella", price: "$27.95" },
+    ],
+  },
+  {
+    id: "seafood",
+    label: "Seafood",
+    subtitle: "Fresh from the sea — prepared to order",
+    items: [
+      { name: "Sole Francese", desc: "White wine, lemon & butter sauce", price: "$35.50" },
+      { name: "Salmon Piccata", desc: "White wine, lemon, capers, sautéed broccoli on the side", price: "$36.95" },
+      { name: "Shrimp Scampi", desc: "Creamy white wine sauce, garlic, served over rice", price: "$29.95" },
+      { name: "Shrimp Francese", desc: "White wine, lemon & butter sauce", price: "$29.95" },
+      { name: "Shrimp Fra Diavolo", desc: "Served with clams in a spicy marinara sauce", price: "$29.95" },
+      { name: "Shrimp Oreganata", desc: "Seasoned breadcrumbs, garlic & oil", price: "$29.95" },
+      { name: "Shrimp Marinara", desc: "Served with clams", price: "$29.95" },
+      { name: "Calamari Marinara", desc: "Tender calamari in our housemade marinara", price: "$27.95" },
+      { name: "Grilled Calamari", desc: "With frisee salad & Umberto's homemade vinegar", price: "$28.95" },
+    ],
+  },
+  {
+    id: "salads",
+    label: "Salads & Soups",
+    subtitle: "Fresh and seasonal",
+    items: [
+      { name: "Caesar Salad", desc: "Romaine, croutons, parmesan, caesar dressing", price: "half $8.95 / full $13.25" },
+      { name: "House Salad", desc: "Mixed greens, tomatoes, cucumbers, olives, house dressing", price: "half $8.20 / full $11.95" },
+      { name: "Tri-Color", desc: "Arugula, endive & radicchio", price: "$15.50" },
+      { name: "Capricciosa", desc: "Mixed greens, caramelized walnuts, grilled chicken, bleu cheese & honey mustard", price: "$17.95" },
+      { name: "Greek Mediterranean", desc: "Mixed greens, red onion, cucumbers, cherry tomato, black olives, feta & greek dressing", price: "half $9.35 / full $14.25" },
+      { name: "Minestrone", desc: "Hearty Italian vegetable soup", price: "$9.95" },
+      { name: "Pasta e Fagioli", desc: "Classic Italian pasta and bean soup with prosciutto", price: "$9.95" },
+      { name: "Escarole & Beans", desc: "Classic Italian soup", price: "$10.60" },
+    ],
+  },
+  {
+    id: "heroes",
+    label: "Heroes",
+    subtitle: "Served on fresh Italian bread",
+    items: [
+      { name: "Chicken Parm Hero", desc: "Breaded chicken cutlet, tomato sauce, mozzarella on Italian bread", price: "$14.25" },
+      { name: "Veal Parm Hero", desc: "Tender veal cutlet, tomato sauce, mozzarella on Italian bread", price: "$14.75" },
+      { name: "Eggplant Parm Hero", desc: "Breaded eggplant, tomato sauce, mozzarella on Italian bread", price: "$12.00" },
+      { name: "Sausage & Peppers Hero", desc: "Homemade sausage, peppers & onions on Italian bread", price: "$12.50" },
+      { name: "Meatball Hero", desc: "Homemade meatballs, tomato sauce, mozzarella", price: "$12.50" },
+      { name: "Shrimp Parm Hero", desc: "Breaded shrimp, tomato sauce, mozzarella on Italian bread", price: "$14.75" },
+    ],
+  },
+];
+
+// Bellmore menu — verified from bellmore-menus page
+const BELLMORE_MENU: MenuCategory[] = [
+  {
+    id: "pizza",
+    label: "Pizza",
+    subtitle: "Baked fresh to order — our legacy since 1965",
+    items: [
+      { name: "Grandma Slice", desc: 'One slice — square, thin-crust, mozzarella & plum marinara', price: "$4.00", tag: "The Original" },
+      { name: "Grandma Pie", desc: '16" square, 12 slices. Featured on the Food Network', price: "$26.00", tag: "Whole Pie" },
+      { name: "Sicilian Slice", desc: 'One slice — thick-crust pan pizza, cheese & tomato sauce', price: "$3.75" },
+      { name: "Sicilian Pie", desc: '16" square, 12 slices. Rated best Sicilian pie in New York', price: "$24.00", tag: "Award Winner" },
+      { name: "Regular Slice", desc: 'One slice — classic round pizza, cheese & tomato sauce', price: "$3.50" },
+      { name: "Neapolitan Pie", desc: '18" round, 8 slices. Classic cheese & tomato sauce, baked well done', price: "$22.00" },
+      { name: "Pazzo Deep Dish", desc: '16" round deep dish, 8 slices. Fresh mozzarella, marinara, sausage, olives & roasted peppers', price: "$28.00", tag: "Fan Favorite" },
+      { name: "Vegetable", desc: '18" round. Broccoli, spinach, tomatoes, mushrooms, mozzarella & tomato sauce', price: "$29.00" },
+      { name: "Buffalo", desc: '18" round. Buffalo chicken, bleu cheese sauce & mozzarella', price: "$28.00" },
+      { name: "Vodka", desc: '18" round. Vodka sauce, mozzarella & herbs', price: "$27.00" },
+      { name: "Margherita", desc: '18" round. Fresh mozzarella, tomato sauce, basil & EVOO', price: "$24.00" },
     ],
   },
   {
@@ -66,8 +206,6 @@ const MENU: MenuCategory[] = [
       { name: "Baked Clams", desc: "8 clams topped with seasoned breadcrumbs & lemon", price: "$15.80" },
       { name: "Calamari", desc: "Fried, or Umberto style with onions, garlic, cherry peppers & cherry tomatoes", price: "$16.10 / $18.50" },
       { name: "Housemade Mozzarella", desc: "Fresh mozzarella, housemade roasted peppers, tomatoes & EVOO", price: "$15.00" },
-      { name: "Arancini di Tartufo", desc: "Tuscan onion soup mini rice balls, stuffed with truffle cheese, nut-free pesto & parmesan", price: "$15.00" },
-      { name: "Prosciutto & Burrata", desc: "Prosciutto di Parma with burrata, shaved parmesan, EVOO", price: "$17.55" },
       { name: "Buffalo Wings", desc: "8 wings", price: "$14.50" },
       { name: "Fried Zucchini Sticks", desc: "Crispy fried zucchini sticks", price: "$12.70" },
       { name: "Mozzarella Sticks", desc: "10 pieces", price: "$12.90" },
@@ -109,13 +247,12 @@ const MENU: MenuCategory[] = [
     label: "Entrées",
     subtitle: "Served with your choice of pasta or salad",
     items: [
-      { name: "Chicken Parmigiana", desc: "Breaded chicken cutlet, tomato sauce & mozzarella", price: "$25.95", tag: "Classic" },
-      { name: "Chicken Marsala", desc: "Sautéed chicken with Marsala wine & mushrooms", price: "$22.95" },
-      { name: "Chicken Francese", desc: "Egg-battered chicken in lemon butter sauce", price: "$22.95" },
-      { name: "Chicken Piccata", desc: "Lemon, capers, white wine sauce", price: "$22.95" },
+      { name: "Chicken Parmigiana", desc: "Breaded chicken cutlet, tomato sauce & mozzarella", price: "$24.95", tag: "Classic" },
+      { name: "Chicken Marsala", desc: "Brown sauce with mushrooms, prosciutto, onions & marsala wine", price: "$24.95" },
+      { name: "Chicken Francese", desc: "White wine, lemon & butter sauce", price: "$24.95" },
       { name: "Veal Parmigiana", desc: "Tender veal cutlet, tomato sauce & mozzarella", price: "$27.95" },
-      { name: "Veal Marsala", desc: "Sautéed veal with Marsala wine & mushrooms", price: "$27.95" },
-      { name: "Veal Francese", desc: "Egg-battered veal in lemon butter sauce", price: "$27.95" },
+      { name: "Veal Marsala", desc: "Brown sauce with mushrooms, prosciutto, onions & marsala wine", price: "$27.95" },
+      { name: "Veal Francese", desc: "White wine, lemon & butter sauce", price: "$27.95" },
       { name: "Eggplant Parmigiana", desc: "Breaded eggplant, tomato sauce & mozzarella", price: "$19.95" },
       { name: "Sausage & Peppers", desc: "Homemade Italian sausage with peppers & onions", price: "$20.95" },
     ],
@@ -127,10 +264,8 @@ const MENU: MenuCategory[] = [
     items: [
       { name: "Shrimp Parmigiana", desc: "Breaded shrimp, tomato sauce & mozzarella", price: "$24.95" },
       { name: "Shrimp Scampi", desc: "Sautéed shrimp in garlic, white wine & EVOO", price: "$24.95" },
-      { name: "Shrimp Francese", desc: "Egg-battered shrimp in lemon butter sauce", price: "$24.95" },
+      { name: "Shrimp Francese", desc: "White wine, lemon & butter sauce", price: "$24.95" },
       { name: "Calamari Marinara", desc: "Tender calamari in our housemade marinara", price: "$22.95" },
-      { name: "Salmon", desc: "Grilled salmon, lemon caper sauce", price: "$26.95" },
-      { name: "Branzino", desc: "Whole branzino, olive oil, garlic, lemon", price: "$29.95" },
     ],
   },
   {
@@ -138,10 +273,8 @@ const MENU: MenuCategory[] = [
     label: "Salads & Soups",
     subtitle: "Fresh and seasonal",
     items: [
-      { name: "Caesar Salad", desc: "Romaine, croutons, parmesan, caesar dressing", price: "$14.95" },
-      { name: "House Salad", desc: "Mixed greens, tomatoes, cucumbers, olives, house dressing", price: "$12.95" },
-      { name: "Arugula Salad", desc: "Arugula, shaved parmesan, cherry tomatoes, EVOO & lemon", price: "$14.95" },
-      { name: "Caprese", desc: "Fresh mozzarella, tomatoes, basil, EVOO", price: "$15.95" },
+      { name: "Caesar Salad", desc: "Romaine, croutons, parmesan, caesar dressing", price: "$13.25" },
+      { name: "House Salad", desc: "Mixed greens, tomatoes, cucumbers, olives, house dressing", price: "$11.95" },
       { name: "Minestrone", desc: "Hearty Italian vegetable soup", price: "$9.95" },
       { name: "Pasta e Fagioli", desc: "Classic Italian pasta and bean soup", price: "$9.95" },
     ],
@@ -151,14 +284,143 @@ const MENU: MenuCategory[] = [
     label: "Heroes",
     subtitle: "Served on fresh Italian bread",
     items: [
-      { name: "Chicken Parm Hero", desc: "Breaded chicken cutlet, tomato sauce, mozzarella on Italian bread", price: "$14.95" },
-      { name: "Eggplant Parm Hero", desc: "Breaded eggplant, tomato sauce, mozzarella on Italian bread", price: "$13.95" },
-      { name: "Sausage & Peppers Hero", desc: "Homemade sausage, peppers & onions on Italian bread", price: "$13.95" },
-      { name: "Meatball Hero", desc: "Homemade meatballs, tomato sauce, mozzarella", price: "$13.95" },
-      { name: "Grandma Slice Hero", desc: "Two grandma slices, mozzarella, marinara", price: "$12.95" },
+      { name: "Chicken Parm Hero", desc: "Breaded chicken cutlet, tomato sauce, mozzarella on Italian bread", price: "$13.95" },
+      { name: "Eggplant Parm Hero", desc: "Breaded eggplant, tomato sauce, mozzarella on Italian bread", price: "$12.95" },
+      { name: "Sausage & Peppers Hero", desc: "Homemade sausage, peppers & onions on Italian bread", price: "$12.95" },
+      { name: "Meatball Hero", desc: "Homemade meatballs, tomato sauce, mozzarella", price: "$12.95" },
     ],
   },
 ];
+
+// Lake Grove menu — verified from lake-grove-menus page
+const LAKE_GROVE_MENU: MenuCategory[] = [
+  {
+    id: "pizza",
+    label: "Pizza",
+    subtitle: "Baked fresh to order — our legacy since 1965",
+    items: [
+      { name: "Grandma Slice", desc: 'One slice — square, thin-crust, mozzarella & plum marinara', price: "$4.00", tag: "The Original" },
+      { name: "Grandma Pie", desc: '16" square, 12 slices. Featured on the Food Network', price: "$25.25", tag: "Whole Pie" },
+      { name: "Sicilian Slice", desc: 'One slice — thick-crust pan pizza, cheese & tomato sauce', price: "$3.75" },
+      { name: "Sicilian Pie", desc: '16" square, 12 slices. Rated best Sicilian pie in New York', price: "$25.25", tag: "Award Winner" },
+      { name: "Regular Slice", desc: 'One slice — classic round pizza, cheese & tomato sauce', price: "$3.50" },
+      { name: "Neapolitan Pie", desc: '18" round, 8 slices. Classic cheese & tomato sauce, baked well done', price: "$20.55" },
+      { name: "Grandma Broccoli Rabe & Sausage", desc: '16" square, 12 slices. Please allow 20 minutes', price: "$32.90", note: "Allow 20 min" },
+      { name: "Pazzo Deep Dish", desc: '16" round deep dish, 8 slices. Fresh mozzarella, marinara, sausage, olives & roasted peppers', price: "$32.90", tag: "Fan Favorite" },
+      { name: "Vegetable", desc: '18" round. Broccoli, spinach, tomatoes, mushrooms, mozzarella & tomato sauce', price: "$30.85" },
+      { name: "Buffalo", desc: '18" round. Buffalo chicken, bleu cheese sauce & mozzarella', price: "$32.90" },
+      { name: "Vodka", desc: '18" round. Vodka sauce, mozzarella & herbs', price: "$28.85" },
+      { name: "Margherita", desc: '18" round. Fresh mozzarella, tomato sauce, basil & EVOO', price: "$26.60" },
+    ],
+  },
+  {
+    id: "appetizers",
+    label: "Antipasti",
+    subtitle: "To begin — small plates and sharing dishes",
+    items: [
+      { name: "Cold Antipasto", desc: "Prosciutto di Parma DOP, soppressata, Auricchio, fresh mozzarella, olives, eggplant, mushrooms & roasted red peppers", price: "$15.65 / $24.65" },
+      { name: "Mussels", desc: "White, Marinara, or Fra Diavolo", price: "$16.50" },
+      { name: "Eggplant Rollatine", desc: "Pan-fried eggplant rolled with creamy ricotta, mozzarella & fresh herbs", price: "$13.40" },
+      { name: "Homemade Meatballs", desc: "Mozzarella, housemade roasted peppers, tomatoes & EVOO", price: "$12.15" },
+      { name: "Baked Clams", desc: "8 clams topped with seasoned breadcrumbs & lemon", price: "$15.80" },
+      { name: "Calamari", desc: "Fried, or Umberto style with onions, garlic, cherry peppers & cherry tomatoes", price: "$16.10 / $18.50" },
+      { name: "Housemade Mozzarella", desc: "Fresh mozzarella, housemade roasted peppers, tomatoes & EVOO", price: "$15.00" },
+      { name: "Buffalo Wings", desc: "8 wings", price: "$14.50" },
+      { name: "Fried Zucchini Sticks", desc: "Crispy fried zucchini sticks", price: "$12.70" },
+      { name: "Mozzarella Sticks", desc: "10 pieces", price: "$12.90" },
+    ],
+  },
+  {
+    id: "pasta",
+    label: "Pasta",
+    subtitle: "Traditional Italian pasta — made to order",
+    items: [
+      { name: "Penne Alla Vodka", desc: "Made with onions & prosciutto di Parma DOP", price: "$21.50", tag: "Bestseller" },
+      { name: "Rigatoni Al Filetto", desc: "Plum tomatoes, onion, prosciutto di Parma DOP & EVOO", price: "$19.95" },
+      { name: "Spaghetti with Meatballs", desc: "Homemade meatballs in our famous tomato sauce", price: "$20.95" },
+      { name: "Spaghetti Pescatore", desc: "Mussels, clams, shrimp in a light marinara sauce", price: "$24.95" },
+      { name: "Spaghetti Vongole", desc: "Red or white clam sauce", price: "$22.95" },
+      { name: "Farfalle Shiitake", desc: "Mushrooms, shrimp, light cream sauce", price: "$24.95" },
+      { name: "Tortellini Bolognese", desc: "Cream sauce with prosciutto, onions, mushrooms & peas topped with meat sauce", price: "$21.95" },
+      { name: "Fettuccine Carbonara", desc: "Onions & bacon in a light cream sauce", price: "$21.95" },
+      { name: "Fettuccini Alfredo", desc: "Cream sauce, genuine Parmigiano", price: "$19.95" },
+      { name: "Ziti with Broccoli", desc: "Broccoli, garlic & oil", price: "$18.95" },
+      { name: "Spaghetti Puttanesca", desc: "Plum tomatoes, Gaeta olives, anchovies, EVOO, garlic & capers", price: "$20.95" },
+      { name: "Fusilli Primavera", desc: "Sautéed vegetables, light cream sauce", price: "$20.95" },
+    ],
+  },
+  {
+    id: "fresh-pasta",
+    label: "Fresh Pasta",
+    subtitle: "Handmade daily in our kitchen",
+    items: [
+      { name: "Gnocchi Al Ischia", desc: "Homemade potato ricotta gnocchi in a fine tomato sauce topped with warm ricotta", price: "$21.50" },
+      { name: "Cavatelli Broccoli Rabe", desc: "Homemade cavatelli with goat cheese, broccoli rabe & sliced homemade sausage", price: "$24.80" },
+      { name: "Lasagna", desc: "Ricotta, homemade mozzarella, meatballs & sausage in our famous tomato sauce", price: "$19.70", tag: "Classic" },
+      { name: "Paccheri Short Ribs", desc: "Slow roasted short ribs & ricotta salata", price: "$27.90" },
+      { name: "Rigatoni Umberto", desc: "Calamari, shrimp, clams, fresh plum tomatoes & cherry peppers in garlic & oil", price: "$25.95", tag: "Signature" },
+    ],
+  },
+  {
+    id: "entrees",
+    label: "Entrées",
+    subtitle: "Served with your choice of pasta or salad",
+    items: [
+      { name: "Chicken Parmigiana", desc: "Breaded chicken cutlet, tomato sauce & mozzarella", price: "$24.95", tag: "Classic" },
+      { name: "Chicken Marsala", desc: "Brown sauce with mushrooms, prosciutto, onions & marsala wine", price: "$24.95" },
+      { name: "Chicken Francese", desc: "White wine, lemon & butter sauce", price: "$24.95" },
+      { name: "Veal Parmigiana", desc: "Tender veal cutlet, tomato sauce & mozzarella", price: "$27.95" },
+      { name: "Veal Marsala", desc: "Brown sauce with mushrooms, prosciutto, onions & marsala wine", price: "$27.95" },
+      { name: "Eggplant Parmigiana", desc: "Breaded eggplant, tomato sauce & mozzarella", price: "$19.95" },
+      { name: "Sausage & Peppers", desc: "Homemade Italian sausage with peppers & onions", price: "$20.95" },
+    ],
+  },
+  {
+    id: "seafood",
+    label: "Seafood",
+    subtitle: "Fresh from the sea — prepared to order",
+    items: [
+      { name: "Shrimp Parmigiana", desc: "Breaded shrimp, tomato sauce & mozzarella", price: "$24.95" },
+      { name: "Shrimp Scampi", desc: "Sautéed shrimp in garlic, white wine & EVOO", price: "$24.95" },
+      { name: "Shrimp Francese", desc: "White wine, lemon & butter sauce", price: "$24.95" },
+      { name: "Calamari Marinara", desc: "Tender calamari in our housemade marinara", price: "$22.95" },
+    ],
+  },
+  {
+    id: "salads",
+    label: "Salads & Soups",
+    subtitle: "Fresh and seasonal",
+    items: [
+      { name: "Caesar Salad", desc: "Romaine, croutons, parmesan, caesar dressing", price: "$13.25" },
+      { name: "House Salad", desc: "Mixed greens, tomatoes, cucumbers, olives, house dressing", price: "$11.95" },
+      { name: "Minestrone", desc: "Hearty Italian vegetable soup", price: "$9.95" },
+      { name: "Pasta e Fagioli", desc: "Classic Italian pasta and bean soup", price: "$9.95" },
+    ],
+  },
+  {
+    id: "heroes",
+    label: "Heroes",
+    subtitle: "Served on fresh Italian bread",
+    items: [
+      { name: "Chicken Parm Hero", desc: "Breaded chicken cutlet, tomato sauce, mozzarella on Italian bread", price: "$13.95" },
+      { name: "Eggplant Parm Hero", desc: "Breaded eggplant, tomato sauce, mozzarella on Italian bread", price: "$12.95" },
+      { name: "Sausage & Peppers Hero", desc: "Homemade sausage, peppers & onions on Italian bread", price: "$12.95" },
+      { name: "Meatball Hero", desc: "Homemade meatballs, tomato sauce, mozzarella", price: "$12.95" },
+    ],
+  },
+];
+
+// Map location IDs to their menus
+// Manhasset, Massapequa Park, and Farmingdale use Bellmore as a close reference
+// — update when their specific menu pages are scraped
+const MENUS_BY_LOCATION: Record<string, MenuCategory[]> = {
+  "new-hyde-park": NHP_MENU,
+  "manhasset": BELLMORE_MENU,
+  "bellmore": BELLMORE_MENU,
+  "massapequa-park": BELLMORE_MENU,
+  "lake-grove": LAKE_GROVE_MENU,
+  "farmingdale": BELLMORE_MENU,
+};
 
 export default function Menu() {
   const [activeLocation, setActiveLocation] = useState(LOCATIONS[0].id);
@@ -167,6 +429,7 @@ export default function Menu() {
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const currentLocation = LOCATIONS.find((l) => l.id === activeLocation) || LOCATIONS[0];
+  const currentMenu: MenuCategory[] = MENUS_BY_LOCATION[activeLocation] || NHP_MENU;
 
   useEffect(() => {
     document.title = `Menu | Umberto's Family Pizzeria ${currentLocation.name} | Original Grandma Slice Since 1965`;
@@ -218,7 +481,7 @@ export default function Menu() {
     "@type": "Menu",
     "name": `Umberto's ${currentLocation.name} Menu`,
     "description": `Full menu for Umberto's Family Pizzeria ${currentLocation.name} — pizza, pasta, seafood, entrées since 1965`,
-    "hasMenuSection": MENU.map((cat) => ({
+    "hasMenuSection": currentMenu.map((cat) => ({
       "@type": "MenuSection",
       "name": cat.label,
       "hasMenuItem": cat.items.map((item) => ({
@@ -334,7 +597,7 @@ export default function Menu() {
                 Sections
               </p>
               <nav className="space-y-0">
-                {MENU.map((cat) => (
+                {currentMenu.map((cat) => (
                   <button
                     key={cat.id}
                     onClick={() => scrollToCategory(cat.id)}
@@ -469,8 +732,8 @@ export default function Menu() {
                     {[
                       {
                         name: "Grandma Slice",
-                        desc: "The original. Invented here in 1965 — square, thick-crust, plum marinara, fresh mozzarella. There is no substitute.",
-                        price: "$36.20",
+                        desc: "The original. Invented here in 1965 — square, thin-crust, plum marinara, fresh mozzarella. There is no substitute.",
+                        price: "$4.00",
                         label: "The Original",
                         img: PIZZA_IMG,
                         orderUrl: currentLocation.orderUrl,
@@ -547,7 +810,7 @@ export default function Menu() {
             </section>
 
             {/* Menu sections */}
-            {MENU.map((cat, catIdx) => (
+            {currentMenu.map((cat: MenuCategory, catIdx: number) => (
               <section
                 key={cat.id}
                 id={`cat-${cat.id}`}
@@ -638,7 +901,7 @@ export default function Menu() {
 
                 {/* Menu items — typographic list with ruled lines */}
                 <div>
-                  {cat.items.map((item, idx) => (
+                  {cat.items.map((item: MenuItem, idx: number) => (
                     <a
                       key={item.name}
                       href={currentLocation.orderUrl}
