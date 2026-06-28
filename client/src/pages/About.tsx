@@ -40,7 +40,7 @@ export default function About() {
       {/* Hero — photo with dark overlay so text is readable */}
       <header className="relative h-[55vh] min-h-[380px] overflow-hidden">
         <img
-          src="https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/95838NHP_Location_Image.jpg?w=1400&fit=crop&auto=compress,format"
+          src="/images/nhp-exterior-1965.jpg"
           alt="Umberto's Family Pizzeria — New Hyde Park Long Island — established 1965"
           className="w-full h-full object-cover object-center"
           loading="eager"
@@ -189,7 +189,7 @@ export default function About() {
             </div>
             <div>
               <img
-                src="https://images.getbento.com/accounts/fd7c1089a4a4619f426a2c9d673b0ae5/media/images/26750Grandma_Slice.jpg?w=800&fit=crop&auto=compress,format"
+                src="/images/grandma-slice-real.jpg"
                 alt="Umberto's Original Grandma Slice pizza"
                 className="w-full h-[420px] object-cover"
                 loading="lazy"

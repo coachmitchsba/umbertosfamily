@@ -158,7 +158,7 @@ export default function Outdoor() {
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section
-        className="relative h-[92vh] min-h-[560px] flex items-end overflow-hidden"
+        className="relative h-[45vh] min-h-[320px] flex items-end overflow-hidden"
         style={{
           backgroundImage: `url(${HERO_BG})`,
           backgroundSize: "cover",
@@ -256,10 +256,8 @@ export default function Outdoor() {
           {GALLERY_IMGS.map((img, i) => (
             <div
               key={i}
-              className={`relative overflow-hidden cursor-pointer group ${
-                i === 0 ? "md:col-span-2 md:row-span-2" : ""
-              } ${i === 4 ? "md:col-span-2" : ""}`}
-              style={{ aspectRatio: i === 0 ? "1/1" : i === 4 ? "2/1" : "1/1" }}
+              className="relative overflow-hidden cursor-pointer group"
+              style={{ aspectRatio: "1/1" }}
               onClick={() => setActiveImg(img.src)}
             >
               <img
