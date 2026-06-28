@@ -117,26 +117,23 @@ export default function Promotions() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              step: "01",
               icon: "📺",
               title: "Watch Friday Night Mets",
               desc: "Tune in to PIX11 Channel 11 for New York Mets Friday night home games. Every game is a new chance to win.",
             },
             {
-              step: "02",
               icon: "🎟",
               title: "Enter on PIX11",
               desc: "Click the Enter Now button and fill out the quick entry form on PIX11.com. No purchase necessary.",
             },
             {
-              step: "03",
               icon: "🍕",
               title: "Win $100 at Umberto's",
               desc: "Winners receive a $100 Umberto's Pizza Gift Card — good at any of our 6 Long Island locations.",
             },
           ].map((item) => (
             <div
-              key={item.step}
+              key={item.title}
               className="rounded-2xl p-8 text-center shadow-lg border"
               style={{ backgroundColor: "#fff", borderColor: "#e8e0d8" }}
             >

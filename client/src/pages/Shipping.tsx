@@ -68,13 +68,12 @@ export default function Shipping() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { step: "01", icon: <Package size={28} />, title: "Choose Your Order", desc: "Select from our famous Grandma Slice, round pies, and specialty pizzas on Goldbelly. Free shipping on all orders." },
-              { step: "02", icon: <Truck size={28} />, title: "We Pack & Ship", desc: "Our team carefully packs your order fresh. Shipped via overnight delivery to ensure maximum freshness and quality." },
-              { step: "03", icon: <Star size={28} />, title: "Enjoy at Home", desc: "Heat in your oven for 10–12 minutes and enjoy the authentic taste of Umberto's wherever you are in America." },
+              { icon: <Package size={28} />, title: "Choose Your Order", desc: "Select from our famous Grandma Slice, round pies, and specialty pizzas on Goldbelly. Free shipping on all orders." },
+              { icon: <Truck size={28} />, title: "We Pack & Ship", desc: "Our team carefully packs your order fresh. Shipped via overnight delivery to ensure maximum freshness and quality." },
+              { icon: <Star size={28} />, title: "Enjoy at Home", desc: "Heat in your oven for 10–12 minutes and enjoy the authentic taste of Umberto's wherever you are in America." },
             ].map((item, i) => (
-              <div key={item.step} className="reveal text-center" style={{ transitionDelay: `${i * 100}ms` }}>
+              <div key={item.title} className="reveal text-center" style={{ transitionDelay: `${i * 100}ms` }}>
                 <div className="w-16 h-16 bg-[oklch(0.46_0.22_25)] flex items-center justify-center text-white mx-auto mb-4">{item.icon}</div>
-                <div className="font-display text-[oklch(0.46_0.22_25)] text-4xl mb-2">{item.step}</div>
                 <h3 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-base mb-2">{item.title}</h3>
                 <p className="font-body text-sm text-[oklch(0.48_0.03_60)] leading-relaxed">{item.desc}</p>
               </div>

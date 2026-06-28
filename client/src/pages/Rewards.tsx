@@ -66,14 +66,13 @@ export default function Rewards() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { icon: <Smartphone size={26} />, step: "1", title: "Sign Up", desc: "Create your free Umberto's Rewards account online or in-store at any of our 6 Long Island locations." },
-              { icon: <CreditCard size={26} />, step: "2", title: "Order & Earn", desc: "Earn points on every order — dine-in, takeout, delivery, and catering all count toward your rewards." },
-              { icon: <Gift size={26} />, step: "3", title: "Unlock Rewards", desc: "Reach point milestones to unlock free slices, discounts, exclusive menu items, and special birthday rewards." },
-              { icon: <Trophy size={26} />, step: "4", title: "VIP Status", desc: "Our top customers earn VIP status with priority service, exclusive event invites, and special seasonal offers." },
+              { icon: <Smartphone size={26} />, title: "Sign Up", desc: "Create your free Umberto's Rewards account online or in-store at any of our 6 Long Island locations." },
+              { icon: <CreditCard size={26} />, title: "Order & Earn", desc: "Earn points on every order — dine-in, takeout, delivery, and catering all count toward your rewards." },
+              { icon: <Gift size={26} />, title: "Unlock Rewards", desc: "Reach point milestones to unlock free slices, discounts, exclusive menu items, and special birthday rewards." },
+              { icon: <Trophy size={26} />, title: "VIP Status", desc: "Our top customers earn VIP status with priority service, exclusive event invites, and special seasonal offers." },
             ].map((item, i) => (
-              <div key={item.step} className="reveal text-center" style={{ transitionDelay: `${i * 80}ms` }}>
+              <div key={item.title} className="reveal text-center" style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="w-14 h-14 bg-[oklch(0.46_0.22_25)] flex items-center justify-center text-white mx-auto mb-3">{item.icon}</div>
-                <div className="font-display text-[oklch(0.46_0.22_25)] text-3xl mb-1">{item.step}</div>
                 <h3 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider text-sm mb-2">{item.title}</h3>
                 <p className="font-body text-xs text-[oklch(0.48_0.03_60)] leading-relaxed">{item.desc}</p>
               </div>

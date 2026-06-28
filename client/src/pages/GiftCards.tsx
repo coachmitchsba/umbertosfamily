@@ -88,28 +88,24 @@ export default function GiftCards() {
             {[
               {
                 icon: <CreditCard size={28} />,
-                step: "01",
                 title: "Choose Your Amount",
                 desc: "Select any denomination for your digital eGift card. Available in multiple amounts to fit any budget.",
               },
               {
                 icon: <Mail size={28} />,
-                step: "02",
                 title: "Delivered Instantly",
                 desc: "Your eGift card is sent directly to the recipient's email — instantly, no shipping required.",
               },
               {
                 icon: <Smartphone size={28} />,
-                step: "03",
                 title: "Redeem at Any Location",
                 desc: "Use your eGift card at any of our 6 Long Island locations for dine-in, pickup, or online orders.",
               },
             ].map((item) => (
-              <div key={item.step} className="text-center p-6 border border-[oklch(0.88_0.015_80)] bg-[oklch(0.97_0.015_80)]">
+              <div key={item.title} className="text-center p-6 border border-[oklch(0.88_0.015_80)] bg-[oklch(0.97_0.015_80)]">
                 <div className="w-14 h-14 bg-[oklch(0.46_0.22_25)] text-white flex items-center justify-center mx-auto mb-4">
                   {item.icon}
                 </div>
-                <div className="font-display text-[oklch(0.46_0.22_25)] text-xs tracking-[0.2em] mb-1">{item.step}</div>
                 <h3 className="font-display text-[oklch(0.20_0.025_60)] tracking-wider mb-2">{item.title}</h3>
                 <p className="font-body text-sm text-[oklch(0.48_0.03_60)] leading-relaxed">{item.desc}</p>
               </div>

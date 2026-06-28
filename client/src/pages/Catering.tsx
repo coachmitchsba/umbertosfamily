@@ -509,15 +509,12 @@ export default function Catering() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { step: "01", title: "Choose Your Location", desc: "Select the Umberto's nearest to your event venue for fastest service." },
-              { step: "02", title: "Browse the Menu", desc: "Pick from our full tray menu — pizza, pasta, entrées, appetizers, and salads." },
-              { step: "03", title: "Call to Order", desc: "Call your location directly. We'll confirm availability and set your pickup time." },
-              { step: "04", title: "Pick Up & Enjoy", desc: "Arrive at your scheduled time. Trays are hot, fresh, and ready to serve." },
-            ].map((s) => (
-              <div key={s.step}>
-                <p style={{ fontFamily: playfair, fontSize: "2.5rem", fontWeight: 700, color: "oklch(0.88 0.015 80)", lineHeight: 1, marginBottom: "0.75rem" }}>
-                  {s.step}
-                </p>
+              { title: "Choose Your Location", desc: "Select the Umberto's nearest to your event venue for fastest service." },
+              { title: "Browse the Menu", desc: "Pick from our full tray menu — pizza, pasta, entrées, appetizers, and salads." },
+              { title: "Call to Order", desc: "Call your location directly. We'll confirm availability and set your pickup time." },
+              { title: "Pick Up & Enjoy", desc: "Arrive at your scheduled time. Trays are hot, fresh, and ready to serve." },
+            ].map((s, i) => (
+              <div key={i} style={{ borderTop: `2px solid ${red}`, paddingTop: "1rem" }}>
                 <h3 style={{ fontFamily: playfair, fontSize: "1rem", fontWeight: 600, color: dark, marginBottom: "0.5rem" }}>
                   {s.title}
                 </h3>
