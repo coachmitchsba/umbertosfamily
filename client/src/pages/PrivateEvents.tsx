@@ -12,7 +12,7 @@ import { Phone, Users, ArrowRight, Star, ChevronDown, ChevronUp, Check } from "l
 
 const VENUE_HALL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-private-events-hall-CT2UxGWbYcE2HxhppWH8at.webp";
 const GRADUATION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-graduation-party-fvDpfDzRAL2Wdivw2TVnFU.webp";
-const CORPORATE_IMG = "/manus-storage/farmingdale-exterior_2b365e99.jpg";
+const CORPORATE_IMG = "/images/farmingdale-exterior.jpg";
 const SWEET16_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-sweet-16-party-i53moEJ68Lne5iY9FRFV8t.webp";
 const BARMITZVAH_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-bar-mitzvah-event-Yp5LjgKwypiS9qqiYtZMCS.webp";
 const BRIDAL_SHOWER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-bridal-shower-6sZESb25PxXYoRm6U2GPf4.webp";

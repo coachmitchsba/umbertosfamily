@@ -93,7 +93,7 @@ export default function About() {
 
             <div className="reveal" style={{ transitionDelay: "150ms" }}>
               <img
-                src="/manus-storage/umberto-corteo-founder-sharp_27a25a51.webp"
+                src="/images/umberto-corteo-founder-sharp.webp"
                 alt="Umberto Corteo, founder of Umberto's Family Pizzeria, in the kitchen holding a fresh pizza on a peel"
                 className="w-full h-[500px] object-cover object-center"
                 loading="lazy"

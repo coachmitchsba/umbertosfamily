@@ -405,7 +405,7 @@ export default function Locations() {
       {/* Hero banner — full width, above the fold */}
       <div className="relative h-[520px] w-full overflow-hidden border-b border-[oklch(0.88_0.015_80)]">
         <img
-          src="/manus-storage/nhp-interior-staircase_bae5e263.avif"
+          src="/images/nhp-interior-staircase.avif"
           alt="Umberto's New Hyde Park — grand staircase and dining room"
           className="w-full h-full object-cover object-center"
           loading="eager"
