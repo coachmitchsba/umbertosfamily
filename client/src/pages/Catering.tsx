@@ -16,7 +16,7 @@ import { Phone, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 const CATERING_HERO = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-catering-hero-GcryFfjWTxFxA2eYNCJMr9.webp";
 const CATERING_TRAYS = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-catering-trays-closeup-aHn7hRhUc6WoZUTQvp3PJj.webp";
 const ENTREES_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-entrees-chicken-parm-RqtZy99cadP9w43WC7k9so.webp";
-const PASTA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pasta-closeup-menu-cnsgS7DoLEcWcniw5S4tKZ.webp";
+const PASTA_IMG = "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&q=80";
 const PIZZA_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-pizza-closeup-menu-axyEg4HqHLwCzwte7ZZKdq.webp";
 const APPETIZER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-appetizer-tray-catering-YzCCMSCzdmf4EovTLc3EVp.webp";
 const SALAD_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663344373217/jmpiuJS8ib9jTtFU9zpWCD/umbertos-salad-tray-catering-N3XnFgysrxU5TKKkhSTFUS.webp";
@@ -127,7 +127,14 @@ const border = "oklch(0.88 0.015 80)";
 const bg = "#FDFAF5";
 
 export default function Catering() {
-  const [openCategory, setOpenCategory] = useState<string | null>("pizza");
+  const [openCategories, setOpenCategories] = useState<Set<string>>(
+    new Set(["pizza", "pasta", "entrees", "appetizers", "salads"])
+  );
+  const toggleCategory = (id: string) => setOpenCategories(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
   const [selectedLocation, setSelectedLocation] = useState(LOCATIONS[0]);
 
   const cateringSchema = {
@@ -282,7 +289,7 @@ export default function Catering() {
               >
                 {/* Category header button */}
                 <button
-                  onClick={() => setOpenCategory(openCategory === cat.id ? null : cat.id)}
+                  onClick={() => toggleCategory(cat.id)}
                   style={{
                     width: "100%",
                     display: "flex",
@@ -290,7 +297,7 @@ export default function Catering() {
                     justifyContent: "space-between",
                     padding: "1.25rem 1.5rem",
                     textAlign: "left",
-                    background: openCategory === cat.id ? "oklch(0.97 0.008 80)" : "white",
+                    background: openCategories.has(cat.id) ? "oklch(0.97 0.008 80)" : "white",
                     cursor: "pointer",
                     border: "none",
                     transition: "background 0.15s",
@@ -306,7 +313,7 @@ export default function Catering() {
                     <span style={{ fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: muted, display: "none" }}>
                       {cat.items.length} items
                     </span>
-                    {openCategory === cat.id
+                    {openCategories.has(cat.id)
                       ? <ChevronUp size={18} style={{ color: red }} />
                       : <ChevronDown size={18} style={{ color: muted }} />
                     }
@@ -314,7 +321,7 @@ export default function Catering() {
                 </button>
 
                 {/* Expanded content */}
-                {openCategory === cat.id && (
+                {openCategories.has(cat.id) && (
                   <div style={{ background: "white", borderTop: `1px solid oklch(0.91 0.012 80)` }}>
                     {/* Optional photo */}
                     {cat.photo && (
