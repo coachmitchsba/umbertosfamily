@@ -12,10 +12,10 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 // ─── Real Umberto's outdoor photos + curated Unsplash ───────────────────────
-const HERO_BG = "/manus-storage/outdoor-evening-patio_ffcb37ac.jpg";
-const PATIO_EXTERIOR = "/manus-storage/outdoor-nhp-exterior_b5594472.jpg";
-const PATIO_NIGHT = "/manus-storage/outdoor-nhp-night_26b26779.jpg";
-const PATIO_MASSAPEQUA = "/manus-storage/outdoor-massapequa-patio_0f41ad0a.jpg";
+const HERO_BG = "/manus-storage/outdoor-patio-evening_e98f9ba3.jpg";
+const PATIO_EXTERIOR = "/manus-storage/outdoor-patio-italian_bf2140e1.jpg";
+const PATIO_NIGHT = "/manus-storage/outdoor-patio-night_6b6c5ca9.jpg";
+const PATIO_MASSAPEQUA = "/manus-storage/outdoor-pizzeria-patio_6274cb3e.jpg";
 
 // Curated Unsplash for gallery variety
 const GALLERY_IMGS = [
